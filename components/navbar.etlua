@@ -1,0 +1,69 @@
+<nav id="primary-navbar" class="navbar navbar-expand-lg navbar-dark fixed-top bg-blue" x-data="{
+	open: false,
+	payload: {},
+	update_payload() {
+		let cookie = get_cookie('access_token');
+		if (cookie) {
+			this.payload = JSON.parse(atob(cookie.split('.')[1]));
+		} else {
+			this.payload = {};
+		}
+	}
+}" x-init="update_payload()">
+    <div class="container">
+        <a class="navbar-icon" href="/home">
+            <img src="resources/logo-trans.png" />
+        </a>
+
+        <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/home">Home<div class="underline"></div></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/communities">Communities<div class="underline"></div></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/leaderboards">Leaderboards<div class="underline"></div></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/tables">Tables<div class="underline"></div></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/players">Players<div class="underline"></div></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/charts">Charts<div class="underline"></div></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/help">Help<div class="underline"></div></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="https://github.com/semyon422/soundsphere-updater/archive/master.zip" target="_blank">Download<div class="underline"></div></a>
+                </li>
+            </ul>
+
+            <ul class="navbar-nav" x-show="!payload.user_id">
+                <li class="nav-item">
+                    <a class="nav-link" href="/login">Login<div class="underline"></div></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/register"Register<div class="underline"></div></a>
+                </li>
+            </ul>
+            <ul class="navbar-nav" x-show="payload.user_id">
+                <li class="nav-item">
+                    <a :href="'/users/' + payload.user_id" class="nav-link">Profile<div class="underline"></div></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" @click="delete_cookie('access_token'); update_payload();">Logout<div class="underline"></div></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div id="primary-navbar-box"></div>

@@ -1,0 +1,123 @@
+/* GRAY */
+.gray {
+    color: rgb(156, 161, 165)!important;
+}
+.gray-h:hover {
+    color: rgb(144, 148, 151)!important;
+}
+.bg-gray {
+    background-color: rgb(156, 161, 165)!important;
+    color: white;
+}
+.bg-gray-h:hover {
+    background-color: rgb(144, 148, 151)!important;
+    color: white;
+}
+
+/* Dark gray */
+.dgray {
+    color: rgb(108, 117, 125)!important;
+}
+.dgray-h:hover {
+    color: rgb(92, 99, 106)!important;
+}
+.bg-dgray {
+    background-color: rgb(108, 117, 125)!important;
+    color: white;
+}
+.bg-dgray-h:hover {
+    background-color: rgb(92, 99, 106)!important;
+    color: white;
+}
+
+
+
+
+/* RED */
+.red {
+    color: rgb(220, 53, 69)!important;
+}
+.red-h:hover {
+    color: rgb(187, 45, 59)!important;
+}
+.bg-red {
+    background-color: rgb(220, 53, 69)!important;
+    color: white;
+}
+.bg-red-h:hover {
+    background-color: rgb(187, 45, 59)!important;
+    color: white;
+}
+
+
+
+
+/* ORANGE */
+.orange {
+    color: rgb(255, 193, 7)!important;
+}
+.orange-h:hover {
+    color: rgb(228, 173, 9)!important;
+}
+.bg-orange {
+    background-color: rgb(255, 193, 7)!important;
+    color: white;
+}
+.bg-orange-h:hover {
+    background-color: rgb(228, 173, 9)!important;
+    color: white;
+}
+
+
+
+
+/* GREEN */
+.green {
+    color: rgb(34, 173, 21)!important;
+}
+.green-h:hover {
+    color: rgb(28, 149, 17)!important;
+}
+.bg-green {
+    background-color: rgb(34, 173, 21)!important;
+    color: white;
+}
+.bg-green-h:hover {
+    background-color: rgb(28, 149, 17)!important;
+    color: white;
+}
+
+/* Dark green */
+.dgreen {
+    color: rgb(25, 135, 84)!important;
+}
+.dgreen-h:hover {
+    color: rgb(21, 115, 71)!important;
+}
+.bg-dgreen {
+    background-color: rgb(25, 135, 84)!important;
+    color: white;
+}
+.bg-dgreen-h:hover {
+    background-color: rgb(21, 115, 71)!important;
+    color: white;
+}
+
+
+
+
+/* BLUE */
+.blue {
+    color: rgb(13, 110, 253)!important;
+}
+.blue-h:hover {
+    color: rgb(14, 99, 226)!important;
+}
+.bg-blue {
+    background-color: rgb(13, 110, 253)!important;
+    color: white;
+}
+.bg-blue-h:hover {
+    background-color: rgb(14, 99, 226)!important;
+    color: white;
+}
