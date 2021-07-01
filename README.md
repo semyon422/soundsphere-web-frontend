@@ -1,2 +1,4 @@
 # soundsphere-web-frontend
- New frontend
+ New frontend designed by Killbott, rewritten as a single page application using luvit as a web server.  
+ https://github.com/Emanuel-de-Jong/Soundsphere-Web-Mockup  
+ https://alpinejs.dev  
