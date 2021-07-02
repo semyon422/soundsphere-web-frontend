@@ -1,7 +1,7 @@
 <div id="communities-add">
     <main class="container">
         <div class="main-box">
-            <a href="?a=communities_index" class="page-icon page-icon-left">
+            <a href="/communities" class="page-icon page-icon-left">
                 <i class="fas fa-arrow-left"></i>
             </a>
 

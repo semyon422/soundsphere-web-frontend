@@ -19,14 +19,16 @@
 <div id="secondary-navbar-box"></div>
 
 
-<div id="community">
+<div id="community" x-data="{
+    community_id: $router.params?.community_id
+}">
     <main class="container">
         <div class="main-box">
-            <a href="?a=communities_community1_settings" class="page-icon page-icon-right" title="Community settings">
+            <a :href="'/communities/' + community_id + '/settings'" class="page-icon page-icon-right" title="Community settings">
                 <i class="fas fa-cog"></i>
             </a>
 
-            <h1>AAA - Community1</h1>
+            <h1>AAA - Community <b x-text="community_id"></b></h1>
 
 
             <section id="info-section">
@@ -65,7 +67,7 @@
             <section id="leaderboards-section">
                 <h2>
                     Leaderboards
-                    <a href="?a=leaderboards_add" class="title-icon h2-icon green green-h" title="Create leaderboard">
+                    <a href="/leaderboards/new" class="title-icon h2-icon green green-h" title="Create leaderboard">
                         <i class="fas fa-plus"></i>
                     </a>
                 </h2>
@@ -83,13 +85,13 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td><a href="?a=leaderboards_leaderboard1_index">Leaderboard1</a></td>
+                            <td><a href="/leaderboards/1">Leaderboard1</a></td>
                             <td>7key</td>
-                            <td><a href="?a=players_player1_index">Player1</a></td>
+                            <td><a href="/players/1">Player1</a></td>
                             <td>12</td>
                             <td>1</td>
                             <td class="table-icon-row">
-                                <a href="?a=leaderboards_leaderboard1_edit" class="table-icon orange orange-h" title="Edit leaderboard">
+                                <a href="/leaderboards/1/settings" class="table-icon orange orange-h" title="Edit leaderboard">
                                     <i class="fas fa-pen"></i>
                                 </a>
                                 <a href="#" class="table-icon red red-h" title="Delete leaderboard" data-bs-toggle="modal" data-bs-target="#delete-modal">
@@ -124,28 +126,7 @@
                     <tbody>
                         <tr>
                             <td>#1</td>
-                            <td><a href="?a=players_player1_index">Player1</a></td>
-                            <td>200</td>
-                            <td>7key</td>
-                            <td>18-04-21</td>
-                        </tr>
-                        <tr>
-                            <td>#2</td>
-                            <td><a href="?a=players_player1_index">Player1</a></td>
-                            <td>200</td>
-                            <td>7key</td>
-                            <td>18-04-21</td>
-                        </tr>
-                        <tr>
-                            <td>#3</td>
-                            <td><a href="?a=players_player1_index">Player1</a></td>
-                            <td>200</td>
-                            <td>7key</td>
-                            <td>18-04-21</td>
-                        </tr>
-                        <tr>
-                            <td>#4</td>
-                            <td><a href="?a=players_player1_index">Player1</a></td>
+                            <td><a href="/players/1">Player1</a></td>
                             <td>200</td>
                             <td>7key</td>
                             <td>18-04-21</td>

@@ -1,7 +1,7 @@
 <div id="leaderboard-edit">
     <main class="container">
         <div class="main-box">
-            <a href="?a=communities_community1_index" class="page-icon page-icon-left">
+            <a href="/communities/1" class="page-icon page-icon-left">
                 <i class="fas fa-arrow-left"></i>
             </a>
 
@@ -9,7 +9,7 @@
 
 
             <section id="form-section">
-                <form class="form-settings" action="?a=communities_community1_index" method="post">
+                <form class="form-settings" action="/communities/1" method="post">
                     <div class="form-item">
                         <label for="name" class="form-label" title="Leaderboard name">Name</label>
                         <input type="text" class="form-control" name="name" value="Leaderboard1">
@@ -52,7 +52,7 @@
                         </label>
                         <table class="data-table table">
                             <tr>
-                                <td><a href="?a=tables_table1_index">Table1</a></td>
+                                <td><a href="/tables/1">Table1</a></td>
                                 <td class="table-icon-row">
                                     <a href="#" class="table-icon red red-h" title="Remove table" data-bs-toggle="modal" data-bs-target="#delete-modal">
                                         <i class="fas fa-trash"></i>

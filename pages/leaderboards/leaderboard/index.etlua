@@ -65,7 +65,7 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td><a href="?a=communities_community1_index">Community1</a></td>
+                                    <td><a href="/communities/1">Community1</a></td>
                                     <td>4000</td>
                                     <td>7key</td>
                                     <td>25</td>
@@ -94,7 +94,7 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td><a href="?a=tables_table1_index">Table1</a></td>
+                                    <td><a href="/tables/1">Table1</a></td>
                                     <td>7key</td>
                                     <td>20</td>
                                     <td>115</td>
@@ -129,29 +129,8 @@
                     <tbody>
                         <tr>
                             <td>#1</td>
-                            <td><a href="?a=players_player1_index">Player1</a></td>
-                            <td><a href="?a=communities_community1_index">AAA</a></td>
-                            <td>1000</td>
-                            <td>55</td>
-                        </tr>
-                        <tr>
-                            <td>#2</td>
-                            <td><a href="?a=players_player1_index">Player1</a></td>
-                            <td><a href="?a=communities_community1_index">AAA</a></td>
-                            <td>1000</td>
-                            <td>55</td>
-                        </tr>
-                        <tr>
-                            <td>#3</td>
-                            <td><a href="?a=players_player1_index">Player1</a></td>
-                            <td><a href="?a=communities_community1_index">AAA</a></td>
-                            <td>1000</td>
-                            <td>55</td>
-                        </tr>
-                        <tr>
-                            <td>#4</td>
-                            <td><a href="?a=players_player1_index">Player1</a></td>
-                            <td><a href="?a=communities_community1_index">AAA</a></td>
+                            <td><a href="/players/1">Player1</a></td>
+                            <td><a href="/communities/1">AAA</a></td>
                             <td>1000</td>
                             <td>55</td>
                         </tr>

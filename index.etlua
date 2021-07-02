@@ -10,8 +10,8 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap5.min.css" />
-    <link rel="stylesheet" href="css/colors.css" />
-    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="/css/colors.css" />
+    <link rel="stylesheet" href="/css/styles.css" />
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -29,7 +29,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap5.min.js"></script>
-    <script src="js/custom.js"></script>
+    <script src="/js/custom.js"></script>
 
     <script src="https://unpkg.com/nprogress@0.2.0/nprogress.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/nprogress@0.2.0/nprogress.css"/>
@@ -44,10 +44,25 @@
         <template x-route="/register" x-view="/register.html"></template>
 
         <template x-route="/communities" x-view="/communities/index.html"></template>
+        <template x-route="/communities/new" x-view="/communities/add.html"></template>
+        <template x-route="/communities/:community_id" x-view="/communities/community/index.html"></template>
+        <template x-route="/communities/:community_id/settings" x-view="/communities/community/settings.html"></template>
+
         <template x-route="/leaderboards" x-view="/leaderboards/index.html"></template>
+        <template x-route="/leaderboards/new" x-view="/leaderboards/add.html"></template>
+        <template x-route="/leaderboards/:leaderboard_id" x-view="/leaderboards/leaderboard/index.html"></template>
+        <template x-route="/leaderboards/:leaderboard_id/settings" x-view="/leaderboards/leaderboard/edit.html"></template>
+
         <template x-route="/tables" x-view="/tables/index.html"></template>
+        <template x-route="/tables/:table_id" x-view="/tables/table.html"></template>
+
         <template x-route="/players" x-view="/players/index.html"></template>
+        <template x-route="/players/:player_id" x-view="/players/player/index.html"></template>
+        <template x-route="/players/:player_id/settings" x-view="/players/player/settings.html"></template>
+
         <template x-route="/charts" x-view="/charts/index.html"></template>
+        <template x-route="/charts/:chart_id" x-view="/charts/chart.html"></template>
+
         <template x-route="/help" x-view="/help.html"></template>
         <template x-route="/download" x-view="/download.html"></template>
         <template x-route="notfound" x-view="/404.html"></template>

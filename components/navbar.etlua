@@ -12,7 +12,7 @@
 }" x-init="update_payload()">
     <div class="container">
         <a class="navbar-icon" href="/home">
-            <img src="resources/logo-trans.png" />
+            <img src="/resources/logo-trans.png" />
         </a>
 
         <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
@@ -52,12 +52,12 @@
                     <a class="nav-link" href="/login">Login<div class="underline"></div></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/register"Register<div class="underline"></div></a>
+                    <a class="nav-link" href="/register">Register<div class="underline"></div></a>
                 </li>
             </ul>
             <ul class="navbar-nav" x-show="payload.user_id">
                 <li class="nav-item">
-                    <a :href="'/users/' + payload.user_id" class="nav-link">Profile<div class="underline"></div></a>
+                    <a :href="'/players/' + payload.user_id" class="nav-link">Profile<div class="underline"></div></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" @click="delete_cookie('access_token'); update_payload();">Logout<div class="underline"></div></a>

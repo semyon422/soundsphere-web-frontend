@@ -28,7 +28,7 @@
 <div id="player">
     <main class="container">
         <div class="main-box">
-            <a href="?a=players_player1_settings" class="page-icon page-icon-right" title="Your settings">
+            <a href="/players/1/settings" class="page-icon page-icon-right" title="Your settings">
                 <i class="fas fa-cog"></i>
             </a>
 
@@ -81,7 +81,7 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td><a href="?a=leaderboards_leaderboard1_index">Leaderboard1</a></td>
+                                    <td><a href="/leaderboards/1">Leaderboard1</a></td>
                                     <td>7key</td>
                                     <td>#3</td>
                                     <td>12</td>
@@ -105,7 +105,7 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td><a href="?a=communities_community1_index">Community1</a></td>
+                                    <td><a href="/communities/1">Community1</a></td>
                                     <td>7key</td>
                                     <td>10</td>
                                     <td class="table-icon-row">
@@ -151,7 +151,7 @@
                         <tr>
                             <td>1</td>
                             <td>Chart1</td>
-                            <td><a href="?a=charts_chart1_index">Difficulty1</a></td>
+                            <td><a href="/charts/1">Difficulty1</a></td>
                             <td>1000</td>
                             <td>1000</td>
                             <td>20</td>
@@ -168,7 +168,7 @@
                         <tr>
                             <td>2</td>
                             <td>Chart1</td>
-                            <td><a href="?a=charts_chart1_index">Difficulty1</a></td>
+                            <td><a href="/charts/1">Difficulty1</a></td>
                             <td>1000</td>
                             <td>1000</td>
                             <td>20</td>
@@ -185,7 +185,7 @@
                         <tr>
                             <td>3</td>
                             <td>Chart1</td>
-                            <td><a href="?a=charts_chart1_index">Difficulty1</a></td>
+                            <td><a href="/charts/1">Difficulty1</a></td>
                             <td>1000</td>
                             <td>1000</td>
                             <td>20</td>
@@ -202,7 +202,7 @@
                         <tr>
                             <td>4</td>
                             <td>Chart1</td>
-                            <td><a href="?a=charts_chart1_index">Difficulty1</a></td>
+                            <td><a href="/charts/1">Difficulty1</a></td>
                             <td>1000</td>
                             <td>1000</td>
                             <td>20</td>
@@ -257,7 +257,7 @@
                     <tbody>
                         <tr>
                             <td>Chart1</td>
-                            <td><a href="?a=charts_chart1_index">Difficulty1</a></td>
+                            <td><a href="/charts/1">Difficulty1</a></td>
                             <td>1000</td>
                             <td>1000</td>
                             <td>20</td>
@@ -273,7 +273,7 @@
                         </tr>
                         <tr>
                             <td>Chart1</td>
-                            <td><a href="?a=charts_chart1_index">Difficulty1</a></td>
+                            <td><a href="/charts/1">Difficulty1</a></td>
                             <td>1000</td>
                             <td>1000</td>
                             <td>20</td>
@@ -289,7 +289,7 @@
                         </tr>
                         <tr>
                             <td>Chart1</td>
-                            <td><a href="?a=charts_chart1_index">Difficulty1</a></td>
+                            <td><a href="/charts/1">Difficulty1</a></td>
                             <td>1000</td>
                             <td>1000</td>
                             <td>20</td>
@@ -305,7 +305,7 @@
                         </tr>
                         <tr>
                             <td>Chart1</td>
-                            <td><a href="?a=charts_chart1_index">Difficulty1</a></td>
+                            <td><a href="/charts/1">Difficulty1</a></td>
                             <td>1000</td>
                             <td>1000</td>
                             <td>20</td>
