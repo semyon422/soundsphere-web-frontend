@@ -1,16 +1,34 @@
-<div id="login">
+<div id="login" x-data="{
+	email: '',
+	password: '',
+	async submit() {
+		let response = await fetch(api_url + '/api/token', {
+			method: 'GET',
+			headers: {'Authorization': 'Basic ' + btoa(this.email + ':' + this.password)}
+		});
+		if (!response.ok) {
+			return alert('Error: ' + response.status);
+		}
+		let response_json = await response.json();
+		if (!response_json.token) {
+			return alert('Error');
+		}
+		document.cookie = 'access_token=' + response_json.token
+		$router.redirect('/home')
+	},
+}">
     <main class="container">
         <div class="main-box">
-            <form class="form-login text-center" action="login.php" method="post">
+            <div class="form-login text-center">
                 <img class="mb-4" src="resources/logo.png" width="130" />
                 <h1 class="mb-3">Please login</h1>
 
                 <div class="form-floating">
-                    <input type="email" class="form-control" name="email" placeholder="Email address" />
+                    <input type="email" class="form-control" name="email" placeholder="Email address" x-model="email"/>
                     <label for="email">Email address</label>
                 </div>
                 <div class="form-floating mb-2">
-                    <input type="password" class="form-control" name="password" placeholder="Password" />
+                    <input type="password" class="form-control" name="password" placeholder="Password" x-model="password"/>
                     <label for="password">Password</label>
                 </div>
 
@@ -19,8 +37,8 @@
                         <input type="checkbox" name="remember-me" /> Remember me
                     </label>
                 </div>
-                <button type="submit" class="btn btn-lg bg-blue bg-blue-h">Login</button>
-            </form>
+                <button type="submit" class="btn btn-lg bg-blue bg-blue-h" @click="submit">Login</button>
+            </div>
         </div>
     </main>
 </div>
