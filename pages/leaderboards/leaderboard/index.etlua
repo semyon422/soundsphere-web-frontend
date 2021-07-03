@@ -83,7 +83,7 @@
                     <div class="col-6">
                         <h2>Tables</h2>
 
-                        <table class="data-table table">
+                        <table class="data-table data-table-leaderboard-charts table">
                             <thead>
                                 <tr>
                                     <th title="Table name">Name</th>
@@ -116,7 +116,7 @@
                     </select>
                 </form>
 
-                <table class="data-table data-table-all table">
+                <table class="data-table data-table-leaderboard-players table">
                     <thead>
                         <tr>
                             <th title="Player rank in leaderboard">Rank</th>

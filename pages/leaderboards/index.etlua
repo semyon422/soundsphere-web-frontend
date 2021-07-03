@@ -6,7 +6,7 @@
 
             <%- template("components/add-leaderboard-modal.etlua") %>
             <section id="leaderboards-section">
-                <table class="data-table data-table-all table">
+                <table class="data-table data-table-leaderboards table">
                     <thead>
                         <tr>
                             <th title="Leaderboard name">Name</th>

@@ -36,7 +36,7 @@
                     </select>
                 </form>
 
-                <table class="data-table data-table-all table">
+                <table class="data-table data-table-chart-scores table">
                     <thead>
                         <tr>
                             <th title="Players chart rank">Rank</th>

@@ -72,7 +72,7 @@
                     </a>
                 </h2>
 
-                <table class="data-table table">
+                <table class="data-table data-table-community-leaderboards table">
                     <thead>
                         <tr>
                             <th title="Leaderboard name">Name</th>
@@ -113,7 +113,7 @@
                     </select>
                 </form>
 
-                <table class="data-table data-table-all table">
+                <table class="data-table data-table-community-players table">
                     <thead>
                         <tr>
                             <th title="Rank of the selected leaderboard">Rank</th>

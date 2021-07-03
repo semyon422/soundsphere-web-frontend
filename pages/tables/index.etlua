@@ -28,7 +28,7 @@
 
 
             <section id="bms-tables-section">
-                <table class="data-table data-table-all table">
+                <table class="data-table data-table-tables table">
                     <thead>
                         <tr>
                             <th title="Table name">Name</th>

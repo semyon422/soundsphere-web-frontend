@@ -10,7 +10,7 @@
                     <div class="col-6">
                         <h2>Communities</h2>
 
-                        <table class="data-table table">
+                        <table class="data-table data-table-table-communities table">
                             <thead>
                                 <tr>
                                     <th title="Community name">Name</th>
@@ -40,7 +40,7 @@
                     <div class="col-6">
                         <h2>Leaderboards</h2>
 
-                        <table class="data-table table">
+                        <table class="data-table data-table-table-leaderboards table">
                             <thead>
                                 <tr>
                                     <th title="Leaderboard name">Name</th>
@@ -72,7 +72,7 @@
             <section id="charts-section">
                 <h2>Charts</h2>
 
-                <table class="data-table data-table-all table">
+                <table class="data-table data-table-table-charts table">
                     <thead>
                         <tr>
                             <th title="Chart set name">Title</th>

@@ -94,7 +94,7 @@
                     <div class="col-6">
                         <h2>Communities</h2>
 
-                        <table class="data-table table">
+                        <table class="data-table data-table-player-communities table">
                             <thead>
                                 <tr>
                                     <th title="Community name">Name</th>
@@ -131,7 +131,7 @@
                     </select>
                 </form>
 
-                <table class="data-table data-table-all table">
+                <table class="data-table data-table-player-scores table">
                     <thead>
                         <tr>
                             <th title="Rank compared to other scores of the player">Top</th>
@@ -150,57 +150,6 @@
                     <tbody>
                         <tr>
                             <td>1</td>
-                            <td>Chart1</td>
-                            <td><a href="/charts/1">Difficulty1</a></td>
-                            <td>1000</td>
-                            <td>1000</td>
-                            <td>20</td>
-                            <td>8</td>
-                            <td>10key</td>
-                            <td>CMod, 1.4X</td>
-                            <td>10-10-21 15:28</td>
-                            <td class="table-icon-row">
-                                <a href="#" class="table-icon red red-h" title="Delete score" data-bs-toggle="modal" data-bs-target="#delete-modal">
-                                    <i class="fas fa-trash"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>Chart1</td>
-                            <td><a href="/charts/1">Difficulty1</a></td>
-                            <td>1000</td>
-                            <td>1000</td>
-                            <td>20</td>
-                            <td>8</td>
-                            <td>10key</td>
-                            <td>CMod, 1.4X</td>
-                            <td>10-10-21 15:28</td>
-                            <td class="table-icon-row">
-                                <a href="#" class="table-icon red red-h" title="Delete score" data-bs-toggle="modal" data-bs-target="#delete-modal">
-                                    <i class="fas fa-trash"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>Chart1</td>
-                            <td><a href="/charts/1">Difficulty1</a></td>
-                            <td>1000</td>
-                            <td>1000</td>
-                            <td>20</td>
-                            <td>8</td>
-                            <td>10key</td>
-                            <td>CMod, 1.4X</td>
-                            <td>10-10-21 15:28</td>
-                            <td class="table-icon-row">
-                                <a href="#" class="table-icon red red-h" title="Delete score" data-bs-toggle="modal" data-bs-target="#delete-modal">
-                                    <i class="fas fa-trash"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>4</td>
                             <td>Chart1</td>
                             <td><a href="/charts/1">Difficulty1</a></td>
                             <td>1000</td>
