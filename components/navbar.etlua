@@ -34,7 +34,7 @@
                     <a class="nav-link" href="/tables">Tables<div class="underline"></div></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/players">Players<div class="underline"></div></a>
+                    <a class="nav-link" href="/users">Players<div class="underline"></div></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/charts">Charts<div class="underline"></div></a>

@@ -5,7 +5,7 @@
 
 
             <section id="charts-section">
-                <table class="data-table data-table-charts table">
+                <table class="data-table data-table-notecharts table">
                     <thead>
                         <tr>
                             <th title="Chart set name">Title</th>
@@ -20,7 +20,7 @@
                     <tbody>
                         <tr>
                             <td>Chart1</td>
-                            <td><a href="/charts1">Difficulty1</a></td>
+                            <td><a href="/notecharts/1">Difficulty1</a></td>
                             <td>12</td>
                             <td>A charter</td>
                             <td>An artist</td>

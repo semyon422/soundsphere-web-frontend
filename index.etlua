@@ -56,12 +56,12 @@
         <template x-route="/tables" x-view="/tables/index.html"></template>
         <template x-route="/tables/:table_id" x-view="/tables/table.html"></template>
 
-        <template x-route="/players" x-view="/players/index.html"></template>
-        <template x-route="/players/:player_id" x-view="/players/player/index.html"></template>
-        <template x-route="/players/:player_id/settings" x-view="/players/player/settings.html"></template>
+        <template x-route="/users" x-view="/users/index.html"></template>
+        <template x-route="/users/:user_id" x-view="/users/user/index.html"></template>
+        <template x-route="/users/:user_id/settings" x-view="/users/user/settings.html"></template>
 
-        <template x-route="/charts" x-view="/charts/index.html"></template>
-        <template x-route="/charts/:chart_id" x-view="/charts/chart.html"></template>
+        <template x-route="/notecharts" x-view="/notecharts/index.html"></template>
+        <template x-route="/notecharts/:notechart_id" x-view="/notecharts/notechart.html"></template>
 
         <template x-route="/help" x-view="/help.html"></template>
         <template x-route="/download" x-view="/download.html"></template>

@@ -87,7 +87,7 @@
                         <tr>
                             <td><a href="/leaderboards/1">Leaderboard1</a></td>
                             <td>7key</td>
-                            <td><a href="/players/1">Player1</a></td>
+                            <td><a href="/users/1">Player1</a></td>
                             <td>12</td>
                             <td>1</td>
                             <td class="table-icon-row">
@@ -113,7 +113,7 @@
                     </select>
                 </form>
 
-                <table class="data-table data-table-community-players table">
+                <table class="data-table data-table-community-users table">
                     <thead>
                         <tr>
                             <th title="Rank of the selected leaderboard">Rank</th>
@@ -126,7 +126,7 @@
                     <tbody>
                         <tr>
                             <td>#1</td>
-                            <td><a href="/players/1">Player1</a></td>
+                            <td><a href="/users/1">Player1</a></td>
                             <td>200</td>
                             <td>7key</td>
                             <td>18-04-21</td>

@@ -36,7 +36,7 @@
                     </select>
                 </form>
 
-                <table class="data-table data-table-chart-scores table">
+                <table class="data-table data-table-notechart-scores table">
                     <thead>
                         <tr>
                             <th title="Players chart rank">Rank</th>
@@ -53,7 +53,7 @@
                     <tbody>
                         <tr>
                             <td>#1</td>
-                            <td><a href="/players/1">Player1</a></td>
+                            <td><a href="/users/1">Player1</a></td>
                             <td>1000</td>
                             <td>1000</td>
                             <td>20</td>

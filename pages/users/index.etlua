@@ -5,7 +5,7 @@
 
 
             <section id="players-section">
-                <table class="data-table data-table-players table">
+                <table class="data-table data-table-users table">
                     <thead>
                         <tr>
                             <th title="Player name">Name</th>
@@ -16,7 +16,7 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td><a href="/players/1">Player1</a></td>
+                            <td><a href="/users/1">Player1</a></td>
                             <td>7key</td>
                             <td>200</td>
                             <td>18-04-21</td>

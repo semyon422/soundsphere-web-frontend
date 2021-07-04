@@ -72,7 +72,7 @@
             <section id="charts-section">
                 <h2>Charts</h2>
 
-                <table class="data-table data-table-table-charts table">
+                <table class="data-table data-table-table-notecharts table">
                     <thead>
                         <tr>
                             <th title="Chart set name">Title</th>

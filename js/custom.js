@@ -42,7 +42,7 @@ function init_data_tables() {
             {data: "name"},
         ]
     });
-    $(".data-table-players").DataTable({
+    $(".data-table-users").DataTable({
         scrollX: true,
         serverSide: true,
         ajax: "/dt/users",
@@ -53,7 +53,7 @@ function init_data_tables() {
             {data: "latest_activity"},
         ]
     });
-    $(".data-table-charts").DataTable({
+    $(".data-table-notecharts").DataTable({
         scrollX: true,
         serverSide: true,
         ajax: "/dt/notecharts",
@@ -80,7 +80,7 @@ function init_data_tables() {
             {data: "name"},
         ]
     });
-    $(".data-table-community-players").DataTable({
+    $(".data-table-community-users").DataTable({
         scrollX: true,
         serverSide: true,
         ajax: "/dt/communities/" + window.PineconeRouter.currentContext.params.community_id + "/users",
@@ -96,7 +96,7 @@ function init_data_tables() {
     $(".data-table-leaderboard-communities").DataTable({
         scrollX: true,
         serverSide: true,
-        ajax: "/dt/leaderboard/" + window.PineconeRouter.currentContext.params.leaderboard_id + "/communities",
+        ajax: "/dt/leaderboards/" + window.PineconeRouter.currentContext.params.leaderboard_id + "/communities",
         columns: [
             {data: "name"},
             {data: "name"},
@@ -107,7 +107,7 @@ function init_data_tables() {
     $(".data-table-leaderboard-tables").DataTable({
         scrollX: true,
         serverSide: true,
-        ajax: "/dt/leaderboard/" + window.PineconeRouter.currentContext.params.leaderboard_id + "/tables",
+        ajax: "/dt/leaderboards/" + window.PineconeRouter.currentContext.params.leaderboard_id + "/tables",
         columns: [
             {data: "name"},
             {data: "name"},
@@ -118,7 +118,7 @@ function init_data_tables() {
     $(".data-table-leaderboard-users").DataTable({
         scrollX: true,
         serverSide: true,
-        ajax: "/dt/leaderboard/" + window.PineconeRouter.currentContext.params.leaderboard_id + "/users",
+        ajax: "/dt/leaderboards/" + window.PineconeRouter.currentContext.params.leaderboard_id + "/users",
         columns: [
             {data: "name"},
             {data: "name"},
@@ -131,7 +131,7 @@ function init_data_tables() {
     $(".data-table-table-communities").DataTable({
         scrollX: true,
         serverSide: true,
-        ajax: "/dt/table/" + window.PineconeRouter.currentContext.params.table_id + "/communities",
+        ajax: "/dt/tables/" + window.PineconeRouter.currentContext.params.table_id + "/communities",
         columns: [
             {data: "name"},
             {data: "name"},
@@ -142,7 +142,7 @@ function init_data_tables() {
     $(".data-table-table-leaderboards").DataTable({
         scrollX: true,
         serverSide: true,
-        ajax: "/dt/table/" + window.PineconeRouter.currentContext.params.table_id + "/leaderboards",
+        ajax: "/dt/tables/" + window.PineconeRouter.currentContext.params.table_id + "/leaderboards",
         columns: [
             {data: "name"},
             {data: "name"},
@@ -150,10 +150,10 @@ function init_data_tables() {
             {data: "name"},
         ]
     });
-    $(".data-table-table-charts").DataTable({
+    $(".data-table-table-notecharts").DataTable({
         scrollX: true,
         serverSide: true,
-        ajax: "/dt/table/" + window.PineconeRouter.currentContext.params.table_id + "/notecharts",
+        ajax: "/dt/tables/" + window.PineconeRouter.currentContext.params.table_id + "/notecharts",
         columns: [
             {data: "name"},
             {data: "name"},
@@ -165,10 +165,10 @@ function init_data_tables() {
         ]
     });
 
-    $(".data-table-chart-scores").DataTable({
+    $(".data-table-notechart-scores").DataTable({
         scrollX: true,
         serverSide: true,
-        ajax: "/dt/notechart/" + window.PineconeRouter.currentContext.params.notechart_id + "/scores",
+        ajax: "/dt/notecharts/" + window.PineconeRouter.currentContext.params.notechart_id + "/scores",
         columns: [
             {data: "name"},
             {data: "name"},
