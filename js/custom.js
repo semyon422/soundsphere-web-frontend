@@ -102,6 +102,7 @@ function init_data_tables() {
             {data: "name"},
             {data: "name"},
             {data: "name"},
+            {data: "name"},
         ]
     });
     $(".data-table-leaderboard-tables").DataTable({

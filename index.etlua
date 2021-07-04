@@ -44,14 +44,14 @@
         <template x-route="/register" x-view="/register.html"></template>
 
         <template x-route="/communities" x-view="/communities/index.html"></template>
-        <template x-route="/communities/new" x-view="/communities/add.html"></template>
+        <template x-route="/communities/new" x-view="/communities/new.html"></template>
         <template x-route="/communities/:community_id" x-view="/communities/community/index.html"></template>
         <template x-route="/communities/:community_id/settings" x-view="/communities/community/settings.html"></template>
 
         <template x-route="/leaderboards" x-view="/leaderboards/index.html"></template>
-        <template x-route="/leaderboards/new" x-view="/leaderboards/add.html"></template>
+        <template x-route="/leaderboards/new" x-view="/leaderboards/new.html"></template>
         <template x-route="/leaderboards/:leaderboard_id" x-view="/leaderboards/leaderboard/index.html"></template>
-        <template x-route="/leaderboards/:leaderboard_id/settings" x-view="/leaderboards/leaderboard/edit.html"></template>
+        <template x-route="/leaderboards/:leaderboard_id/settings" x-view="/leaderboards/leaderboard/settings.html"></template>
 
         <template x-route="/tables" x-view="/tables/index.html"></template>
         <template x-route="/tables/:table_id" x-view="/tables/table.html"></template>
