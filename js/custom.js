@@ -32,9 +32,19 @@ function init_data_tables() {
         serverSide: true,
         ajax: "/dt/leaderboards",
         columns: [
+            {
+                data: "name",
+                render(data, type, row, meta) {
+                    return '<a href="/leaderboards/' + row.id + '">' + data + '</a>';
+                }
+            },
             {data: "name"},
-            {data: "name"},
-            {data: "name"},
+            {
+                data: "name",
+                render(data, type, row, meta) {
+                    return '<a href="/users/' + row.id + '">' + data + '</a>';
+                }
+            },
             {data: "name"},
             {data: "name"},
             {data: "name"},
@@ -136,7 +146,12 @@ function init_data_tables() {
         serverSide: true,
         ajax: "/dt/leaderboards/" + window.PineconeRouter.currentContext.params.leaderboard_id + "/communities",
         columns: [
-            {data: "name"},
+            {
+                data: "name",
+                render(data, type, row, meta) {
+                    return '<a href="/communities/' + row.id + '">' + data + '</a>';
+                }
+            },
             {data: "name"},
             {data: "name"},
             {data: "name"},
