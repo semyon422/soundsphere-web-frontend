@@ -20,20 +20,7 @@
                             <th></th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td><a href="/communities/1">Community1</a></td>
-                            <td>AAA</td>
-                            <td>7key</td>
-                            <td>10</td>
-                            <td>The first community. Which automatically makes it the best one.</td>
-                            <td class="table-icon-row">
-                                <a href="#" class="table-icon green green-h" title="Join community">
-                                    <i class="fas fa-sign-in-alt"></i>
-                                </a>
-                            </td>
-                        </tr>
-                    </tbody>
+                    <tbody></tbody>
                     <tfoot>
                         <tr>
                             <th title="Community name">Name</th>

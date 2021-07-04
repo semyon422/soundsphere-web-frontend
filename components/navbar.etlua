@@ -8,6 +8,7 @@
 		} else {
 			this.payload = {};
 		}
+        token_user.user_id = this.payload.user_id;
 	}
 }" x-init="update_payload()" @pinecone-start.window="update_payload()">
     <div class="container">
@@ -57,7 +58,7 @@
             </ul>
             <ul class="navbar-nav" x-show="payload.user_id">
                 <li class="nav-item">
-                    <a :href="'/players/' + payload.user_id" class="nav-link">Profile<div class="underline"></div></a>
+                    <a :href="'/users/' + payload.user_id" class="nav-link">Profile<div class="underline"></div></a>
                 </li>
                 <li class="nav-item">
                     <a href="" class="nav-link" @click="delete_cookie('access_token'); update_payload();">Logout<div class="underline"></div></a>

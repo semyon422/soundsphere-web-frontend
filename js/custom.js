@@ -11,10 +11,20 @@ function init_data_tables() {
                 }
             },
             {data: "alias"},
-            {data: "inputmodes"},
-            {data: "members"},
+            {
+                data: "inputmodes",
+                render(data, type, row, meta) {
+                    return Array.isArray(data) ? data.join(',') : ''
+                }
+            },
+            {data: "user_count"},
             {data: "description"},
-            {data: "name"},
+            {
+                className: 'table-icon-row',
+                render(data, type, row, meta) {
+                    return '<a href="#" class="table-icon green green-h" title="Join community"><i class="fas fa-sign-in-alt"></i></a>'
+                }
+            },
         ]
     });
     $(".data-table-leaderboards").DataTable({
@@ -78,6 +88,7 @@ function init_data_tables() {
             {data: "name"},
             {data: "name"},
             {data: "name"},
+            {data: "name"},
         ]
     });
     $(".data-table-community-users").DataTable({
@@ -85,11 +96,16 @@ function init_data_tables() {
         serverSide: true,
         ajax: "/dt/communities/" + window.PineconeRouter.currentContext.params.community_id + "/users",
         columns: [
+            {data: "id"},
+            {
+                data: "name",
+                render(data, type, row, meta) {
+                    return '<a href="/users/' + row.id + '">' + data + '</a>';
+                }
+            },
             {data: "name"},
             {data: "name"},
-            {data: "name"},
-            {data: "name"},
-            {data: "name"},
+            {data: "latest_activity"},
         ]
     });
 
