@@ -26,7 +26,7 @@
 }" x-init="get()">
     <main class="container">
         <div class="main-box">
-            <a href="/communities/1" class="page-icon page-icon-left">
+            <a :href="'/communities/' + community_id" class="page-icon page-icon-left">
                 <i class="fas fa-arrow-left"></i>
             </a>
 

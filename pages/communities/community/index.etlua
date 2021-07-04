@@ -67,7 +67,7 @@
             <section id="leaderboards-section">
                 <h2>
                     Leaderboards
-                    <a href="/leaderboards/new" class="title-icon h2-icon green green-h" title="Create leaderboard">
+                    <a :href="'/communities/' + community_id + '/leaderboards/new'" class="title-icon h2-icon green green-h" title="Create leaderboard">
                         <i class="fas fa-plus"></i>
                     </a>
                 </h2>

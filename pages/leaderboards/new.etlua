@@ -1,4 +1,33 @@
-<div id="leaderboards-add">
+<div id="leaderboards-add" x-data="{
+	name: '',
+	description: '',
+	async submit() {
+		let response = await fetch(
+            api_url + '/api/leaderboards' + encode_get_params({
+                user_id: token_user.user_id,
+                community_id: $router.params?.community_id
+            }),
+            {
+                method: 'POST',
+                body: JSON.stringify({
+                    name: this.name,
+                    alias: this.alias,
+                    short_description: this.short_description,
+                    description: this.description
+                }),
+			    headers: {'Content-Type': 'application/json'}
+            }
+        );
+		if (!response.ok) {
+			return alert('Error: ' + response.status);
+		}
+		let response_json = await response.json();
+		if (!response_json.leaderboard) {
+			return alert('Error');
+		}
+		$router.redirect('/communities/' + $router.params?.community_id)
+	},
+}">
     <main class="container">
         <div class="main-box">
             <a href="/communities/1" class="page-icon page-icon-left">
@@ -9,15 +38,15 @@
 
 
             <section id="form-section">
-                <form class="form-settings" action="/communities/1" method="post">
+                <div class="form-settings" action="/communities/1" method="post">
                     <div class="form-item">
                         <label for="name" class="form-label" title="Leaderboard name">Name</label>
-                        <input type="text" class="form-control" name="name" value="">
+                        <input type="text" class="form-control" name="name" x-model="name">
                     </div>
 
                     <div class="form-item">
                         <label for="description" class="form-label" title="Description shown in popup">Description</label>
-                        <textarea class="form-control" name="description"></textarea>
+                        <textarea class="form-control" name="description" x-model="description"></textarea>
                     </div>
 
                     <div class="modal" id="add-table-modal">
@@ -53,8 +82,8 @@
                         <table class="data-table table"></table>
                     </div>
 
-                    <button type="submit" class="btn bg-blue bg-blue-h">Create</button>
-                </form>
+                    <button type="submit" class="btn bg-blue bg-blue-h" @click="submit">Create</button>
+                </div>
             </section>
         </div>
     </main>

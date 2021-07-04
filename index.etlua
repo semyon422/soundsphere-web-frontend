@@ -47,9 +47,9 @@
         <template x-route="/communities/new" x-view="/communities/new.html"></template>
         <template x-route="/communities/:community_id" x-view="/communities/community/index.html"></template>
         <template x-route="/communities/:community_id/settings" x-view="/communities/community/settings.html"></template>
+        <template x-route="/communities/:community_id/leaderboards/new" x-view="/leaderboards/new.html""></template>
 
         <template x-route="/leaderboards" x-view="/leaderboards/index.html"></template>
-        <template x-route="/leaderboards/new" x-view="/leaderboards/new.html"></template>
         <template x-route="/leaderboards/:leaderboard_id" x-view="/leaderboards/leaderboard/index.html"></template>
         <template x-route="/leaderboards/:leaderboard_id/settings" x-view="/leaderboards/leaderboard/settings.html"></template>
 

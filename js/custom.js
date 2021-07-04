@@ -83,12 +83,34 @@ function init_data_tables() {
         serverSide: true,
         ajax: "/dt/communities/" + window.PineconeRouter.currentContext.params.community_id + "/leaderboards",
         columns: [
+            {
+                data: "name",
+                render(data, type, row, meta) {
+                    return '<a href="/leaderboards/' + row.id + '">' + data + '</a>';
+                }
+            },
+            {data: "name"},
+            {
+                data: "name",
+                render(data, type, row, meta) {
+                    return '<a href="/users/' + row.id + '">' + data + '</a>';
+                }
+            },
             {data: "name"},
             {data: "name"},
-            {data: "name"},
-            {data: "name"},
-            {data: "name"},
-            {data: "name"},
+            {
+                className: 'table-icon-row',
+                render(data, type, row, meta) {
+                    return `
+                    <a href="/leaderboards/` + row.id + `/settings" class="table-icon orange orange-h" title="Edit leaderboard">
+                        <i class="fas fa-pen"></i>
+                    </a>
+                    <a href="#" class="table-icon red red-h" title="Delete leaderboard" data-bs-toggle="modal" data-bs-target="#delete-modal">
+                        <i class="fas fa-trash"></i>
+                    </a>
+                    `;
+                }
+            },
         ]
     });
     $(".data-table-community-users").DataTable({
