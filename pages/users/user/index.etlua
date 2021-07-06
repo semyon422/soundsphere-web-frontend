@@ -25,14 +25,23 @@
 <div id="secondary-navbar-box"></div>
 
 
-<div id="player">
+<div id="player" x-data="{
+    user: {},
+    async get() {
+		let response = await fetch(api_url + '/api/users/' + $router.params?.user_id)
+		if (!response.ok) return alert(response.status + ' ' + response.statusText)
+		let response_json = await response.json()
+		if (!response_json.user) return console.log(response_json)
+		this.user = response_json.user
+    },
+}" x-init="get()">
     <main class="container">
         <div class="main-box">
-            <a href="/users/1/settings" class="page-icon page-icon-right" title="Your settings">
+            <a :href="'/users/' + user.id + '/settings'" class="page-icon page-icon-right" title="Your settings">
                 <i class="fas fa-cog"></i>
             </a>
 
-            <h1>Player1</h1>
+            <h1 x-text="user.name"></h1>
 
 
             <section id="info-section">
@@ -52,15 +61,7 @@
             <section id="description-section">
                 <h2>Description</h2>
 
-                <p>
-                    Maecenas at orci feugiat, pharetra est quis, vulputate neque. Vestibulum elementum, orci nec laoreet pretium, lectus
-                    velit viverra lacus, at blandit lorem purus sed ex. Cras erat elit, condimentum at dignissim ut, sodales sit amet
-                    lorem. Nullam sagittis felis enim, et congue mi facilisis a. Ut maximus hendrerit lectus. Aliquam sit amet lacus quis
-                    mi semper rhoncus. Quisque a orci tincidunt, posuere risus eget, vehicula purus. Mauris id leo a massa vulputate
-                    venenatis at ac nisl. Nullam non aliquet augue. Donec eu urna at magna feugiat tristique. Nunc non dui ut nisl
-                    faucibus rutrum. Aenean vulputate interdum vulputate.
-                    enim.
-                </p>
+                <p x-text="user.description"></p>
             </section>
 
 
@@ -70,7 +71,7 @@
                     <div class="col-6">
                         <h2>Leaderboards</h2>
 
-                        <table class="data-table table">
+                        <table class="data-table data-table-user-leaderboards table">
                             <thead>
                                 <tr>
                                     <th title="Leaderboard name">Name</th>

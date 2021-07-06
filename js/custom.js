@@ -219,6 +219,30 @@ function init_data_tables() {
         ]
     });
 
+    
+    $(".data-table-user-communities").DataTable({
+        scrollX: true,
+        serverSide: true,
+        ajax: "/dt/users/" + window.PineconeRouter.currentContext.params.user_id + "/communities",
+        columns: [
+            {data: "name"},
+            {data: "name"},
+            {data: "name"},
+            {data: "name"},
+        ]
+    });
+    $(".data-table-user-leaderboards").DataTable({
+        scrollX: true,
+        serverSide: true,
+        ajax: "/dt/users/" + window.PineconeRouter.currentContext.params.user_id + "/leaderboards",
+        columns: [
+            {data: "name"},
+            {data: "name"},
+            {data: "name"},
+            {data: "name"},
+        ]
+    });
+
     $(".data-table-notechart-scores").DataTable({
         scrollX: true,
         serverSide: true,
