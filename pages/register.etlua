@@ -1,16 +1,51 @@
-<div id="register">
+<div id="register" x-data="{
+    user: {
+        name: '',
+        email: '',
+        password: '',
+    },
+    token: null,
+	async post() {
+		let response = await fetch(api_url + '/api/users', {
+			method: 'POST',
+			body: JSON.stringify(this.user),
+			headers: {'Content-Type': 'application/json'}
+		})
+		if (!response.ok) return alert(response.status + ' ' + response.statusText)
+		let response_json = await response.json()
+		if (!response_json.user) return console.log(response_json)
+        await this.login()
+		if (this.token) return $router.redirect('/home')
+		alert('Error')
+	},
+	async login() {
+		let response = await fetch(api_url + '/api/token', {
+			method: 'GET',
+			headers: {'Authorization': 'Basic ' + btoa(this.user.email + ':' + this.user.password)}
+		})
+		if (!response.ok) return alert(response.status + ' ' + response.statusText)
+		let response_json = await response.json()
+		if (!response_json.token) return console.log(response_json)
+		this.token = response_json.token
+		document.cookie = 'access_token=' + this.token
+	},
+}">
     <main class="container">
         <div class="main-box">
-            <form class="form-login text-center" action="login.php" method="post">
+            <div class="form-login text-center">
                 <img class="mb-4" src="resources/logo.png" width="130" />
                 <h1 class="mb-3">Make an account</h1>
 
                 <div class="form-floating">
-                    <input type="email" class="form-control" name="email" placeholder="Email address" />
+                    <input type="text" class="form-control" name="email" placeholder="Name" x-model="user.name"/>
+                    <label for="name">Name</label>
+                </div>
+                <div class="form-floating">
+                    <input type="email" class="form-control" name="email" placeholder="Email address" x-model="user.email"/>
                     <label for="email">Email address</label>
                 </div>
                 <div class="form-floating mb-2">
-                    <input type="password" class="form-control" name="password" placeholder="Password" />
+                    <input type="password" class="form-control" name="password" placeholder="Password" x-model="user.password"/>
                     <label for="password">Password</label>
                 </div>
 
@@ -19,8 +54,8 @@
                         <input type="checkbox" name="remember-me" /> Remember me
                     </label>
                 </div>
-                <button type="submit" class="btn btn-lg bg-blue bg-blue-h">Register</button>
-            </form>
+                <button type="submit" class="btn btn-lg bg-blue bg-blue-h" @click="post">Register</button>
+            </div>
         </div>
     </main>
 </div>

@@ -22,11 +22,11 @@
 <div id="community" x-data="{
     community: {},
     async get() {
-		let response = await fetch(api_url + '/api/communities/' + $router.params?.community_id);
-		if (!response.ok) return alert(response.status + ' ' + response.statusText);
-		let response_json = await response.json();
-		if (!response_json.community) return console.log(response_json);
-		this.community = response_json.community;
+		let response = await fetch(api_url + '/api/communities/' + $router.params?.community_id)
+		if (!response.ok) return alert(response.status + ' ' + response.statusText)
+		let response_json = await response.json()
+		if (!response_json.community) return console.log(response_json)
+		this.community = response_json.community
     }
 }" x-init="get()">
     <main class="container">

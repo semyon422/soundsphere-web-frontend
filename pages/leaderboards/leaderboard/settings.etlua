@@ -1,26 +1,25 @@
 <div id="leaderboard-edit" x-data="{
-    leaderboard_id: $router.params?.leaderboard_id,
     leaderboard: {},
     async get() {
-		let response = await fetch(api_url + '/api/leaderboards/' + this.leaderboard_id);
-		if (!response.ok) return alert(response.status + ' ' + response.statusText);
-		let response_json = await response.json();
-		if (!response_json.leaderboard) return console.log(response_json);
-		this.leaderboard = response_json.leaderboard;
+		let response = await fetch(api_url + '/api/leaderboards/' + $router.params?.leaderboard_id)
+		if (!response.ok) return alert(response.status + ' ' + response.statusText)
+		let response_json = await response.json()
+		if (!response_json.leaderboard) return console.log(response_json)
+		this.leaderboard = response_json.leaderboard
     },
-    async submit() {
-		let response = await fetch(api_url + '/api/leaderboards/' + this.leaderboard_id, {
+    async patch() {
+		let response = await fetch(api_url + '/api/leaderboards/' + this.leaderboard.id, {
             method: 'PATCH',
 			body: JSON.stringify({leaderboard: this.leaderboard}),
 			headers: {'Content-Type': 'application/json'}
-        });
-		if (!response.ok) return alert(response.status + ' ' + response.statusText);
-		$router.redirect('/leaderboards/' + this.leaderboard_id)
+        })
+		if (!response.ok) return alert(response.status + ' ' + response.statusText)
+		$router.redirect('/leaderboards/' + this.leaderboard.id)
     },
 }" x-init="get()">
     <main class="container">
         <div class="main-box">
-            <a :href="'/leaderboards/' + leaderboard_id" class="page-icon page-icon-left">
+            <a :href="'/leaderboards/' + leaderboard.id" class="page-icon page-icon-left">
                 <i class="fas fa-arrow-left"></i>
             </a>
 
@@ -81,7 +80,7 @@
                         </table>
                     </div>
 
-                    <button type="submit" class="btn bg-blue bg-blue-h" @click="submit">Save</button>
+                    <button type="submit" class="btn bg-blue bg-blue-h" @click="patch">Save</button>
                 </div>
             </section>
         </div>

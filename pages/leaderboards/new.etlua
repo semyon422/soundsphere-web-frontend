@@ -1,7 +1,9 @@
 <div id="leaderboards-add" x-data="{
-	name: '',
-	description: '',
-	async submit() {
+    leaderboard: {
+        name: '',
+        description: '',
+    },
+	async post() {
 		let response = await fetch(
             api_url + '/api/leaderboards' + encode_get_params({
                 user_id: token_user.user_id,
@@ -9,18 +11,13 @@
             }),
             {
                 method: 'POST',
-                body: JSON.stringify({
-                    name: this.name,
-                    alias: this.alias,
-                    short_description: this.short_description,
-                    description: this.description
-                }),
+                body: JSON.stringify(this.leaderboard),
 			    headers: {'Content-Type': 'application/json'}
             }
-        );
-		if (!response.ok) return alert(response.status + ' ' + response.statusText);
-		let response_json = await response.json();
-		if (!response_json.leaderboard) return console.log(response_json);
+        )
+		if (!response.ok) return alert(response.status + ' ' + response.statusText)
+		let response_json = await response.json()
+		if (!response_json.leaderboard) return console.log(response_json)
 		$router.redirect('/communities/' + $router.params?.community_id)
 	},
 }">

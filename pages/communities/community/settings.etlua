@@ -1,20 +1,20 @@
 <div id="community-settings" x-data="{
     community: {},
     async get() {
-		let response = await fetch(api_url + '/api/communities/' + $router.params?.community_id);
-		if (!response.ok) return alert(response.status + ' ' + response.statusText);
-		let response_json = await response.json();
-		if (!response_json.community) return console.log(response_json);
-		this.community = response_json.community;
+		let response = await fetch(api_url + '/api/communities/' + $router.params?.community_id)
+		if (!response.ok) return alert(response.status + ' ' + response.statusText)
+		let response_json = await response.json()
+		if (!response_json.community) return console.log(response_json)
+		this.community = response_json.community
     },
-    async post() {
-		let response = await fetch(api_url + '/api/communities/' + $router.params?.community_id, {
+    async patch() {
+		let response = await fetch(api_url + '/api/communities/' + this.community.id, {
             method: 'PATCH',
 			body: JSON.stringify({community: this.community}),
 			headers: {'Content-Type': 'application/json'}
-        });
-		if (!response.ok) return alert(response.status + ' ' + response.statusText);
-		$router.redirect('/communities/' + $router.params?.community_id)
+        })
+		if (!response.ok) return alert(response.status + ' ' + response.statusText)
+		$router.redirect('/communities/' + this.community.id)
     },
 }" x-init="get()">
     <main class="container">
@@ -105,7 +105,7 @@
                         </table>
                     </div>
 
-                    <button type="submit" class="btn bg-blue bg-blue-h" @click="post()">Save</button>
+                    <button type="submit" class="btn bg-blue bg-blue-h" @click="patch()">Save</button>
                 </div>
             </section>
         </div>
