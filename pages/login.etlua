@@ -6,13 +6,9 @@
 			method: 'GET',
 			headers: {'Authorization': 'Basic ' + btoa(this.email + ':' + this.password)}
 		});
-		if (!response.ok) {
-			return alert('Error: ' + response.status);
-		}
+		if (!response.ok) return alert(response.status + ' ' + response.statusText);
 		let response_json = await response.json();
-		if (!response_json.token) {
-			return alert('Error');
-		}
+		if (!response_json.token) return console.log(response_json);
 		document.cookie = 'access_token=' + response_json.token
 		$router.redirect('/home')
 	},

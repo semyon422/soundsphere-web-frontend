@@ -3,13 +3,9 @@
     leaderboard: {},
     async get() {
 		let response = await fetch(api_url + '/api/leaderboards/' + this.leaderboard_id);
-		if (!response.ok) {
-			return alert(response.status + '\n' + await response.text());
-		}
+		if (!response.ok) return alert(response.status + ' ' + response.statusText);
 		let response_json = await response.json();
-		if (!response_json.leaderboard) {
-			return alert(response.status + '\n' + await response.text());
-		}
+		if (!response_json.leaderboard) return console.log(response_json);
 		this.leaderboard = response_json.leaderboard;
     },
     async submit() {
@@ -18,9 +14,7 @@
 			body: JSON.stringify({leaderboard: this.leaderboard}),
 			headers: {'Content-Type': 'application/json'}
         });
-		if (!response.ok) {
-			return alert(response.status + '\n' + await response.text());
-		}
+		if (!response.ok) return alert(response.status + ' ' + response.statusText);
 		$router.redirect('/leaderboards/' + this.leaderboard_id)
     },
 }" x-init="get()">

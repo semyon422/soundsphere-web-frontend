@@ -20,23 +20,18 @@
 
 
 <div id="community" x-data="{
-    community_id: $router.params?.community_id,
     community: {},
     async get() {
-		let response = await fetch(api_url + '/api/communities/' + this.community_id);
-		if (!response.ok) {
-			return alert(response.status + '\n' + await response.text());
-		}
+		let response = await fetch(api_url + '/api/communities/' + $router.params?.community_id);
+		if (!response.ok) return alert(response.status + ' ' + response.statusText);
 		let response_json = await response.json();
-		if (!response_json.community) {
-			return alert(response.status + '\n' + await response.text());
-		}
+		if (!response_json.community) return console.log(response_json);
 		this.community = response_json.community;
     }
 }" x-init="get()">
     <main class="container">
         <div class="main-box">
-            <a :href="'/communities/' + community_id + '/settings'" class="page-icon page-icon-right" title="Community settings">
+            <a :href="'/communities/' + community.id + '/settings'" class="page-icon page-icon-right" title="Community settings">
                 <i class="fas fa-cog"></i>
             </a>
 
@@ -49,9 +44,9 @@
                 <table class="meta-table">
                     <tr>
                         <th title="Input modes in community leaderboards">Input modes:</th>
-                        <td>7 key</td>
+                        <td x-text="Array.isArray(community.inputmodes) ? community.inputmodes.join(',') : ''"></td>
                         <th title="Member count">Members:</th>
-                        <td>10</td>
+                        <td x-text="community.user_count"></td>
                     </tr>
                 </table>
             </section>
@@ -67,7 +62,7 @@
             <section id="leaderboards-section">
                 <h2>
                     Leaderboards
-                    <a :href="'/communities/' + community_id + '/leaderboards/new'" class="title-icon h2-icon green green-h" title="Create leaderboard">
+                    <a :href="'/communities/' + community.id + '/leaderboards/new'" class="title-icon h2-icon green green-h" title="Create leaderboard">
                         <i class="fas fa-plus"></i>
                     </a>
                 </h2>
