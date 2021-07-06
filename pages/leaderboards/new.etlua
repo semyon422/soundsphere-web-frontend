@@ -34,12 +34,12 @@
                 <div class="form-settings" action="/communities/1" method="post">
                     <div class="form-item">
                         <label for="name" class="form-label" title="Leaderboard name">Name</label>
-                        <input type="text" class="form-control" name="name" x-model="name">
+                        <input type="text" class="form-control" name="name" x-model="leaderboard.name">
                     </div>
 
                     <div class="form-item">
                         <label for="description" class="form-label" title="Description shown in popup">Description</label>
-                        <textarea class="form-control" name="description" x-model="description"></textarea>
+                        <textarea class="form-control" name="description" x-model="leaderboard.description"></textarea>
                     </div>
 
                     <div class="modal" id="add-table-modal">
@@ -75,7 +75,7 @@
                         <table class="data-table table"></table>
                     </div>
 
-                    <button type="submit" class="btn bg-blue bg-blue-h" @click="submit">Create</button>
+                    <button type="submit" class="btn bg-blue bg-blue-h" @click="post">Create</button>
                 </div>
             </section>
         </div>
