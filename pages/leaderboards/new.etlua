@@ -3,11 +3,16 @@
         name: '',
         description: '',
     },
+    tables: [],
+    added_tables: [],
+    added_table_ids: [],
+    tables_search: '',
 	async post() {
 		let response = await fetch(
             api_url + '/api/leaderboards' + encode_get_params({
                 user_id: token_user.user_id,
-                community_id: $router.params?.community_id
+                community_id: $router.params?.community_id,
+                tables: this.added_table_ids,
             }),
             {
                 method: 'POST',
@@ -20,7 +25,14 @@
 		if (!response_json.leaderboard) return console.log(response_json)
 		$router.redirect('/communities/' + $router.params?.community_id)
 	},
-}">
+    async get_tables() {
+		let response = await fetch(api_url + '/api/tables' + encode_get_params({search: this.tables_search}))
+		if (!response.ok) return alert(response.status + ' ' + response.statusText)
+		let response_json = await response.json()
+		if (!response_json.tables) return console.log(response_json)
+		this.tables = response_json.tables
+    },
+}" x-init="get_tables()">
     <main class="container">
         <div class="main-box">
             <a href="/communities/1" class="page-icon page-icon-left">
@@ -50,15 +62,15 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <input class="form-control" list="tableOptions" placeholder="Search for a table...">
-                                    <datalist id="tableOptions">
-                                        <option value="Table1">
-                                        <option value="Table2">
-                                        <option value="Table3">
-                                    </datalist>
+                                    <input class="form-control" list="tableOptions" placeholder="Search for a table..." @input="get_tables()" x-model="tables_search">
+                                    <template x-for="(table, index) in tables">
+                                        <tr>
+                                            <td><a href="#" x-text="table.name" data-bs-dismiss="modal" @click="added_tables.push(table); added_table_ids.push(table.id)"></a></td>
+                                        </tr>
+                                    </template>
+                                </table>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn bg-dgreen bg-dgreen-h" data-bs-dismiss="modal">Add</button>
                                     <button type="button" class="btn bg-dgray bg-dgray-h" data-bs-dismiss="modal">Cancel</button>
                                 </div>
                             </div>
@@ -72,7 +84,18 @@
                                 <i class="fas fa-plus"></i>
                             </a>
                         </label>
-                        <table class="data-table table"></table>
+                        <table class="data-table table">
+                            <template x-for="(table, index) in added_tables">
+                                <tr>
+                                    <td><a :href="'/tables/' + table.id" x-text="table.name"></a></td>
+                                    <td class="table-icon-row">
+                                        <a @click="added_tables = added_tables.filter((table, _index) => {return index !== _index})" class="table-icon red red-h" title="Remove table">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </template>
+                        </table>
                     </div>
 
                     <button type="submit" class="btn bg-blue bg-blue-h" @click="post">Create</button>

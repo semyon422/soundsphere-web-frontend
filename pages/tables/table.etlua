@@ -1,7 +1,16 @@
-<div id="bms-table">
+<div id="bms-table" x-data="{
+    table: {},
+    async get() {
+		let response = await fetch(api_url + '/api/tables/' + $router.params?.table_id)
+		if (!response.ok) return alert(response.status + ' ' + response.statusText)
+		let response_json = await response.json()
+		if (!response_json.table) return console.log(response_json)
+		this.table = response_json.table
+    },
+}" x-init="get()">
     <main class="container">
         <div class="main-box">
-            <h1>Table1</h1>
+            <h1 x-text="table.name"></h1>
 
 
             <%- template("components/add-leaderboard-modal.etlua") %>
@@ -20,19 +29,7 @@
                                     <th></th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td><a href="/communities/1">Community1</a></td>
-                                    <td>4000</td>
-                                    <td>7key</td>
-                                    <td>25</td>
-                                    <td class="table-icon-row">
-                                        <a href="#" class="table-icon green green-h" title="Join community">
-                                            <i class="fas fa-sign-in-alt"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                            </tbody>
+                            <tbody></tbody>
                         </table>
                     </div>
 
@@ -50,19 +47,7 @@
                                     <th></th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td><a href="/leaderboards/1">Leaderboard1</a></td>
-                                    <td>7key</td>
-                                    <td>10</td>
-                                    <td>1</td>
-                                    <td class="table-icon-row">
-                                        <a href="#" class="table-icon blue blue-h" data-bs-toggle="modal" data-bs-target="#add-leaderboard-modal">
-                                            <i class="fas fa-sign-in-alt" title="Add to community"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                            </tbody>
+                            <tbody></tbody>
                         </table>
                     </div>
                 </div>
@@ -84,17 +69,7 @@
                             <th title="Play count">Plays</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>Chart1</td>
-                            <td><a href="/charts/1">Difficulty1</a></td>
-                            <td>12</td>
-                            <td>A charter</td>
-                            <td>An artist</td>
-                            <td>7key</td>
-                            <td>15</td>
-                        </tr>
-                    </tbody>
+                    <tbody></tbody>
                     <tfoot>
                         <tr>
                             <th title="Chart set name">Title</th>

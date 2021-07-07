@@ -187,10 +187,27 @@ function init_data_tables() {
         serverSide: true,
         ajax: "/dt/tables/" + window.PineconeRouter.currentContext.params.table_id + "/communities",
         columns: [
+            {
+                data: "name",
+                render(data, type, row, meta) {
+                    return '<a href="/communities/' + row.id + '">' + data + '</a>';
+                }
+            },
             {data: "name"},
             {data: "name"},
             {data: "name"},
-            {data: "name"},
+            {
+                className: 'table-icon-row',
+                render(data, type, row, meta) {
+                    return `
+                    <td class="table-icon-row">
+                        <a href="#" class="table-icon green green-h" title="Join community">
+                            <i class="fas fa-sign-in-alt"></i>
+                        </a>
+                    </td>
+                    `;
+                }
+            },
         ]
     });
     $(".data-table-table-leaderboards").DataTable({
@@ -198,10 +215,27 @@ function init_data_tables() {
         serverSide: true,
         ajax: "/dt/tables/" + window.PineconeRouter.currentContext.params.table_id + "/leaderboards",
         columns: [
+            {
+                data: "name",
+                render(data, type, row, meta) {
+                    return '<a href="/leaderboards/' + row.id + '">' + data + '</a>';
+                }
+            },
             {data: "name"},
             {data: "name"},
             {data: "name"},
-            {data: "name"},
+            {
+                className: 'table-icon-row',
+                render(data, type, row, meta) {
+                    return `
+                    <td class="table-icon-row">
+                        <a href="#" class="table-icon blue blue-h" data-bs-toggle="modal" data-bs-target="#add-leaderboard-modal">
+                            <i class="fas fa-sign-in-alt" title="Add to community"></i>
+                        </a>
+                    </td>
+                    `;
+                }
+            },
         ]
     });
     $(".data-table-table-notecharts").DataTable({
@@ -210,7 +244,12 @@ function init_data_tables() {
         ajax: "/dt/tables/" + window.PineconeRouter.currentContext.params.table_id + "/notecharts",
         columns: [
             {data: "name"},
-            {data: "name"},
+            {
+                data: "name",
+                render(data, type, row, meta) {
+                    return '<a href="/notechart/' + row.id + '">' + data + '</a>';
+                }
+            },
             {data: "name"},
             {data: "name"},
             {data: "name"},
