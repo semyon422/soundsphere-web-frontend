@@ -1,7 +1,12 @@
 <div id="leaderboard" x-data="{
     leaderboard: {},
     async get() {
-		let response = await fetch(api_url + '/api/leaderboards/' + $router.params?.leaderboard_id)
+		let response = await fetch(
+            api_url +
+            '/api/leaderboards/' +
+            $router.params?.leaderboard_id +
+            encode_get_params({users: true, inputmodes: true})
+        )
 		if (!response.ok) return alert(response.status + ' ' + response.statusText)
 		let response_json = await response.json()
 		if (!response_json.leaderboard) return console.log(response_json)
@@ -37,9 +42,9 @@
                 <table class="meta-table">
                     <tr>
                         <th title="Leaderboard input mode">Input mode:</th>
-                        <td>7 key</td>
+                        <td x-text="Array.isArray(leaderboard.inputmodes) ? leaderboard.inputmodes.map(e => e.name).join(',') : ''"></td>
                         <th title="Player count">Players:</th>
-                        <td>10</td>
+                        <td x-text="leaderboard.users_count"></td>
                     </tr>
                 </table>
             </section>
