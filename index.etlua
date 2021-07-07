@@ -65,6 +65,7 @@
 
         <template x-route="/help" x-view="/help.html"></template>
         <template x-route="/download" x-view="/download.html"></template>
+        <template x-route="/notfound" x-view="/404.html"></template>
         <template x-route="notfound" x-view="/404.html"></template>
     </div>
     <%- template("components/navbar.etlua") %>
