@@ -14,10 +14,10 @@ function init_data_tables() {
             {
                 data: "inputmodes",
                 render(data, type, row, meta) {
-                    return Array.isArray(data) ? data.join(',') : ''
+                    return Array.isArray(data) ? data.map(e => e.name).join(',') : ''
                 }
             },
-            {data: "user_count"},
+            {data: "users_count"},
             {data: "description"},
             {
                 className: 'table-icon-row',
@@ -45,10 +45,19 @@ function init_data_tables() {
                     return '<a href="/users/' + row.id + '">' + data + '</a>';
                 }
             },
-            {data: "name"},
-            {data: "name"},
-            {data: "name"},
-            {data: "name"},
+            {data: "users_count"},
+            {data: "tables_count"},
+            {data: "communities_count"},
+            {
+                className: 'table-icon-row',
+                render(data, type, row, meta) {
+                    return `
+                    <a href="#" class="table-icon blue blue-h" data-bs-toggle="modal" data-bs-target="#add-leaderboard-modal">
+                        <i class="fas fa-sign-in-alt" title="Add to community"></i>
+                    </a>
+                    `;
+                }
+            },
         ]
     });
     $(".data-table-tables").DataTable({

@@ -26,7 +26,7 @@
             api_url +
             '/api/communities/' +
             $router.params?.community_id +
-            encode_get_params({users: true, inputmodes: true})
+            encode_get_params({users: 0, inputmodes: -1, leaderboards: 0})
         )
 		if (!response.ok) return alert(response.status + ' ' + response.statusText)
 		let response_json = await response.json()
