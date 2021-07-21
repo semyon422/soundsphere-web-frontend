@@ -49,7 +49,7 @@
                 <table class="meta-table">
                     <tr>
                         <th title="Input modes in community leaderboards">Input modes:</th>
-                        <td x-text="Array.isArray(community.inputmodes) ? community.inputmodes.map(e => e.name).join(',') : ''"></td>
+                        <td x-text="Array.isArray(community.inputmodes) ? community.inputmodes.join(',') : ''"></td>
                         <th title="Member count">Members:</th>
                         <td x-text="community.users_count"></td>
                     </tr>

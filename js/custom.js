@@ -14,7 +14,7 @@ function init_data_tables() {
             {
                 data: "inputmodes",
                 render(data, type, row, meta) {
-                    return Array.isArray(data) ? data.map(e => e.name).join(',') : ''
+                    return Array.isArray(data) ? data.join(', ') : ''
                 }
             },
             {data: "users_count"},
