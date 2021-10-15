@@ -4,7 +4,7 @@
             <h1>Leaderboards</h1>
 
 
-            <%- template("components/add-leaderboard-modal.etlua") %>
+            <% render("views.components.add-leaderboard-modal") %>
             <section id="leaderboards-section">
                 <table class="data-table data-table-leaderboards table">
                     <thead>

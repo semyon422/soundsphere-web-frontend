@@ -1,9 +1,5 @@
+@echo off
+title frontend
 call setpaths.bat
-
-:start
-
-luvit app.lua
-
-timeout /t 1
-
-goto start
+luajit -e require('lapis.cmd.actions').execute({'server'})
+pause

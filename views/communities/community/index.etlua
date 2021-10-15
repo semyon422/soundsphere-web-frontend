@@ -63,7 +63,7 @@
                 <p x-text="community.description"></p>
             </section>
 
-            <%- template("components/delete-modal.etlua") %>
+            <% render("views.components.delete-modal") %>
             <section id="leaderboards-section">
                 <h2>
                     Leaderboards

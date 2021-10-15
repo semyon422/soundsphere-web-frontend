@@ -13,7 +13,7 @@
             <h1 x-text="table.name"></h1>
 
 
-            <%- template("components/add-leaderboard-modal.etlua") %>
+            <% render("views.components.add-leaderboard-modal") %>
             <section id="communities-bms-tables-section">
                 <div class="row">
                     <div class="col-6">

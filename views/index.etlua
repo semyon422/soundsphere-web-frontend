@@ -38,41 +38,41 @@
 <body class="d-flex flex-column">
     <div x-data @pinecone-end.window="init_data_tables()" hidden></div>
     <div x-data="router()" x-router>
-        <template x-route="/" x-view="/home.html"></template>
-        <template x-route="/home" x-view="/home.html"></template>
-        <template x-route="/login" x-view="/login.html"></template>
-        <template x-route="/register" x-view="/register.html"></template>
+        <template x-route="/" x-view="/home"></template>
+        <template x-route="/home" x-view="/home"></template>
+        <template x-route="/login" x-view="/login"></template>
+        <template x-route="/register" x-view="/register"></template>
 
-        <template x-route="/communities" x-view="/communities/index.html"></template>
-        <template x-route="/communities/new" x-view="/communities/new.html"></template>
-        <template x-route="/communities/:community_id" x-view="/communities/community/index.html"></template>
-        <template x-route="/communities/:community_id/settings" x-view="/communities/community/settings.html"></template>
-        <template x-route="/communities/:community_id/leaderboards/new" x-view="/leaderboards/new.html""></template>
+        <template x-route="/communities" x-view="/communities/index"></template>
+        <template x-route="/communities/new" x-view="/communities/new"></template>
+        <template x-route="/communities/:community_id" x-view="/communities/community/index"></template>
+        <template x-route="/communities/:community_id/settings" x-view="/communities/community/settings"></template>
+        <template x-route="/communities/:community_id/leaderboards/new" x-view="/leaderboards/new.htm"></template>
 
-        <template x-route="/leaderboards" x-view="/leaderboards/index.html"></template>
-        <template x-route="/leaderboards/:leaderboard_id" x-view="/leaderboards/leaderboard/index.html"></template>
-        <template x-route="/leaderboards/:leaderboard_id/settings" x-view="/leaderboards/leaderboard/settings.html"></template>
+        <template x-route="/leaderboards" x-view="/leaderboards/index"></template>
+        <template x-route="/leaderboards/:leaderboard_id" x-view="/leaderboards/leaderboard/index"></template>
+        <template x-route="/leaderboards/:leaderboard_id/settings" x-view="/leaderboards/leaderboard/settings"></template>
 
-        <template x-route="/tables" x-view="/tables/index.html"></template>
-        <template x-route="/tables/:table_id" x-view="/tables/table.html"></template>
+        <template x-route="/tables" x-view="/tables/index"></template>
+        <template x-route="/tables/:table_id" x-view="/tables/table"></template>
 
-        <template x-route="/users" x-view="/users/index.html"></template>
-        <template x-route="/users/:user_id" x-view="/users/user/index.html"></template>
-        <template x-route="/users/:user_id/settings" x-view="/users/user/settings.html"></template>
+        <template x-route="/users" x-view="/users/index"></template>
+        <template x-route="/users/:user_id" x-view="/users/user/index"></template>
+        <template x-route="/users/:user_id/settings" x-view="/users/user/settings"></template>
 
-        <template x-route="/notecharts" x-view="/notecharts/index.html"></template>
-        <template x-route="/notecharts/:notechart_id" x-view="/notecharts/notechart.html"></template>
+        <template x-route="/notecharts" x-view="/notecharts/index"></template>
+        <template x-route="/notecharts/:notechart_id" x-view="/notecharts/notechart"></template>
 
-        <template x-route="/help" x-view="/help.html"></template>
-        <template x-route="/download" x-view="/download.html"></template>
-        <template x-route="/notfound" x-view="/404.html"></template>
-        <template x-route="notfound" x-view="/404.html"></template>
+        <template x-route="/help" x-view="/help"></template>
+        <template x-route="/download" x-view="/download"></template>
+        <template x-route="/notfound" x-view="/404"></template>
+        <template x-route="notfound" x-view="/404"></template>
     </div>
-    <%- template("components/navbar.etlua") %>
+    <% render("views.components.navbar") %>
 
     <div id="app"></div>
 
-    <%- template("components/footer.etlua") %>
+    <% render("views.components.footer") %>
 
 </body>
 <script>

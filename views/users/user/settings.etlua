@@ -84,7 +84,7 @@
                             </div>
                         </div>
                     </div>
-                    <%- template("components/delete-modal.etlua") %>
+                    <% render("views.components.delete-modal") %>
                     <div class="form-item">
                         <label class="form-label w-100" title="The input modes on your profile and next to you in tables">
                             Favourite input modes

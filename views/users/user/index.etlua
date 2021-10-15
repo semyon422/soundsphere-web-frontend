@@ -65,7 +65,7 @@
             </section>
 
 
-            <%- template("components/delete-modal.etlua") %>
+            <% render("views.components.delete-modal") %>
             <section id="leaderboards-communities-section">
                 <div class="row">
                     <div class="col-6">

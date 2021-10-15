@@ -1,5 +1,4 @@
-deps/*
-lit.exe
-lua51.dll
-luvi.exe
-luvit.exe
+lapis/*
+temp/*
+logs
+nginx.conf.compiled

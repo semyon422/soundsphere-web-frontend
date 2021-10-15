@@ -60,7 +60,7 @@
                             </div>
                         </div>
                     </div>
-                    <%- template("components/delete-modal.etlua") %>
+                    <% render("views.components.delete-modal") %>
                     <div class="form-item">
                         <label for="admins" class="form-label w-100" title="Tables of which the charts will be used for ranking">
                             Tables
