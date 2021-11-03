@@ -3,40 +3,43 @@
         email: '',
         password: '',
     },
-	async submit() {
-		let response = await fetch(api_url + '/api/token', {
-			method: 'GET',
-			headers: {'Authorization': 'Basic ' + btoa(this.user.email + ':' + this.user.password)}
-		})
-		if (!response.ok) return alert(response.status + ' ' + response.statusText)
-		let response_json = await response.json()
-		if (!response_json.token) return console.log(response_json)
-		document.cookie = 'access_token=' + response_json.token
-		$router.redirect('/home')
-	},
+    async submit() {
+        let response = await fetch(api_url + '/api/token', {
+            method: 'GET',
+            headers: {'Authorization': 'Basic ' + btoa(this.user.email + ':' + this.user.password)}
+        })
+        if (!response.ok) return alert(response.status + ' ' + response.statusText)
+        let response_json = await response.json()
+        if (!response_json.token) return console.log(response_json)
+        document.cookie = 'access_token=' + response_json.token
+        $router.redirect('/home')
+    },
 }">
-    <main class="container">
-        <div class="main-box">
-            <div class="form-login text-center">
-                <img class="mb-4" src="resources/logo.png" width="130" />
-                <h1 class="mb-3">Please login</h1>
+    <main class="container-lg">
+        <div id="main-box">
+            <img src="resources/logo.png" alt="Logo">
+            <h1>Please login</h1>
 
-                <div class="form-floating">
-                    <input type="email" class="form-control" name="email" placeholder="Email address" x-model="user.email"/>
-                    <label for="email">Email address</label>
-                </div>
-                <div class="form-floating mb-2">
-                    <input type="password" class="form-control" name="password" placeholder="Password" x-model="user.password"/>
-                    <label for="password">Password</label>
+            <section id="form-section" class="login-form">
+                <div class="form-item form-floating">
+                    <input type="email" class="form-control" id="email" name="email" placeholder="x" required x-model="user.email">
+                    <label>Email address</label>
                 </div>
 
-                <div class="checkbox mb-3">
-                    <label>
-                        <input type="checkbox" name="remember-me" /> Remember me
+                <div class="form-item form-floating">
+                    <input type="password" class="form-control" id="password" name="password" placeholder="x" required x-model="user.password">
+                    <label>Password</label>
+                </div>
+
+                <div class="form-item form-check">
+                    <label for="remember-me" class="form-check-label" title="Stay logged in on this device">
+                        <input type="checkbox" class="form-check-input" id="remember-me" name="remember-me">
+                        Remember me
                     </label>
                 </div>
+
                 <button type="submit" class="btn btn-lg bg-blue bg-blue-h" @click="submit">Login</button>
-            </div>
+            </section>
         </div>
     </main>
 </div>

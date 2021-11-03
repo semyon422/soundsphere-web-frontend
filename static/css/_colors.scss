@@ -1,0 +1,121 @@
+@import "bootstrap/functions";
+@import "bootstrap/variables";
+
+$gray-150: #f1f3f5 !default;
+$gray-250: #e4e7eb !default;
+$gray-350: #d6dbe0 !default;
+$gray-450: #bec5cc !default;
+$gray-550: #8d959d !default;
+$gray-650: #5b636a !default;
+$gray-750: #3f454c !default;
+$gray-850: #2b3035 !default;
+
+$blue-50:  tint-color($blue, 90%) !default;
+$blue-150: tint-color($blue, 70%) !default;
+$blue-250: tint-color($blue, 50%) !default;
+$blue-350: tint-color($blue, 30%) !default;
+$blue-450: tint-color($blue, 10%) !default;
+$blue-550: shade-color($blue, 10%) !default;
+$blue-650: shade-color($blue, 30%) !default;
+$blue-750: shade-color($blue, 50%) !default;
+$blue-850: shade-color($blue, 70%) !default;
+$blue-950: shade-color($blue, 90%) !default;
+
+$indigo-50:  tint-color($indigo, 90%) !default;
+$indigo-150: tint-color($indigo, 70%) !default;
+$indigo-250: tint-color($indigo, 50%) !default;
+$indigo-350: tint-color($indigo, 30%) !default;
+$indigo-450: tint-color($indigo, 10%) !default;
+$indigo-550: shade-color($indigo, 10%) !default;
+$indigo-650: shade-color($indigo, 30%) !default;
+$indigo-750: shade-color($indigo, 50%) !default;
+$indigo-850: shade-color($indigo, 70%) !default;
+$indigo-950: shade-color($indigo, 90%) !default;
+
+$purple-50:  tint-color($purple, 90%) !default;
+$purple-150: tint-color($purple, 70%) !default;
+$purple-250: tint-color($purple, 50%) !default;
+$purple-350: tint-color($purple, 30%) !default;
+$purple-450: tint-color($purple, 10%) !default;
+$purple-550: shade-color($purple, 10%) !default;
+$purple-650: shade-color($purple, 30%) !default;
+$purple-750: shade-color($purple, 50%) !default;
+$purple-850: shade-color($purple, 70%) !default;
+$purple-950: shade-color($purple, 90%) !default;
+
+$pink-50:  tint-color($pink, 90%) !default;
+$pink-150: tint-color($pink, 70%) !default;
+$pink-250: tint-color($pink, 50%) !default;
+$pink-350: tint-color($pink, 30%) !default;
+$pink-450: tint-color($pink, 10%) !default;
+$pink-550: shade-color($pink, 10%) !default;
+$pink-650: shade-color($pink, 30%) !default;
+$pink-750: shade-color($pink, 50%) !default;
+$pink-850: shade-color($pink, 70%) !default;
+$pink-950: shade-color($pink, 90%) !default;
+
+$red-50:  tint-color($red, 90%) !default;
+$red-150: tint-color($red, 70%) !default;
+$red-250: tint-color($red, 50%) !default;
+$red-350: tint-color($red, 30%) !default;
+$red-450: tint-color($red, 10%) !default;
+$red-550: shade-color($red, 10%) !default;
+$red-650: shade-color($red, 30%) !default;
+$red-750: shade-color($red, 50%) !default;
+$red-850: shade-color($red, 70%) !default;
+$red-950: shade-color($red, 90%) !default;
+
+$orange-50:  tint-color($orange, 90%) !default;
+$orange-150: tint-color($orange, 70%) !default;
+$orange-250: tint-color($orange, 50%) !default;
+$orange-350: tint-color($orange, 30%) !default;
+$orange-450: tint-color($orange, 10%) !default;
+$orange-550: shade-color($orange, 10%) !default;
+$orange-650: shade-color($orange, 30%) !default;
+$orange-750: shade-color($orange, 50%) !default;
+$orange-850: shade-color($orange, 70%) !default;
+$orange-950: shade-color($orange, 90%) !default;
+
+$yellow-50:  tint-color($yellow, 90%) !default;
+$yellow-150: tint-color($yellow, 70%) !default;
+$yellow-250: tint-color($yellow, 50%) !default;
+$yellow-350: tint-color($yellow, 30%) !default;
+$yellow-450: tint-color($yellow, 10%) !default;
+$yellow-550: shade-color($yellow, 10%) !default;
+$yellow-650: shade-color($yellow, 30%) !default;
+$yellow-750: shade-color($yellow, 50%) !default;
+$yellow-850: shade-color($yellow, 70%) !default;
+$yellow-950: shade-color($yellow, 90%) !default;
+
+$green-50:  tint-color($green, 90%) !default;
+$green-150: tint-color($green, 70%) !default;
+$green-250: tint-color($green, 50%) !default;
+$green-350: tint-color($green, 30%) !default;
+$green-450: tint-color($green, 10%) !default;
+$green-550: shade-color($green, 10%) !default;
+$green-650: shade-color($green, 30%) !default;
+$green-750: shade-color($green, 50%) !default;
+$green-850: shade-color($green, 70%) !default;
+$green-950: shade-color($green, 90%) !default;
+
+$teal-50:  tint-color($teal, 90%) !default;
+$teal-150: tint-color($teal, 70%) !default;
+$teal-250: tint-color($teal, 50%) !default;
+$teal-350: tint-color($teal, 30%) !default;
+$teal-450: tint-color($teal, 10%) !default;
+$teal-550: shade-color($teal, 10%) !default;
+$teal-650: shade-color($teal, 30%) !default;
+$teal-750: shade-color($teal, 50%) !default;
+$teal-850: shade-color($teal, 70%) !default;
+$teal-950: shade-color($teal, 90%) !default;
+
+$cyan-50:  tint-color($cyan, 90%) !default;
+$cyan-150: tint-color($cyan, 70%) !default;
+$cyan-250: tint-color($cyan, 50%) !default;
+$cyan-350: tint-color($cyan, 30%) !default;
+$cyan-450: tint-color($cyan, 10%) !default;
+$cyan-550: shade-color($cyan, 10%) !default;
+$cyan-650: shade-color($cyan, 30%) !default;
+$cyan-750: shade-color($cyan, 50%) !default;
+$cyan-850: shade-color($cyan, 70%) !default;
+$cyan-950: shade-color($cyan, 90%) !default;

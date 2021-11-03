@@ -1,6 +1,6 @@
 <div id="help">
-    <main class="container">
-        <div class="main-box">
+    <main class="container-lg">
+        <div id="main-box">
             <h1>Help</h1>
 
 

@@ -11,4 +11,8 @@ app:match("/*", function()
 	return {render = "index"}
 end)
 
+app:match("/", function()
+	return {render = "index"}
+end)
+
 return app

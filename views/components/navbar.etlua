@@ -11,9 +11,9 @@
         token_user.user_id = this.payload.user_id;
 	}
 }" x-init="update_payload()" @pinecone-start.window="update_payload()">
-    <div class="container">
-        <a class="navbar-icon" href="/home">
-            <img src="/resources/logo-trans.png" />
+    <div class="container-lg">
+        <a class="primary-navbar-icon" href="/">
+            <img src="/resources/logo-trans.png" alt="Logo">
         </a>
 
         <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
@@ -21,49 +21,31 @@
         </button>
 
         <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav me-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="/home">Home<div class="underline"></div></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/communities">Communities<div class="underline"></div></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/leaderboards">Leaderboards<div class="underline"></div></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/tables">Tables<div class="underline"></div></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/users">Players<div class="underline"></div></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/notecharts">Charts<div class="underline"></div></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/help">Help<div class="underline"></div></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="https://github.com/semyon422/soundsphere-updater/archive/master.zip" target="_blank">Download<div class="underline"></div></a>
-                </li>
-            </ul>
+            <div class="navbar-nav me-auto">
+                <a class="nav-link" href="/">Home</a>
+                <a class="nav-link" href="/communities">Communities</a>
+                <a class="nav-link" href="/leaderboards">Leaderboards</a>
+                <a class="nav-link" href="/tables">Tables</a>
+                <a class="nav-link" href="/users">Players</a>
+                <a class="nav-link" href="/notecharts">Charts</a>
+                <a class="nav-link" href="/help">Help</a>
+                <a class="nav-link" href="https://dl.soundsphere.xyz/soundsphere.zip" target="_blank" rel="noopener">Download</a>
+            </div>
 
-            <ul class="navbar-nav" x-show="!payload.user_id">
-                <li class="nav-item">
-                    <a class="nav-link" href="/login">Login<div class="underline"></div></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/register">Register<div class="underline"></div></a>
-                </li>
-            </ul>
-            <ul class="navbar-nav" x-show="payload.user_id">
-                <li class="nav-item">
-                    <a :href="'/users/' + payload.user_id" class="nav-link">Profile<div class="underline"></div></a>
-                </li>
-                <li class="nav-item">
-                    <a href="/home" class="nav-link" @click="delete_cookie('access_token'); update_payload();">Logout<div class="underline"></div></a>
-                </li>
-            </ul>
+            <div class="navbar-nav">
+                <a class="nav-link" :href="'/users/' + payload.user_id" x-show="payload.user_id">
+                    Profile
+                </a>
+                <a class="nav-link" href="/" x-show="payload.user_id" @click="delete_cookie('access_token'); update_payload();">
+                    Logout
+                </a>
+                <a class="nav-link" href="/login" x-show="!payload.user_id">
+                    Login
+                </a>
+                <a class="nav-link" href="/register" x-show="!payload.user_id">
+                    Register
+                </a>
+            </div>
         </div>
     </div>
 </nav>

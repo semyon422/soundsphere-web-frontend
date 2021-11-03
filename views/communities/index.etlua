@@ -1,23 +1,42 @@
 <div id="communities">
-    <main class="container">
-        <div class="main-box">
-            <a href="/communities/new" class="page-icon page-icon-right green green-h" title="Create community">
-                <i class="fas fa-plus"></i>
-            </a>
+    <main class="container-lg">
+        <div id="main-box">
+            <nav class="navbar-expand page-icons page-icons-right page-icons-never-collapsed">
+                <div class="navbar-nav">
+                    <a href="/communities/create" class="page-icon" title="Create community">
+                        <div class="page-icon-box">
+                            <i class="fas fa-plus"></i>
+                        </div>
+                    </a>
+                </div>
+            </nav>
 
             <h1>Communities</h1>
 
 
             <section id="communities-section">
-                <table class="data-table data-table-communities table">
+                <div id="communities-insert-top" hidden>
+                    <div class="col">
+                        <form class="table-form table-form-top">
+                            <div class="form-check form-switch">
+                                <label for="hide-joined-communities" class="form-check-label" title="Hide the rows of communities that you're in">
+                                    <input type="checkbox" class="form-check-input" id="communities-hide-joined-communities" name="hide-joined-communities">
+                                    Hide joined
+                                </label>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <table class="data-table data-table-communities table table-icon-col-last"  data-insert-top="communities-insert-top">
                     <thead>
                         <tr>
                             <th title="Community name">Name</th>
                             <th title="3 to 5 characters that represent the community">Alias</th>
-                            <th title="Input modes in community leaderboards">Input modes</th>
+                            <th title="To join private communities, you have to send a request">Public</th>
+                            <th title="Input modes in community leaderboards">Modes</th>
                             <th title="Member count">Members</th>
                             <th title="Short description">Description</th>
-                            <th></th>
+                            <th class="table-icon-th"></th>
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -25,10 +44,11 @@
                         <tr>
                             <th title="Community name">Name</th>
                             <th title="3 to 5 characters that represent the community">Alias</th>
-                            <th title="Input modes in community leaderboards">Input modes</th>
+                            <th title="To join private communities, you have to send a request">Public</th>
+                            <th title="Input modes in community leaderboards">Modes</th>
                             <th title="Member count">Members</th>
                             <th title="Short description">Description</th>
-                            <th></th>
+                            <th class="table-icon-th"></th>
                         </tr>
                     </tfoot>
                 </table>

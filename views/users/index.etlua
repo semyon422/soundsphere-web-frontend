@@ -1,11 +1,11 @@
 <div id="players">
-    <main class="container">
-        <div class="main-box">
+    <main class="container-lg">
+        <div id="main-box">
             <h1>Players</h1>
 
-
+            
             <section id="players-section">
-                <table class="data-table data-table-users table">
+                <table class="data-table data-table-all table">
                     <thead>
                         <tr>
                             <th title="Player name">Name</th>
@@ -16,8 +16,26 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td><a href="/users/1">Player1</a></td>
-                            <td>7key</td>
+                            <td><a href="?a=players_player1_index">Player1</a></td>
+                            <td>7K</td>
+                            <td>200</td>
+                            <td>18-04-21</td>
+                        </tr>
+                        <tr class="highlight-row">
+                            <td><a href="?a=players_player1_index">Player1</a></td>
+                            <td>7K</td>
+                            <td>200</td>
+                            <td>18-04-21</td>
+                        </tr>
+                        <tr>
+                            <td><a href="?a=players_player1_index">Player1</a></td>
+                            <td>7K</td>
+                            <td>200</td>
+                            <td>18-04-21</td>
+                        </tr>
+                        <tr>
+                            <td><a href="?a=players_player1_index">Player1</a></td>
+                            <td>7K</td>
                             <td>200</td>
                             <td>18-04-21</td>
                         </tr>

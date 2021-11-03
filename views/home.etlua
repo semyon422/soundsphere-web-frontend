@@ -1,11 +1,10 @@
 <div id="home">
-    <div style="background-color: rgb(60, 200, 100); height: 500px;"></div>
+    <div class="banner banner-solid" style="background-image: url(../resources/banner.jpg);"></div>
 
-    <main class="container">
-        <div class="main-box">
-            <h1>Home</h1>
+    <main class="container-lg">
+        <div id="main-box">
+            <h1>soundsphere</h1>
 
-            
             <section id="description-section">
                 <p>
                     Maecenas at orci feugiat, pharetra est quis, vulputate neque. Vestibulum elementum, orci nec laoreet pretium, lectus

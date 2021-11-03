@@ -1,0 +1,83 @@
+<div id="communities-create" x-data="{
+    community: {
+        name: '',
+        alias: '',
+        short_description: '',
+        description: '',
+    },
+	async post() {
+		let response = await fetch(api_url + '/api/communities' + encode_get_params({user_id: token_user.user_id}), {
+			method: 'POST',
+			body: JSON.stringify(this.community),
+			headers: {'Content-Type': 'application/json'}
+		})
+		if (!response.ok) return alert(response.status + ' ' + response.statusText)
+		let response_json = await response.json()
+		if (!response_json.community) return console.log(response_json)
+		$router.redirect('/communities/' + response_json.community.id)
+	},
+}">
+    <main class="container-lg">
+        <div id="main-box">
+            <nav class="navbar-expand page-icons page-icons-left page-icons-never-collapsed">
+                <div class="navbar-nav">
+                    <a href="/communities" class="page-icon" title="Go back to the previous page">
+                        <div class="page-icon-box">
+                            <i class="fas fa-arrow-left"></i>
+                        </div>
+                    </a>
+                </div>
+            </nav>
+
+            <h1>Make a community</h1>
+
+
+            <section id="form-section">
+                <div class="crud-form">
+                    <div class="row">
+                        <div class="col-sm-9">
+                            <div class="form-item">
+                                <label for="community-name" class="form-label form-required" title="Community name">Name</label>
+                                <input type="text" class="form-control" id="community-name" name="community-name" minlength="5" maxlength="30" required x-model="community.name">
+                            </div>
+                        </div>
+
+                        <div class="col-sm-3">
+                            <div class="form-item">
+                                <label for="alias" class="form-label form-required" title="3 to 5 characters that represent the community">Alias</label>
+                                <input type="text" class="form-control" id="alias" name="alias" minlength="3" maxlength="5" required x-model="community.alias">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-item">
+                        <label for="link" class="form-label" title="A link to the community outside of this site">External link</label>
+                        <input type="url" class="form-control" id="link" name="link" maxlength="100" x-model="community.link">
+                    </div>
+
+                    <div class="form-item">
+                        <label for="short-description" class="form-label" title="Description shown in tables">Short description</label>
+                        <input type="text" id="short-description" class="form-control" name="short-description" x-model="community.short_description">
+                    </div>
+
+                    <div class="form-item">
+                        <label for="description" class="form-label" title="Page description">Description</label>
+                        <textarea class="form-control" id="description" name="description" x-model="community.description"></textarea>
+                    </div>
+
+                    <div class="form-item">
+                        <label for="banner" class="form-label" title="The uploaded image will be blurred and shown behind your community page">Blurred banner image</label>
+                        <input type="file" class="form-control input-image" id="banner" name="banner" accept=".png, .jpg, .jpeg" x-model="community.banner">
+                    </div>
+
+                    <div class="form-item form-check">
+                        <label for="is-public" class="form-check-label" title="Anyone can join public communities. Private communities have an invite system.">The community is public.</label>
+                        <input type="checkbox" class="form-check-input" id="is-public" name="is-public" checked  x-model="community.is_public">
+                    </div>
+
+                    <button type="submit" class="btn bg-blue bg-blue-h" @click="post()">Create</button>
+                </div>
+            </section>
+        </div>
+    </main>
+</div>
