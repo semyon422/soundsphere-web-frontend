@@ -1,4 +1,22 @@
-<div id="player-edit">
+<div id="player-edit" x-data="{
+    user: {},
+    async get() {
+		let response = await fetch(api_url + '/api/users/' + $router.params?.user_id)
+		if (!response.ok) return alert(response.status + ' ' + response.statusText)
+		let response_json = await response.json()
+		if (!response_json.user) return console.log(response_json)
+		this.user = response_json.user
+    },
+    async patch() {
+		let response = await fetch(api_url + '/api/users/' + this.user.id, {
+            method: 'PATCH',
+			body: JSON.stringify({user: this.user}),
+			headers: {'Content-Type': 'application/json'}
+        })
+		if (!response.ok) return alert(response.status + ' ' + response.statusText)
+		$router.redirect('/users/' + this.user.id)
+    },
+}" x-init="get()">
     <main class="container-lg">
         <div id="main-box">
             <nav class="navbar-expand page-icons page-icons-left page-icons-never-collapsed">

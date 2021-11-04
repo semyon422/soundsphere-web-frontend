@@ -13,7 +13,8 @@
 
             <h1>Communities</h1>
 
-
+            <% render("views.components.modals.delete") %>
+            <% render("views.components.modals.create-player-request-2") %>
             <section id="communities-section">
                 <div id="communities-insert-top" hidden>
                     <div class="col">
@@ -27,7 +28,7 @@
                         </form>
                     </div>
                 </div>
-                <table class="data-table data-table-communities table table-icon-col-last"  data-insert-top="communities-insert-top">
+                <table class="data-table data-table-communities table table-icon-col-last" data-insert-top="communities-insert-top">
                     <thead>
                         <tr>
                             <th title="Community name">Name</th>

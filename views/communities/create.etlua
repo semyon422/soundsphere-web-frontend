@@ -2,8 +2,11 @@
     community: {
         name: '',
         alias: '',
+        link: '',
         short_description: '',
         description: '',
+        banner: '',
+        is_public: '',
     },
 	async post() {
 		let response = await fetch(api_url + '/api/communities' + encode_get_params({user_id: token_user.user_id}), {
@@ -30,7 +33,6 @@
             </nav>
 
             <h1>Make a community</h1>
-
 
             <section id="form-section">
                 <div class="crud-form">

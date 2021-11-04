@@ -1,9 +1,43 @@
-<div id="leaderboard-edit">
+<div id="leaderboards-create" x-data="{
+    leaderboard: {
+        name: '',
+        description: '',
+    },
+    tables: [],
+    added_tables: [],
+    added_table_ids: [],
+    tables_search: '',
+	async post() {
+		let response = await fetch(
+            api_url + '/api/leaderboards' + encode_get_params({
+                user_id: token_user.user_id,
+                community_id: $router.params?.community_id,
+                tables: this.added_table_ids,
+            }),
+            {
+                method: 'POST',
+                body: JSON.stringify(this.leaderboard),
+			    headers: {'Content-Type': 'application/json'}
+            }
+        )
+		if (!response.ok) return alert(response.status + ' ' + response.statusText)
+		let response_json = await response.json()
+		if (!response_json.leaderboard) return console.log(response_json)
+		$router.redirect('/communities/' + $router.params?.community_id)
+	},
+    async get_tables() {
+		let response = await fetch(api_url + '/api/tables' + encode_get_params({search: this.tables_search}))
+		if (!response.ok) return alert(response.status + ' ' + response.statusText)
+		let response_json = await response.json()
+		if (!response_json.tables) return console.log(response_json)
+		this.tables = response_json.tables
+    },
+}" x-init="get_tables()">
     <main class="container-lg">
         <div id="main-box">
             <nav class="navbar-expand page-icons page-icons-left page-icons-never-collapsed">
                 <div class="navbar-nav">
-                    <a href="?a=leaderboards_leaderboard1_index" class="page-icon" title="Go back to the previous page">
+                    <a href="?a=leaderboards_index" class="page-icon" title="Go back to the previous page">
                         <div class="page-icon-box">
                             <i class="fas fa-arrow-left"></i>
                         </div>
@@ -11,7 +45,7 @@
                 </div>
             </nav>
 
-            <h1>Leaderboard settings</h1>
+            <h1>Make a leaderboard</h1>
 
 
             <?php require('components/modals/delete.php'); ?>
@@ -23,12 +57,12 @@
                 <form class="crud-form" action="?a=leaderboards_leaderboard1_index" method="post">
                     <div class="form-item">
                         <label for="leaderboard-name" class="form-label form-required" title="Leaderboard name">Name</label>
-                        <input type="text" class="form-control" id="leaderboard-name" name="leaderboard-name" minlength="5" maxlength="30" required value="Leaderboard1">
+                        <input type="text" class="form-control" id="leaderboard-name" name="leaderboard-name" minlength="5" maxlength="30" required>
                     </div>
 
                     <div class="form-item">
                         <label for="description" class="form-label form-required" title="Description shown in popup">Description</label>
-                        <textarea class="form-control" id="description" name="description" required>Maecenas at orci feugiat, pharetra est quis, vulputate neque. Vestibulum elementum, orci nec laoreet pretium, lectus velit viverra lacus, at blandit lorem purus sed ex. Cras erat elit, condimentum at dignissim ut, sodales sit amet lorem. Nullam sagittis felis enim, et congue mi facilisis a. Ut maximus hendrerit lectus. Aliquam sit amet lacus quis mi semper rhoncus. Quisque a orci tincidunt, posuere risus eget, vehicula purus. Mauris id leo a massa vulputate venenatis at ac nisl. Nullam non aliquet augue. Donec eu urna at magna feugiat tristique. Nunc non dui ut nisl faucibus rutrum. Aenean vulputate interdum vulputate. Curabitur auctor, dolor sit amet viverra laoreet, elit metus dictum massa, ut dapibus purus nibh ac eros. Duis eget finibus purus, vel efficitur mauris. Etiam id risus vitae nunc lobortis luctus non at mauris. Phasellus ut lorem massa. In non eleifend erat. Nam dapibus mauris et eros pretium, et malesuada ante varius. Quisque ac odio vel mauris pretium suscipit sit amet in quam. Phasellus id erat consectetur, sollicitudin velit quis, suscipit dui. Morbi sit amet faucibus felis. enim.</textarea>
+                        <textarea class="form-control" id="description" name="description" required></textarea>
                     </div>
 
                     <div class="form-item">
@@ -68,7 +102,7 @@
                             <option value="sdvx">SOUND VOLTEX</option>
                         </select>
                     </div>
-                    
+
                     <div class="form-item">
                         <label for="banner" class="form-label" title="The uploaded image will be blurred and shown behind your leaderboard page">Blurred banner image</label>
                         <input type="file" class="form-control input-image" id="banner" name="banner" accept=".png, .jpg, .jpeg">
@@ -83,16 +117,7 @@
                         </label>
                         <table class="data-table data-table-slim data-table-nohead table table-icon-col-last">
                             <thead><tr> <th></th> <th></th> </tr></thead>
-                            <tbody>
-                                <tr>
-                                    <td>7K</td>
-                                    <td class="table-icon-cell">
-                                        <a href="#!" class="table-icon table-icon-l red red-h" title="Remove input mode" data-bs-toggle="modal" data-bs-target="#delete-modal">
-                                            <i class="fas fa-times"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                            </tbody>
+                            <tbody></tbody>
                         </table>
                     </div>
 
@@ -113,22 +138,7 @@
                                     <th class="table-icon-th"></th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td>SpeedMode</td>
-                                    <td>Avg</td>
-                                    <td></td>
-                                    <td>Required</td>
-                                    <td class="table-icon-cell">
-                                        <a href="#!" class="table-icon table-icon-s orange orange-h" title="Edit modifier" data-bs-toggle="modal" data-bs-target="#add-modifier-modal">
-                                            <i class="fas fa-pen"></i>
-                                        </a>
-                                        <a href="#!" class="table-icon table-icon-l red red-h" title="Remove modifier" data-bs-toggle="modal" data-bs-target="#delete-modal">
-                                            <i class="fas fa-times"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                            </tbody>
+                            <tbody></tbody>
                         </table>
                     </div>
 
@@ -141,21 +151,11 @@
                         </label>
                         <table class="data-table data-table-slim data-table-nohead table table-icon-col-last" id="bms-tables">
                             <thead><tr> <th></th> <th></th> </tr></thead>
-                            <tbody>
-                                <tr>
-                                    <td><a href="?a=bms-tables_bms-table1_index">Table1</a></td>
-                                    <td class="table-icon-cell">
-                                        <a href="#!" class="table-icon table-icon-l red red-h" title="Remove table" data-bs-toggle="modal" data-bs-target="#delete-modal">
-                                            <i class="fas fa-times"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                            </tbody>
+                            <tbody></tbody>
                         </table>
                     </div>
 
-                    <button type="submit" class="btn bg-blue bg-blue-h">Save</button>
-                    <a href="#!" class="btn bg-red bg-red-h float-end" data-bs-toggle="modal" data-bs-target="#confirm-delete-modal">Delete</a>
+                    <button type="submit" class="btn bg-blue bg-blue-h">Create</button>
                 </form>
             </section>
         </div>
