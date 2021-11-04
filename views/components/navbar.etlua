@@ -1,14 +1,16 @@
 <nav id="primary-navbar" class="navbar navbar-expand-lg navbar-dark fixed-top bg-blue" x-data="{
 	open: false,
-	payload: {},
+	logged_in: false,
+	user_id: 0,
 	update_payload() {
-		let cookie = get_cookie('access_token');
+		let cookie = get_cookie('user_id');
 		if (cookie) {
-			this.payload = JSON.parse(atob(cookie.split('.')[1]));
+			this.logged_in = true
+			this.user_id = cookie
 		} else {
-			this.payload = {};
+			this.logged_in = false
+			this.user_id = 0
 		}
-        token_user.user_id = this.payload.user_id;
 	}
 }" x-init="update_payload()" @pinecone-start.window="update_payload()">
     <div class="container-lg">
@@ -33,16 +35,16 @@
             </div>
 
             <div class="navbar-nav">
-                <a class="nav-link" :href="'/users/' + payload.user_id" x-show="payload.user_id">
+                <a class="nav-link" :href="'/users/' + user_id" x-show="logged_in">
                     Profile
                 </a>
-                <a class="nav-link" href="/" x-show="payload.user_id" @click="delete_cookie('access_token'); update_payload();">
+                <a class="nav-link" href="/" x-show="logged_in" @click="delete_cookie('user_id'); update_payload();">
                     Logout
                 </a>
-                <a class="nav-link" href="/login" x-show="!payload.user_id">
+                <a class="nav-link" href="/login" x-show="!logged_in">
                     Login
                 </a>
-                <a class="nav-link" href="/register" x-show="!payload.user_id">
+                <a class="nav-link" href="/register" x-show="!logged_in">
                     Register
                 </a>
             </div>

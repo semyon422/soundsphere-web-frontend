@@ -4,14 +4,15 @@
         password: '',
     },
     async submit() {
-        let response = await fetch(api_url + '/api/token', {
-            method: 'GET',
-            headers: {'Authorization': 'Basic ' + btoa(this.user.email + ':' + this.user.password)}
+        let response = await fetch(api_url + '/api/auth/login', {
+            method: 'POST',
+            headers: {'Authorization': 'Basic ' + btoa(this.user.email + ':' + this.user.password)},
+            credentials: 'same-origin'
         })
         if (!response.ok) return alert(response.status + ' ' + response.statusText)
         let response_json = await response.json()
         if (!response_json.token) return console.log(response_json)
-        document.cookie = 'access_token=' + response_json.token
+        set_cookie('user_id', response_json.session.user_id)
         $router.redirect('/home')
     },
 }">
