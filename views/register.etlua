@@ -15,19 +15,18 @@
         let response_json = await response.json()
         if (!response_json.user) return console.log(response_json)
         await this.login()
-        if (this.token) return $router.redirect('/home')
-        alert('Error')
+        if (get_cookie('user_id')) return $router.redirect('/home')
     },
     async login() {
-        let response = await fetch(api_url + '/api/token', {
-            method: 'GET',
-            headers: {'Authorization': 'Basic ' + btoa(this.user.email + ':' + this.user.password)}
+        let response = await fetch(api_url + '/api/auth/login', {
+            method: 'POST',
+            headers: {'Authorization': 'Basic ' + btoa(this.user.email + ':' + this.user.password)},
+            credentials: 'same-origin'
         })
         if (!response.ok) return alert(response.status + ' ' + response.statusText)
         let response_json = await response.json()
         if (!response_json.token) return console.log(response_json)
-        this.token = response_json.token
-        document.cookie = 'access_token=' + this.token
+        set_cookie('user_id', response_json.session.user_id)
     },
 }">
     <main class="container-lg">
