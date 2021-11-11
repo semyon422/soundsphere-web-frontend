@@ -11,7 +11,7 @@
 		let response = await fetch(
             api_url + '/api/leaderboards' + encode_get_params({
                 user_id: token_user.user_id,
-                community_id: $router.params?.community_id,
+                community_id: <%= params.community_id %>,
                 tables: this.added_table_ids,
             }),
             {
@@ -23,7 +23,7 @@
 		if (!response.ok) return alert(response.status + ' ' + response.statusText)
 		let response_json = await response.json()
 		if (!response_json.leaderboard) return console.log(response_json)
-		$router.redirect('/communities/' + $router.params?.community_id)
+		document.location.href = '/communities/' + <%= params.community_id %>
 	},
     async get_tables() {
 		let response = await fetch(api_url + '/api/tables' + encode_get_params({search: this.tables_search}))

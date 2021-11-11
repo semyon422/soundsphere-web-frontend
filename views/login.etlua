@@ -13,7 +13,7 @@
         let response_json = await response.json()
         if (!response_json.token) return console.log(response_json)
         set_cookie('user_id', response_json.session.user_id)
-        $router.redirect('/home')
+        document.location.href = '/home'
     },
 }">
     <main class="container-lg">

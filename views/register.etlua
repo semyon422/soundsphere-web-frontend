@@ -15,7 +15,7 @@
         let response_json = await response.json()
         if (!response_json.user) return console.log(response_json)
         await this.login()
-        if (get_cookie('user_id')) return $router.redirect('/home')
+        if (get_cookie('user_id')) document.location.href = '/home'
     },
     async login() {
         let response = await fetch(api_url + '/api/auth/login', {

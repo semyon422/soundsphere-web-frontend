@@ -210,7 +210,7 @@ ready(() => {
     dtInit(document.querySelector(".data-table-notechart-scores"), {
         ...dtAllOptions,
         serverSide: true,
-        ajax: "/dt/notecharts/" + window.PineconeRouter.currentContext.params.notechart_id + "/scores",
+        ajax: "/dt/notecharts/<%= params.notechart_id %>/scores",
         columns: [
             {data: "name"},
             {data: "name"},

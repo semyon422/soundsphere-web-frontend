@@ -1,7 +1,7 @@
 <div id="player" x-data="{
     user: {},
     async get() {
-		let response = await fetch(api_url + '/api/users/' + $router.params?.user_id)
+		let response = await fetch(api_url + '/api/users/' + <%= params.user_id %>)
 		if (!response.ok) return alert(response.status + ' ' + response.statusText)
 		let response_json = await response.json()
 		if (!response_json.user) return console.log(response_json)
@@ -502,7 +502,7 @@ ready(() => {
         ...dtColOptions,
         scrollX: true,
         serverSide: true,
-        ajax: "/dt/users/" + window.PineconeRouter.currentContext.params.user_id + "/communities",
+        ajax: "/dt/users/<%= params.user_id %>/communities",
         columns: [
             {data: "name"},
             {data: "name"},
@@ -514,7 +514,7 @@ ready(() => {
         ...dtColOptions,
         scrollX: true,
         serverSide: true,
-        ajax: "/dt/users/" + window.PineconeRouter.currentContext.params.user_id + "/communities",
+        ajax: "/dt/users/<%= params.user_id %>/communities",
         columns: [
             {data: "name"},
             {data: "name"},

@@ -35,18 +35,26 @@
             </div>
 
             <div class="navbar-nav">
-                <a class="nav-link" :href="'/users/' + user_id" x-show="logged_in">
-                    Profile
-                </a>
-                <a class="nav-link" href="/" x-show="logged_in" @click="delete_cookie('user_id'); update_payload();">
-                    Logout
-                </a>
-                <a class="nav-link" href="/login" x-show="!logged_in">
-                    Login
-                </a>
-                <a class="nav-link" href="/register" x-show="!logged_in">
-                    Register
-                </a>
+                <template x-if="logged_in">
+                    <a class="nav-link" :href="'/users/' + user_id">
+                        Profile
+                    </a>
+                </template>
+                <template x-if="logged_in">
+                    <a class="nav-link" href="/" @click="delete_cookie('user_id'); update_payload();">
+                        Logout
+                    </a>
+                </template>
+                <template x-if="!logged_in">
+                    <a class="nav-link" href="/login">
+                        Login
+                    </a>
+                </template>
+                <template x-if="!logged_in">
+                    <a class="nav-link" href="/register">
+                        Register
+                    </a>
+                </template>
             </div>
         </div>
     </div>

@@ -4,7 +4,7 @@
 		let response = await fetch(
             api_url +
             '/api/communities/' +
-            $router.params?.community_id +
+            <%= params.community_id %> +
             encode_get_params({users: 0, inputmodes: -1, leaderboards: 0})
         )
 		if (!response.ok) return alert(response.status + ' ' + response.statusText)
@@ -278,7 +278,7 @@ ready(() => {
         ...dtSlimOptions,
         scrollX: true,
         serverSide: true,
-        ajax: "/dt/communities/" + window.PineconeRouter.currentContext.params.community_id + "/leaderboards",
+        ajax: "/dt/communities/<%= params.community_id %>/leaderboards",
         columns: [
             {
                 data: "name",
@@ -313,7 +313,7 @@ ready(() => {
     dtInit(document.querySelector(".data-table-community-users"), {
         ...dtSlimOptions,
         serverSide: true,
-        ajax: "/dt/communities/" + window.PineconeRouter.currentContext.params.community_id + "/users",
+        ajax: "/dt/communities/<%= params.community_id %>/users",
         columns: [
             {data: "id"},
             {
