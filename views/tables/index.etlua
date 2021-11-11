@@ -15,7 +15,7 @@
 }">
     <main class="container-lg">
         <div id="main-box">
-            <?php require('components/modals/create-bms-table.php'); ?>
+            <% render("views.components.modals.create-bms-table") %>
             <nav class="navbar-expand page-icons page-icons-right page-icons-never-collapsed">
                 <div class="navbar-nav">
                     <a href="#!" class="page-icon" title="Add table" data-bs-toggle="modal" data-bs-target="#create-bms-table-modal">
@@ -30,7 +30,7 @@
 
 
             <section id="bms-tables-section">
-                <table class="data-table data-table-all table">
+                <table class="data-table data-table-tables table">
                     <thead>
                         <tr>
                             <th title="Table name">Name</th>
@@ -40,30 +40,6 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td><a href="?a=bms-tables_bms-table1_index">Table1</a></td>
-                            <td>7K</td>
-                            <td>20</td>
-                            <td>115</td>
-                        </tr>
-                        <tr>
-                            <td><a href="?a=bms-tables_bms-table1_index">Table1</a></td>
-                            <td>7K</td>
-                            <td>20</td>
-                            <td>115</td>
-                        </tr>
-                        <tr>
-                            <td><a href="?a=bms-tables_bms-table1_index">Table1</a></td>
-                            <td>7K</td>
-                            <td>20</td>
-                            <td>115</td>
-                        </tr>
-                        <tr>
-                            <td><a href="?a=bms-tables_bms-table1_index">Table1</a></td>
-                            <td>7K</td>
-                            <td>20</td>
-                            <td>115</td>
-                        </tr>
                     </tbody>
                     <tfoot>
                         <tr>
@@ -78,3 +54,19 @@
         </div>
     </main>
 </div>
+<script>
+ready(() =>
+    dtInit(document.querySelector(".data-table-tables"), {
+        ...dtAllOptions,
+        scrollX: true,
+        serverSide: true,
+        ajax: "/dt/tables",
+        columns: [
+            {data: "name"},
+            {data: "name"},
+            {data: "name"},
+            {data: "name"},
+        ]
+    })
+)
+</script>

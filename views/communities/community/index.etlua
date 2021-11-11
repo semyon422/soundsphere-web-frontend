@@ -105,7 +105,7 @@
                     </a>
                 </h2>
 
-                <table class="data-table data-table-community-leaderboards table data-table-slim table table-icon-col-first table-icon-col-last" data-orders="0a 1a">
+                <table class="data-table data-table-community-leaderboards table table-icon-col-first table-icon-col-last" data-orders="0a 1a">
                     <thead>
                         <tr>
                             <th class="table-icon-th"></th>
@@ -176,7 +176,7 @@
                     </div>
                 </div>
 
-                <table class="data-table data-table-all table table-icon-col-last" data-insert-top="members-insert-top" data-insert-bottom="members-insert-bottom">
+                <table class="data-table data-table-community-users table table-icon-col-last" data-insert-top="members-insert-top" data-insert-bottom="members-insert-bottom">
                     <thead>
                         <tr>
                             <th class="table-col-minwidth" title="Rank of the selected leaderboard">Rank</th>
@@ -272,3 +272,60 @@
         </div>
     </main>
 </div>
+<script>
+ready(() => {
+    dtInit(document.querySelector(".data-table-community-leaderboards"), {
+        ...dtSlimOptions,
+        scrollX: true,
+        serverSide: true,
+        ajax: "/dt/communities/" + window.PineconeRouter.currentContext.params.community_id + "/leaderboards",
+        columns: [
+            {
+                data: "name",
+                render(data, type, row, meta) {
+                    return '<a href="/leaderboards/' + row.id + '">' + data + '</a>';
+                }
+            },
+            {data: "name"},
+            {
+                data: "name",
+                render(data, type, row, meta) {
+                    return '<a href="/users/' + row.id + '">' + data + '</a>';
+                }
+            },
+            {data: "name"},
+            {data: "name"},
+            {
+                className: 'table-icon-row',
+                render(data, type, row, meta) {
+                    return `
+                    <a href="/leaderboards/` + row.id + `/settings" class="table-icon orange orange-h" title="Edit leaderboard">
+                        <i class="fas fa-pen"></i>
+                    </a>
+                    <a href="#" class="table-icon red red-h" title="Delete leaderboard" data-bs-toggle="modal" data-bs-target="#delete-modal">
+                        <i class="fas fa-trash"></i>
+                    </a>
+                    `;
+                }
+            },
+        ]
+    })
+    dtInit(document.querySelector(".data-table-community-users"), {
+        ...dtSlimOptions,
+        serverSide: true,
+        ajax: "/dt/communities/" + window.PineconeRouter.currentContext.params.community_id + "/users",
+        columns: [
+            {data: "id"},
+            {
+                data: "name",
+                render(data, type, row, meta) {
+                    return '<a href="/users/' + row.id + '">' + data + '</a>';
+                }
+            },
+            {data: "name"},
+            {data: "name"},
+            {data: "latest_activity"},
+        ]
+    })
+})
+</script>

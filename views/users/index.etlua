@@ -3,9 +3,9 @@
         <div id="main-box">
             <h1>Players</h1>
 
-            
+
             <section id="players-section">
-                <table class="data-table data-table-all table">
+                <table class="data-table data-table-users table">
                     <thead>
                         <tr>
                             <th title="Player name">Name</th>
@@ -15,30 +15,6 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td><a href="?a=players_player1_index">Player1</a></td>
-                            <td>7K</td>
-                            <td>200</td>
-                            <td>18-04-21</td>
-                        </tr>
-                        <tr class="highlight-row">
-                            <td><a href="?a=players_player1_index">Player1</a></td>
-                            <td>7K</td>
-                            <td>200</td>
-                            <td>18-04-21</td>
-                        </tr>
-                        <tr>
-                            <td><a href="?a=players_player1_index">Player1</a></td>
-                            <td>7K</td>
-                            <td>200</td>
-                            <td>18-04-21</td>
-                        </tr>
-                        <tr>
-                            <td><a href="?a=players_player1_index">Player1</a></td>
-                            <td>7K</td>
-                            <td>200</td>
-                            <td>18-04-21</td>
-                        </tr>
                     </tbody>
                     <tfoot>
                         <tr>
@@ -53,3 +29,19 @@
         </div>
     </main>
 </div>
+<script>
+ready(() =>
+    dtInit(document.querySelector(".data-table-users"), {
+        ...dtAllOptions,
+        scrollX: true,
+        serverSide: true,
+        ajax: "/dt/users",
+        columns: [
+            {data: "name"},
+            {data: "tag"},
+            {data: "tag"},
+            {data: "latest_activity"},
+        ]
+    })
+)
+</script>

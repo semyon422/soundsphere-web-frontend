@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en" class="h-100">
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -12,80 +11,24 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap5.min.css">
-    <link rel="stylesheet" href="css/styles.css?v=1.0">
-    <link rel="stylesheet" href="css/responsive.css?v=1.0">
+    <link rel="stylesheet" href="/css/styles.css?v=1.0">
+    <link rel="stylesheet" href="/css/responsive.css?v=1.0">
 
-    <script src="https://unpkg.com/nprogress@0.2.0/nprogress.js"></script>
-    <link rel="stylesheet" href="https://unpkg.com/nprogress@0.2.0/nprogress.css"/>
+    <script src="//unpkg.com/alpinejs" defer></script>
 </head>
 
 <body class="d-flex flex-column">
-    <div x-data @pinecone-end.window="init_data_tables()" hidden></div>
-    <div x-data="router()" x-router>
-        <template x-route="/" x-view="/home"></template>
-        <template x-route="/home" x-view="/home"></template>
-        <template x-route="/login" x-view="/login"></template>
-        <template x-route="/register" x-view="/register"></template>
-
-        <template x-route="/communities" x-view="/communities/index"></template>
-        <template x-route="/communities/create" x-view="/communities/create"></template>
-        <template x-route="/communities/:community_id" x-view="/communities/community/index"></template>
-        <template x-route="/communities/:community_id/edit" x-view="/communities/community/edit"></template>
-        <template x-route="/communities/:community_id/changes" x-view="/communities/community/changes"></template>
-        <template x-route="/communities/:community_id/leaderboards/create" x-view="/leaderboards/create"></template>
-
-        <template x-route="/leaderboards" x-view="/leaderboards/index"></template>
-        <template x-route="/leaderboards/:leaderboard_id" x-view="/leaderboards/leaderboard/index"></template>
-        <template x-route="/leaderboards/:leaderboard_id/settings" x-view="/leaderboards/leaderboard/settings"></template>
-
-        <template x-route="/tables" x-view="/tables/index"></template>
-        <template x-route="/tables/:table_id" x-view="/tables/table"></template>
-
-        <template x-route="/users" x-view="/users/index"></template>
-        <template x-route="/users/:user_id" x-view="/users/user/index"></template>
-        <template x-route="/users/:user_id/settings" x-view="/users/user/settings"></template>
-
-        <template x-route="/notecharts" x-view="/notecharts/index"></template>
-        <template x-route="/notecharts/:notechart_id" x-view="/notecharts/notechart"></template>
-
-        <template x-route="/help" x-view="/help"></template>
-        <template x-route="/download" x-view="/download"></template>
-        <template x-route="/notfound" x-view="/404"></template>
-        <template x-route="notfound" x-view="/404"></template>
-    </div>
-    <% render("views.components.navbar") %>
-
-    <div id="app"></div>
-
-    <% render("views.components.footer") %>
-
-    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/pinecone-router@1.x.x/dist/index.umd.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/pinecone-router-middleware-views@1.x.x/dist/index.umd.js"></script>
     <script src="/js/util.js"></script>
     <script src="/js/helper.js?v=1.0"></script>
     <script src="/js/custom.js?v=1.0"></script>
-    <script src="/js/datatables.js?v=1.0"></script>
+
+    <% render("views.components.navbar") %>
+    <% render("views." .. view) %>
+    <% render("views.components.footer") %>
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.min.js"></script>
 </body>
-<script>
-    function router() {
-        return {
-            settings: {
-                middlewares: {
-                    views: {
-                        enable: true,
-                        basePath: '/pages',
-                    }
-                }
-            }
-        }
-    }
-    window.addEventListener('pinecone-start', () => NProgress.start());
-    window.addEventListener('pinecone-end', () => NProgress.done());
-</script>
 </html>

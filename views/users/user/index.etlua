@@ -8,7 +8,7 @@
 		this.user = response_json.user
     },
 }" x-init="get()">
-    <?php require('components/modals/properties.php'); ?>
+    <% render("views.components.modals.properties") %>
 
     <nav id="secondary-navbar">
         <div class="container-lg">
@@ -108,9 +108,9 @@
             </section>
 
 
-            <?php require('components/modals/delete.php'); ?>
-            <?php require('components/modals/add-leaderboard.php'); ?>
-            <?php require('components/modals/create-leaderboard.php'); ?>
+            <% render("views.components.modals.delete") %>
+            <% render("views.components.modals.add-leaderboard") %>
+            <% render("views.components.modals.create-leaderboard") %>
             <section id="communities-leaderboards-section" class="section-grid">
                 <div class="row">
                     <div class="col-sm-6">
@@ -121,7 +121,7 @@
                             </a>
                         </h2>
 
-                        <table class="data-table data-table-col table table-icon-col-first table-icon-col-last" data-orders="0a 1a">
+                        <table class="data-table data-table-user-communities table table-icon-col-first table-icon-col-last" data-orders="0a 1a">
                             <thead>
                                 <tr>
                                     <th class="table-icon-th"></th>
@@ -163,7 +163,7 @@
                             </a>
                         </h2>
 
-                        <table class="data-table data-table-col table table-icon-col-first table-icon-col-last" data-orders="3a">
+                        <table class="data-table data-table-user-leaderboards table table-icon-col-first table-icon-col-last" data-orders="3a">
                             <thead>
                                 <tr>
                                     <th class="table-icon-th"></th>
@@ -496,3 +496,31 @@
         </div>
     </main>
 </div>
+<script>
+ready(() => {
+    dtInit(document.querySelector(".data-table-user-communities"), {
+        ...dtColOptions,
+        scrollX: true,
+        serverSide: true,
+        ajax: "/dt/users/" + window.PineconeRouter.currentContext.params.user_id + "/communities",
+        columns: [
+            {data: "name"},
+            {data: "name"},
+            {data: "name"},
+            {data: "name"},
+        ]
+    })
+    dtInit(document.querySelector(".data-table-user-leaderboards"), {
+        ...dtColOptions,
+        scrollX: true,
+        serverSide: true,
+        ajax: "/dt/users/" + window.PineconeRouter.currentContext.params.user_id + "/communities",
+        columns: [
+            {data: "name"},
+            {data: "name"},
+            {data: "name"},
+            {data: "name"},
+        ]
+    })
+})
+</script>

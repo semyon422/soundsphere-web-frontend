@@ -1,7 +1,7 @@
 <div id="leaderboards">
     <main class="container-lg">
         <div id="main-box">
-            <?php require('components/modals/create-leaderboard.php'); ?>
+            <% render("views.components.modals.create-leaderboard") %>
             <nav class="navbar-expand page-icons page-icons-right page-icons-never-collapsed">
                 <div class="navbar-nav">
                     <a href="#!" class="page-icon" title="Create leaderboard" data-bs-toggle="modal" data-bs-target="#create-leaderboard-modal">
@@ -15,7 +15,7 @@
             <h1>Leaderboards</h1>
 
 
-            <?php require('components/modals/add-leaderboard.php'); ?>
+            <% render("views.components.modals.add-leaderboard") %>
             <section id="leaderboards-section">
                 <div id="leaderboards-insert-top" hidden>
                     <div class="col">
@@ -30,7 +30,7 @@
                     </div>
                 </div>
 
-                <table class="data-table data-table-all table table-icon-col-last" data-insert-top="leaderboards-insert-top">
+                <table class="data-table data-table-leaderboards table table-icon-col-last" data-insert-top="leaderboards-insert-top">
                     <thead>
                         <tr>
                             <th title="Leaderboard name">Name</th>
@@ -43,19 +43,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td><a href="?a=leaderboards_leaderboard1_index">Leaderboard1</a></td>
-                            <td>7K, 10K</td>
-                            <td>Table level</td>
-                            <td>soundsphere</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td class="table-icon-cell">
-                                <a href="#!" class="table-icon teal teal-h" title="Add to community" data-bs-toggle="modal" data-bs-target="#add-leaderboard-modal">
-                                    <i class="fas fa-sign-in-alt"></i>
-                                </a>
-                            </td>
-                        </tr>
+                        <tr class="odd"><td valign="top" colspan="7" class="dataTables_empty">No data available in table</td></tr>
                     </tbody>
                     <tfoot>
                         <tr>
@@ -73,3 +61,41 @@
         </div>
     </main>
 </div>
+<script>
+ready(() =>
+    dtInit(document.querySelector(".data-table-leaderboards"), {
+        ...dtAllOptions,
+        scrollX: true,
+        serverSide: true,
+        ajax: "/dt/leaderboards",
+        columns: [
+            {
+                data: "name",
+                render(data, type, row, meta) {
+                    return '<a href="/leaderboards/' + row.id + '">' + data + '</a>';
+                }
+            },
+            {data: "name"},
+            {
+                data: "name",
+                render(data, type, row, meta) {
+                    return '<a href="/users/' + row.id + '">' + data + '</a>';
+                }
+            },
+            {data: "users_count"},
+            {data: "tables_count"},
+            {data: "communities_count"},
+            {
+                className: 'table-icon-row',
+                render(data, type, row, meta) {
+                    return `
+                    <a href="#" class="table-icon blue blue-h" data-bs-toggle="modal" data-bs-target="#add-leaderboard-modal">
+                        <i class="fas fa-sign-in-alt" title="Add to community"></i>
+                    </a>
+                    `;
+                }
+            },
+        ]
+    })
+)
+</script>

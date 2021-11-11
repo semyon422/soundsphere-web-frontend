@@ -57,3 +57,37 @@
         </div>
     </main>
 </div>
+<script>
+ready(() =>
+    dtInit(document.querySelector(".data-table-communities"), {
+        ...dtAllOptions,
+        scrollX: true,
+        serverSide: true,
+        ajax: "/dt/communities",
+        columns: [
+            {
+                data: "name",
+                render(data, type, row, meta) {
+                    return '<a href="/communities/' + row.id + '">' + data + '</a>';
+                }
+            },
+            {data: "alias"},
+            {data: "public"},
+            {
+                data: "inputmodes",
+                render(data, type, row, meta) {
+                    return Array.isArray(data) ? data.join(', ') : ''
+                }
+            },
+            {data: "users_count"},
+            {data: "description"},
+            {
+                className: 'table-icon-row',
+                render(data, type, row, meta) {
+                    return '<a href="#" class="table-icon teal teal-h" title="Join community"><i class="fas fa-sign-in-alt"></i></a>'
+                }
+            },
+        ]
+    })
+)
+</script>

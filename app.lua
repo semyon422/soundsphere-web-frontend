@@ -3,16 +3,13 @@ local lapis = require("lapis")
 local app = lapis.Application()
 app:enable("etlua")
 
-app:match("/pages/*", function(self)
-	return {render = self.params.splat}
-end)
+local endpoints = require("endpoints")
 
-app:match("/*", function()
-	return {render = "index"}
-end)
-
-app:match("/", function()
-	return {render = "index"}
-end)
+for _, endpoint in ipairs(endpoints) do
+	app:match(endpoint.path, function(self)
+		self.view = endpoint.view
+		return {render = "index"}
+	end)
+end
 
 return app
