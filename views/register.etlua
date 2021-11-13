@@ -4,7 +4,6 @@
         email: '',
         password: '',
     },
-    token: null,
     async post() {
         let response = await fetch(api_url + '/api/users', {
             method: 'POST',
@@ -15,7 +14,7 @@
         let response_json = await response.json()
         if (!response_json.user) return console.log(response_json)
         await this.login()
-        if (get_cookie('user_id')) document.location.href = '/home'
+        if (get_cookie('logged_in')) document.location.href = '/home'
     },
     async login() {
         let response = await fetch(api_url + '/api/auth/login', {
@@ -26,7 +25,7 @@
         if (!response.ok) return alert(response.status + ' ' + response.statusText)
         let response_json = await response.json()
         if (!response_json.token) return console.log(response_json)
-        set_cookie('user_id', response_json.session.user_id)
+        set_cookie('logged_in', true)
     },
 }">
     <main class="container-lg">

@@ -1,7 +1,18 @@
-<div id="communities">
+<div id="communities" x-data="{
+    methods: [],
+    async get() {
+		let response = await fetch(api_url + '/ac/communities', {
+            credentials: 'same-origin'
+        })
+		if (!response.ok) return alert(response.status + ' ' + response.statusText)
+		let response_json = await response.json()
+		if (!response_json.methods) return console.log(response_json)
+		this.methods = response_json.methods
+    },
+}" x-init="get()" x-cloak>
     <main class="container-lg">
         <div id="main-box">
-            <nav class="navbar-expand page-icons page-icons-right page-icons-never-collapsed">
+            <nav x-show="methods.includes('POST')" class="navbar-expand page-icons page-icons-right page-icons-never-collapsed">
                 <div class="navbar-nav">
                     <a href="/communities/create" class="page-icon" title="Create community">
                         <div class="page-icon-box">

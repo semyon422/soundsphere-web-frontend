@@ -12,7 +12,7 @@
         if (!response.ok) return alert(response.status + ' ' + response.statusText)
         let response_json = await response.json()
         if (!response_json.token) return console.log(response_json)
-        set_cookie('user_id', response_json.session.user_id)
+        set_cookie('logged_in', true)
         document.location.href = '/home'
     },
 }">
