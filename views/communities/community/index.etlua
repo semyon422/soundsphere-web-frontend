@@ -5,7 +5,10 @@
             api_url +
             '/api/communities/' +
             <%= params.community_id %> +
-            encode_get_params({users: 0, inputmodes: -1, leaderboards: 0})
+            encode_get_params({users: 0, inputmodes: -1, leaderboards: 0}),
+            {
+                credentials: 'same-origin'
+            }
         )
 		if (!response.ok) return alert(response.status + ' ' + response.statusText)
 		let response_json = await response.json()

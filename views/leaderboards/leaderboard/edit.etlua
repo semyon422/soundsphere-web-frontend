@@ -1,7 +1,9 @@
 <div id="leaderboard-edit" x-data="{
     leaderboard: {},
     async get() {
-		let response = await fetch(api_url + '/api/leaderboards/' + <%= params.leaderboard_id %>)
+		let response = await fetch(api_url + '/api/leaderboards/' + <%= params.leaderboard_id %>, {
+            credentials: 'same-origin'
+        })
 		if (!response.ok) return alert(response.status + ' ' + response.statusText)
 		let response_json = await response.json()
 		if (!response_json.leaderboard) return console.log(response_json)
@@ -11,7 +13,8 @@
 		let response = await fetch(api_url + '/api/leaderboards/' + this.leaderboard.id, {
             method: 'PATCH',
 			body: JSON.stringify({leaderboard: this.leaderboard}),
-			headers: {'Content-Type': 'application/json'}
+			headers: {'Content-Type': 'application/json'},
+            credentials: 'same-origin'
         })
 		if (!response.ok) return alert(response.status + ' ' + response.statusText)
 		document.location.href = '/leaderboards/' + this.leaderboard.id

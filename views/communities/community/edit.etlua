@@ -1,7 +1,9 @@
 <div id="community-edit" x-data="{
     community: {},
     async get() {
-		let response = await fetch(api_url + '/api/communities/' + <%= params.community_id %>)
+		let response = await fetch(api_url + '/api/communities/' + <%= params.community_id %>, {
+            credentials: 'same-origin'
+        })
 		if (!response.ok) return alert(response.status + ' ' + response.statusText)
 		let response_json = await response.json()
 		if (!response_json.community) return console.log(response_json)
@@ -11,7 +13,8 @@
 		let response = await fetch(api_url + '/api/communities/' + this.community.id, {
             method: 'PATCH',
 			body: JSON.stringify({community: this.community}),
-			headers: {'Content-Type': 'application/json'}
+			headers: {'Content-Type': 'application/json'},
+            credentials: 'same-origin'
         })
 		if (!response.ok) return alert(response.status + ' ' + response.statusText)
 		document.location.href = '/communities/' + this.community.id
