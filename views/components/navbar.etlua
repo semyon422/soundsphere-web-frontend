@@ -34,27 +34,21 @@
                 <a class="nav-link" href="https://dl.soundsphere.xyz/soundsphere.zip" target="_blank" rel="noopener">Download</a>
             </div>
 
-            <div class="navbar-nav">
-                <template x-if="logged_in">
-                    <a class="nav-link" :href="'/users/' + user_id">
-                        Profile
-                    </a>
-                </template>
-                <template x-if="logged_in">
-                    <a class="nav-link" href="/" @click="delete_cookie('user_id'); update_payload();">
-                        Logout
-                    </a>
-                </template>
-                <template x-if="!logged_in">
-                    <a class="nav-link" href="/login">
-                        Login
-                    </a>
-                </template>
-                <template x-if="!logged_in">
-                    <a class="nav-link" href="/register">
-                        Register
-                    </a>
-                </template>
+            <div class="navbar-nav" x-show="logged_in" x-cloak>
+                <a class="nav-link" :href="'/users/' + user_id">
+                    Profile
+                </a>
+                <a class="nav-link" href="/" @click="delete_cookie('user_id'); update_payload();">
+                    Logout
+                </a>
+            </div>
+            <div class="navbar-nav" x-show="!logged_in" x-cloak>
+                <a class="nav-link" href="/login">
+                    Login
+                </a>
+                <a class="nav-link" href="/register">
+                    Register
+                </a>
             </div>
         </div>
     </div>

@@ -15,7 +15,7 @@
 		if (!response_json.community) return console.log(response_json)
 		this.community = response_json.community
     }
-}" x-init="get()">
+}" x-init="get()" x-show="community.id" x-cloak>
     <nav id="secondary-navbar">
         <div class="container-lg">
             <div class="nav">

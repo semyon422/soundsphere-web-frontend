@@ -40,7 +40,6 @@
                             <th class="table-icon-th"></th>
                         </tr>
                     </thead>
-                    <tbody></tbody>
                     <tfoot>
                         <tr>
                             <th title="Community name">Name</th>
