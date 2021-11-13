@@ -1,5 +1,6 @@
 <div id="community" x-data="{
     community: {},
+    methods: {},
     async get() {
 		let response = await fetch(
             api_url +
@@ -14,6 +15,7 @@
 		let response_json = await response.json()
 		if (!response_json.community) return console.log(response_json)
 		this.community = response_json.community
+		this.methods = response_json.methods
     }
 }" x-init="get()" x-show="community.id" x-cloak>
     <nav id="secondary-navbar">
@@ -32,7 +34,7 @@
 
     <main class="container-lg">
         <div id="main-box">
-            <nav class="page-icons page-icons-right page-icons-always-collapsed">
+            <nav x-show="methods.includes('POST')" class="page-icons page-icons-right page-icons-always-collapsed">
                 <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#page-icons-right">
                     <i class="fas fa-ellipsis-v"></i>
                 </button>
@@ -120,28 +122,6 @@
                             <th class="table-icon-th"></th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td class="table-icon-cell">
-                                <span class="table-icon table-icon-s orange" title="This community owns this leaderboard">
-                                    <i class="fas fa-crown"></i>
-                                </span>
-                            </td>
-                            <td><a href="?a=leaderboards_leaderboard1_index">Leaderboard1</a></td>
-                            <td>7K, 10K</td>
-                            <td><a href="?a=players_player1_index">Player1</a></td>
-                            <td>12</td>
-                            <td>1</td>
-                            <td class="table-icon-cell">
-                                <a href="?a=leaderboards_leaderboard1_edit" class="table-icon table-icon-s orange orange-h" title="Edit leaderboard">
-                                    <i class="fas fa-pen"></i>
-                                </a>
-                                <a href="#!" class="table-icon teal teal-h" title="Add to community" data-bs-toggle="modal" data-bs-target="#add-leaderboard-modal">
-                                    <i class="fas fa-sign-in-alt"></i>
-                                </a>
-                            </td>
-                        </tr>
-                    </tbody>
                 </table>
             </section>
 
@@ -192,72 +172,6 @@
                             <th class="table-icon-th"></th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>#1</td>
-                            <td></td>
-                            <td><a href="?a=players_player1_index">Player1</a></td>
-                            <td>1000</td>
-                            <td>7K</td>
-                            <td>200</td>
-                            <td>18-04-21</td>
-                            <td class="table-icon-cell">
-                                <a href="#!" class="table-icon table-icon-l table-icon-hide red red-h" title="Kick member" data-bs-toggle="modal" data-bs-target="#delete-modal">
-                                    <i class="fas fa-times"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr class="highlight-row">
-                            <td>#2</td>
-                            <td class="table-icon-cell">
-                                <span class="table-icon table-icon-s orange" title="Community owner">
-                                    <i class="fas fa-crown"></i>
-                                </span>
-                            </td>
-                            <td><a href="?a=players_player1_index">Player1</a></td>
-                            <td>1000</td>
-                            <td>7K</td>
-                            <td>200</td>
-                            <td>18-04-21</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>#3</td>
-                            <td class="table-icon-cell">
-                                <span class="table-icon table-icon-s orange" title="Community admin">
-                                    <i class="fas fa-user-shield"></i>
-                                </span>
-                            </td>
-                            <td><a href="?a=players_player1_index">Player1</a></td>
-                            <td>1000</td>
-                            <td>7K</td>
-                            <td>200</td>
-                            <td>18-04-21</td>
-                            <td class="table-icon-cell">
-                                <a href="#!" class="table-icon table-icon-l table-icon-hide red red-h" title="Kick member" data-bs-toggle="modal" data-bs-target="#delete-modal">
-                                    <i class="fas fa-times"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>#4</td>
-                            <td class="table-icon-cell">
-                                <span class="table-icon table-icon-s yellow" title="Community moderator">
-                                    <i class="fas fa-user-shield"></i>
-                                </span>
-                            </td>
-                            <td><a href="?a=players_player1_index">Player1</a></td>
-                            <td>1000</td>
-                            <td>7K</td>
-                            <td>200</td>
-                            <td>18-04-21</td>
-                            <td class="table-icon-cell">
-                                <a href="#!" class="table-icon table-icon-l table-icon-hide red red-h" title="Kick member" data-bs-toggle="modal" data-bs-target="#delete-modal">
-                                    <i class="fas fa-times"></i>
-                                </a>
-                            </td>
-                        </tr>
-                    </tbody>
                     <tfoot>
                         <tr>
                             <th title="Rank of the selected leaderboard">Rank</th>
@@ -284,6 +198,17 @@ ready(() => {
         ajax: "/dt/communities/<%= params.community_id %>/leaderboards",
         columns: [
             {
+                render(data, type, row, meta) {
+                    return `
+                        <td class="table-icon-cell">
+                            <span class="table-icon table-icon-s orange" title="This community owns this leaderboard">
+                                <i class="fas fa-crown"></i>
+                            </span>
+                        </td>
+                    `;
+                }
+            },
+            {
                 data: "name",
                 render(data, type, row, meta) {
                     return '<a href="/leaderboards/' + row.id + '">' + data + '</a>';
@@ -302,11 +227,11 @@ ready(() => {
                 className: 'table-icon-row',
                 render(data, type, row, meta) {
                     return `
-                    <a href="/leaderboards/` + row.id + `/settings" class="table-icon orange orange-h" title="Edit leaderboard">
+                    <a href="/leaderboards/` + row.id + `/edit" class="table-icon table-icon-s orange orange-h" title="Edit leaderboard">
                         <i class="fas fa-pen"></i>
                     </a>
-                    <a href="#" class="table-icon red red-h" title="Delete leaderboard" data-bs-toggle="modal" data-bs-target="#delete-modal">
-                        <i class="fas fa-trash"></i>
+                    <a href="#!" class="table-icon teal teal-h" title="Add to community" data-bs-toggle="modal" data-bs-target="#add-leaderboard-modal">
+                        <i class="fas fa-sign-in-alt"></i>
                     </a>
                     `;
                 }
@@ -314,10 +239,11 @@ ready(() => {
         ]
     })
     dtInit(document.querySelector(".data-table-community-users"), {
-        ...dtSlimOptions,
+        ...dtAllOptions,
         serverSide: true,
         ajax: "/dt/communities/<%= params.community_id %>/users",
         columns: [
+            {data: "id"},
             {data: "id"},
             {
                 data: "name",
@@ -325,6 +251,8 @@ ready(() => {
                     return '<a href="/users/' + row.id + '">' + data + '</a>';
                 }
             },
+            {data: "name"},
+            {data: "name"},
             {data: "name"},
             {data: "name"},
             {data: "latest_activity"},
