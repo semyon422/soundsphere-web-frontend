@@ -1,6 +1,7 @@
 <div id="community" x-data="{
     community: {},
-    methods: {},
+    methods: [],
+    user_methods: [],
     async get() {
 		let response = await fetch(
             api_url +
@@ -16,8 +17,18 @@
 		if (!response_json.community) return console.log(response_json)
 		this.community = response_json.community
 		this.methods = response_json.methods
+    },
+    async get_leave() {
+		let response = await fetch(api_url + '/ac/communities/<%= params.community_id %>/users/<%= session.user_id %>', {
+            method: 'GET',
+            credentials: 'same-origin'
+        })
+		if (!response.ok) return alert(response.status + ' ' + response.statusText)
+		let response_json = await response.json()
+		if (!response_json.methods) return console.log(response_json)
+		this.user_methods = response_json.methods
     }
-}" x-init="get()" x-show="community.id" x-cloak>
+}" x-init="get(); get_leave();" x-show="community.id" x-cloak>
     <nav id="secondary-navbar">
         <div class="container-lg">
             <div class="nav">
@@ -34,21 +45,21 @@
 
     <main class="container-lg">
         <div id="main-box">
-            <nav x-show="methods.includes('POST')" class="page-icons page-icons-right page-icons-always-collapsed">
+            <nav class="page-icons page-icons-right page-icons-always-collapsed">
                 <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#page-icons-right">
                     <i class="fas fa-ellipsis-v"></i>
                 </button>
 
                 <div class="collapse navbar-collapse" id="page-icons-right">
                     <div class="navbar-nav">
-                        <a href="#!" class="page-icon" title="Leave community" data-bs-toggle="modal" data-bs-target="#delete-modal">
+                        <a x-show="user_methods.includes('DELETE')" href="#!" class="page-icon" title="Leave community" data-bs-toggle="modal" data-bs-target="#delete-modal">
                             <span class="page-icon-text">Leave</span>
                             <div class="page-icon-box">
                                 <i class="fas fa-sign-out-alt"></i>
                             </div>
                         </a>
 
-                        <a :href="'/communities/' + community.id + '/inbox'" class="page-icon" title="Accept requests and send invites">
+                        <a x-show="methods.includes('PATCH')" :href="'/communities/' + community.id + '/inbox'" class="page-icon" title="Accept requests and send invites">
                             <span class="page-icon-text">Inbox</span>
                             <div class="page-icon-box">
                                 <i class="fas fa-inbox"></i>
@@ -56,14 +67,14 @@
                             </div>
                         </a>
 
-                        <a :href="'/communities/' + community.id + '/changes'" class="page-icon" title="All community changes and who made them">
+                        <a x-show="methods.includes('PATCH')" :href="'/communities/' + community.id + '/changes'" class="page-icon" title="All community changes and who made them">
                             <span class="page-icon-text">Changes</span>
                             <div class="page-icon-box">
                                 <i class="fas fa-list-alt"></i>
                             </div>
                         </a>
 
-                        <a :href="'/communities/' + community.id + '/settings'" class="page-icon" title="Community settings">
+                        <a x-show="methods.includes('PATCH')" :href="'/communities/' + community.id + '/edit'" class="page-icon" title="Community settings">
                             <span class="page-icon-text">Settings</span>
                             <div class="page-icon-box">
                                 <i class="fas fa-cog"></i>
@@ -88,9 +99,9 @@
                     </tr>
                     <tr>
                         <th title="To join private communities, you have to send a request">Public:</th>
-                        <td>No</td>
+                        <td x-text="community.is_public ? 'Yes' : 'No'"></td>
                         <th title="A link to the community outside of this site">External link:</th>
-                        <td><a href="https://discord.gg/hDjSpVyhuZ">discord.gg/hDjSpVyhuZ</a></td>
+                        <td><a :href="community.link" x-text="community.link"></a></td>
                     </tr>
                 </table>
             </section>

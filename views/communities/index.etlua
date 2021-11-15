@@ -82,7 +82,7 @@ ready(() =>
                 }
             },
             {data: "alias"},
-            {data: "public"},
+            {data: "is_public"},
             {
                 data: "inputmodes",
                 render(data, type, row, meta) {

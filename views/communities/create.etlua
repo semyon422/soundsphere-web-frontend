@@ -6,7 +6,7 @@
         short_description: '',
         description: '',
         banner: '',
-        is_public: '',
+        is_public: false,
     },
 	async post() {
 		let response = await fetch(api_url + '/api/communities', {
@@ -75,7 +75,7 @@
 
                     <div class="form-item form-check">
                         <label for="is-public" class="form-check-label" title="Anyone can join public communities. Private communities have an invite system.">The community is public.</label>
-                        <input type="checkbox" class="form-check-input" id="is-public" name="is-public" checked  x-model="community.is_public">
+                        <input type="checkbox" class="form-check-input" id="is-public" name="is-public" checked x-model="community.is_public">
                     </div>
 
                     <button type="submit" class="btn bg-blue bg-blue-h" @click="post()">Create</button>
