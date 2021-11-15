@@ -9,9 +9,10 @@
         is_public: false,
     },
 	async post() {
+        if (!$refs.form.checkValidity()) return
 		let response = await fetch(api_url + '/api/communities', {
 			method: 'POST',
-			body: JSON.stringify(this.community),
+			body: JSON.stringify({community: this.community}),
 			headers: {'Content-Type': 'application/json'},
             credentials: 'same-origin'
 		})
@@ -36,7 +37,7 @@
             <h1>Make a community</h1>
 
             <section id="form-section">
-                <div class="crud-form">
+                <form class="crud-form" x-ref="form">
                     <div class="row">
                         <div class="col-sm-9">
                             <div class="form-item">
@@ -78,8 +79,8 @@
                         <input type="checkbox" class="form-check-input" id="is-public" name="is-public" checked x-model="community.is_public">
                     </div>
 
-                    <button type="submit" class="btn bg-blue bg-blue-h" @click="post()">Create</button>
-                </div>
+                    <button type="button" class="btn bg-blue bg-blue-h" @click="post()">Create</button>
+                </form>
             </section>
         </div>
     </main>

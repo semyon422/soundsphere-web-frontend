@@ -4,6 +4,7 @@
         password: '',
     },
     async submit() {
+        if (!$refs.form.checkValidity()) return
         let response = await fetch(api_url + '/api/auth/login', {
             method: 'POST',
             headers: {'Authorization': 'Basic ' + btoa(this.user.email + ':' + this.user.password)},
@@ -22,24 +23,26 @@
             <h1>Please login</h1>
 
             <section id="form-section" class="login-form">
-                <div class="form-item form-floating">
-                    <input type="email" class="form-control" id="email" name="email" placeholder="x" required x-model="user.email">
-                    <label>Email address</label>
-                </div>
+                <form class="login-form" x-ref="form">
+                    <div class="form-item form-floating">
+                        <input type="email" class="form-control" id="email" name="email" placeholder="x" required x-model="user.email">
+                        <label>Email address</label>
+                    </div>
 
-                <div class="form-item form-floating">
-                    <input type="password" class="form-control" id="password" name="password" placeholder="x" required x-model="user.password">
-                    <label>Password</label>
-                </div>
+                    <div class="form-item form-floating">
+                        <input type="password" class="form-control" id="password" name="password" placeholder="x" required x-model="user.password">
+                        <label>Password</label>
+                    </div>
 
-                <div class="form-item form-check">
-                    <label for="remember-me" class="form-check-label" title="Stay logged in on this device">
-                        <input type="checkbox" class="form-check-input" id="remember-me" name="remember-me">
-                        Remember me
-                    </label>
-                </div>
+                    <div class="form-item form-check">
+                        <label for="remember-me" class="form-check-label" title="Stay logged in on this device">
+                            <input type="checkbox" class="form-check-input" id="remember-me" name="remember-me">
+                            Remember me
+                        </label>
+                    </div>
 
-                <button type="submit" class="btn btn-lg bg-blue bg-blue-h" @click="submit">Login</button>
+                    <button type="button" class="btn btn-lg bg-blue bg-blue-h" @click="submit">Login</button>
+                </form>
             </section>
         </div>
     </main>

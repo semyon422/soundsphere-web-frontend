@@ -10,6 +10,7 @@
 		this.community = response_json.community
     },
     async patch() {
+        if (!$refs.form.checkValidity()) return
 		let response = await fetch(api_url + '/api/communities/<%= params.community_id %>', {
             method: 'PATCH',
 			body: JSON.stringify({community: this.community}),
@@ -40,7 +41,7 @@
             <% render("views.components.modals.confirm-delete") %>
             <% render("views.components.modals.transfer-ownership") %>
             <section id="form-section">
-                <form class="crud-form" action="?a=communities_community1_index" method="post">
+                <form class="crud-form" x-ref="form">
                     <div class="row">
                         <div class="col-sm-9">
                             <div class="form-item">
@@ -135,7 +136,7 @@
                         </table>
                     </div>
 
-                    <button type="submit" class="btn bg-blue bg-blue-h" @click="patch">Save</button>
+                    <button type="button" class="btn bg-blue bg-blue-h" @click="patch">Save</button>
                     <a href="#!" class="btn bg-red bg-red-h float-end" data-bs-toggle="modal" data-bs-target="#confirm-delete-modal">Delete</a>
                     <a href="#!" class="btn bg-orange bg-orange-h float-end me-2" data-bs-toggle="modal" data-bs-target="#transfer-ownership-modal">Change owner</a>
                 </form>
