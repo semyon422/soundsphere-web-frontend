@@ -97,10 +97,15 @@ function dtInit(table, options) {
                 dtSetInsert(insertBottomId, insertBottomHTML);
 
             addEventListeners(document.querySelectorAll(".data-table-col-toggle"), "change", dtToggleCols);
+
+            if (options.initComplete != null) {
+                options.initComplete(settings, json)
+            }
         }
     })
 
     dtTables[dtTable.table().node().id] = dtTable;
+    return dtTable
 }
 
 

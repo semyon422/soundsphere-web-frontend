@@ -67,13 +67,39 @@
         </div>
     </main>
 </div>
+
 <script>
-ready(() =>
-    dtInit(document.querySelector(".data-table-communities"), {
+ready(() => {
+    var dt
+    dt = dtInit(document.querySelector(".data-table-communities"), {
         ...dtAllOptions,
         scrollX: true,
         serverSide: true,
-        ajax: "/dt/communities",
+        ajax: {
+            url: "/dt/communities",
+            type: "POST",
+            data(d) {
+                d.hide_joined = $("#communities-hide-joined-communities").is(':checked') ? 1 : 0
+            }
+            // data(d) {
+            //     var frm_data = $('.table-form-top').serializeArray();
+            //     $.each(frm_data, function(key, val) {
+            //         if (val.name == "hide-joined-communities") d.hide_joined = true
+            //         // d[val.name] = val.value;
+            //     })
+            //     console.log(d)
+            // }
+        },
+        initComplete(settings, json) {
+            $("#communities-hide-joined-communities").change(() => {
+                dt.ajax.reload(null, false)
+            })
+        },
+        processing: true,
+        language: {
+            loadingRecords: '&nbsp;',
+            processing: 'Loading...'
+        },
         columns: [
             {
                 data: "name",
@@ -82,7 +108,12 @@ ready(() =>
                 }
             },
             {data: "alias"},
-            {data: "is_public"},
+            {
+                data: "is_public",
+                render(data, type, row, meta) {
+                    return row.is_public ? 'Yes' : 'No'
+                }
+            },
             {
                 data: "inputmodes",
                 render(data, type, row, meta) {
@@ -90,7 +121,7 @@ ready(() =>
                 }
             },
             {data: "users_count"},
-            {data: "description"},
+            {data: "short_description"},
             {
                 className: 'table-icon-row',
                 render(data, type, row, meta) {
@@ -99,5 +130,5 @@ ready(() =>
             },
         ]
     })
-)
+})
 </script>
