@@ -1,4 +1,5 @@
-<div id="communities" x-data="{
+<script>
+function communities() {return {
     methods: [],
     async get() {
 		let response = await fetch('<%= access_url %>/communities', {
@@ -9,7 +10,9 @@
 		if (!response_json.methods) return console.log(response_json)
 		this.methods = response_json.methods
     },
-}" x-init="get()" x-cloak>
+}}
+</script>
+<div id="communities" x-data="communities" x-init="get()" x-cloak>
     <main class="container-lg">
         <div id="main-box">
             <nav x-show="methods.includes('POST')" class="navbar-expand page-icons page-icons-right page-icons-never-collapsed">

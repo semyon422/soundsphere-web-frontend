@@ -1,7 +1,8 @@
-<div id="leaderboard-edit" x-data="{
+<script>
+function leaderboard_edit() {return {
     leaderboard: {},
     async get() {
-		let response = await fetch('<%= api_url %>/leaderboards/' + <%= params.leaderboard_id %>, {
+		let response = await fetch('<%= api_url %>/leaderboards/<%= params.leaderboard_id %>', {
             credentials: 'same-origin'
         })
 		if (!response.ok) return alert(response.status + ' ' + response.statusText)
@@ -10,16 +11,18 @@
 		this.leaderboard = response_json.leaderboard
     },
     async patch() {
-		let response = await fetch('<%= api_url %>/leaderboards/' + this.leaderboard.id, {
+		let response = await fetch('<%= api_url %>/leaderboards/<%= params.leaderboard_id %>', {
             method: 'PATCH',
 			body: JSON.stringify({leaderboard: this.leaderboard}),
 			headers: {'Content-Type': 'application/json'},
             credentials: 'same-origin'
         })
 		if (!response.ok) return alert(response.status + ' ' + response.statusText)
-		document.location.href = '/leaderboards/' + this.leaderboard.id
+		document.location.href = '/leaderboards/<%= params.leaderboard_id %>'
     },
-}" x-init="get()">
+}}
+</script>
+<div id="leaderboard-edit" x-data="leaderboard_edit" x-init="get()">
     <main class="container-lg">
         <div id="main-box">
             <nav class="navbar-expand page-icons page-icons-left page-icons-never-collapsed">

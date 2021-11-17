@@ -1,12 +1,11 @@
-<div id="community" x-data="{
+<script>
+function community() {return {
     community: {},
     methods: [],
     user_methods: [],
     async get() {
 		let response = await fetch(
-            api_url +
-            '/api/communities/' +
-            <%= params.community_id %> +
+            '<%= api_url %>/communities/<%= params.community_id %>' +
             encode_get_params({users: 0, inputmodes: -1, leaderboards: 0}),
             {
                 credentials: 'same-origin'
@@ -20,7 +19,6 @@
     },
     async get_leave() {
 		let response = await fetch('<%= access_url %>/communities/<%= params.community_id %>/users/<%= session.user_id %>', {
-            method: 'GET',
             credentials: 'same-origin'
         })
 		if (!response.ok) return alert(response.status + ' ' + response.statusText)
@@ -28,7 +26,11 @@
 		if (!response_json.methods) return console.log(response_json)
 		this.user_methods = response_json.methods
     }
-}" x-init="get(); get_leave();" x-show="community.id" x-cloak>
+}}
+</script>
+<div id="community" x-data="community" x-init="get(); get_leave();" x-show="community.id" x-cloak>
+    <% render("views.components.modals.properties") %>
+
     <nav id="secondary-navbar">
         <div class="container-lg">
             <div class="nav">
@@ -45,6 +47,9 @@
 
     <main class="container-lg">
         <div id="main-box">
+            <% render("views.components.modals.delete") %>
+            <% render("views.components.modals.add-leaderboard") %>
+
             <nav class="page-icons page-icons-right page-icons-always-collapsed">
                 <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#page-icons-right">
                     <i class="fas fa-ellipsis-v"></i>
@@ -112,7 +117,6 @@
                 <p x-text="community.description"></p>
             </section>
 
-            <% render("views.components.delete-modal") %>
             <section id="leaderboards-section">
                 <h2>
                     Leaderboards

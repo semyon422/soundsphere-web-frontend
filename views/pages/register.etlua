@@ -1,11 +1,12 @@
-<div id="register" x-data="{
+<script>
+function register() {return {
     user: {
         name: '',
         email: '',
         password: '',
     },
     async post() {
-        if (!$refs.form.checkValidity()) return
+        if (!this.$refs.form.checkValidity()) return
         let response = await fetch('<%= api_url %>/users', {
             method: 'POST',
             body: JSON.stringify({user: this.user}),
@@ -28,7 +29,9 @@
         if (!response_json.token) return console.log(response_json)
         set_cookie('logged_in', true)
     },
-}">
+}}
+</script>
+<div id="register" x-data="register">
     <main class="container-lg">
         <div id="main-box">
             <img src="resources/logo.png" alt="Logo">

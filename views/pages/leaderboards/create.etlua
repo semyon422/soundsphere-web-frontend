@@ -1,4 +1,5 @@
-<div id="leaderboards-create" x-data="{
+<script>
+function leaderboards_create() {return {
     leaderboard: {
         name: '',
         description: '',
@@ -8,16 +9,16 @@
     added_table_ids: [],
     tables_search: '',
 	async post() {
-        if (!$refs.form.checkValidity()) return
+        if (!this.$refs.form.checkValidity()) return
 		let response = await fetch(
-            '<%= api_url %>/leaderboards' + encode_get_params({
-                user_id: token_user.user_id,
-                community_id: <%= params.community_id %>,
-                tables: this.added_table_ids,
-            }),
+            '<%= api_url %>/leaderboards',
             {
                 method: 'POST',
-                body: JSON.stringify({leaderboard: this.leaderboard}),
+                body: JSON.stringify({
+                    leaderboard: this.leaderboard,
+                    tables: this.added_table_ids,
+                    community_id: <%= params.community_id %>,
+                }),
 			    headers: {'Content-Type': 'application/json'},
                 credentials: 'same-origin'
             }
@@ -36,7 +37,9 @@
 		if (!response_json.tables) return console.log(response_json)
 		this.tables = response_json.tables
     },
-}" x-init="get_tables()">
+}}
+</script>
+<div id="leaderboards-create" x-data="leaderboards_create" x-init="get_tables()">
     <main class="container-lg">
         <div id="main-box">
             <nav class="navbar-expand page-icons page-icons-left page-icons-never-collapsed">

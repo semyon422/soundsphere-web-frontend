@@ -1,4 +1,5 @@
-<nav id="primary-navbar" class="navbar navbar-expand-lg navbar-dark fixed-top bg-blue" x-data="{
+<script>
+function primary_navbar() {return {
 	open: false,
 	logged_in: false,
 	session: {},
@@ -29,7 +30,9 @@
         delete_cookie('logged_in')
         document.location.href = ''
 	},
-}" x-init="update(); get();">
+}}
+</script>
+<nav id="primary-navbar" class="navbar navbar-expand-lg navbar-dark fixed-top bg-blue" x-data="primary_navbar" x-init="update(); get();">
     <div class="container-lg">
         <a class="primary-navbar-icon" href="/">
             <img src="/resources/logo-trans.png" alt="Logo">

@@ -1,10 +1,11 @@
-<div id="login" x-data="{
+<script>
+function login() {return {
     user: {
         email: '',
         password: '',
     },
     async submit() {
-        if (!$refs.form.checkValidity()) return
+        if (!this.$refs.form.checkValidity()) return
         let response = await fetch('<%= api_url %>/auth/login', {
             method: 'POST',
             headers: {'Authorization': 'Basic ' + btoa(this.user.email + ':' + this.user.password)},
@@ -16,7 +17,9 @@
         set_cookie('logged_in', true)
         document.location.href = '/home'
     },
-}">
+}}
+</script>
+<div id="login" x-data="login">
     <main class="container-lg">
         <div id="main-box">
             <img src="resources/logo.png" alt="Logo">
