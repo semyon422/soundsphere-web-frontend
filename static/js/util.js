@@ -1,7 +1,4 @@
-
 // response.ok 200-299 https://learn.javascript.ru/fetch
-
-api_url = "http://localhost"
 
 // https://learn.javascript.ru/cookie
 function get_cookie(name) {

@@ -1,7 +1,7 @@
 <div id="community-edit" x-data="{
     community: {},
     async get() {
-		let response = await fetch(api_url + '/api/communities/<%= params.community_id %>', {
+		let response = await fetch('<%= api_url %>/communities/<%= params.community_id %>', {
             credentials: 'same-origin'
         })
 		if (!response.ok) return alert(response.status + ' ' + response.statusText)
@@ -11,7 +11,7 @@
     },
     async patch() {
         if (!$refs.form.checkValidity()) return
-		let response = await fetch(api_url + '/api/communities/<%= params.community_id %>', {
+		let response = await fetch('<%= api_url %>/communities/<%= params.community_id %>', {
             method: 'PATCH',
 			body: JSON.stringify({community: this.community}),
 			headers: {'Content-Type': 'application/json'},

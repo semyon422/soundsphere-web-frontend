@@ -1,7 +1,7 @@
 <div id="player-edit" x-data="{
     user: {},
     async get() {
-		let response = await fetch(api_url + '/api/users/' + <%= params.user_id %>, {
+		let response = await fetch('<%= api_url %>/users/<%= params.user_id %>', {
             credentials: 'same-origin'
         })
 		if (!response.ok) return alert(response.status + ' ' + response.statusText)
@@ -10,14 +10,14 @@
 		this.user = response_json.user
     },
     async patch() {
-		let response = await fetch(api_url + '/api/users/' + this.user.id, {
+		let response = await fetch('<%= api_url %>/users/<%= params.user_id %>', {
             method: 'PATCH',
 			body: JSON.stringify({user: this.user}),
 			headers: {'Content-Type': 'application/json'},
             credentials: 'same-origin'
         })
 		if (!response.ok) return alert(response.status + ' ' + response.statusText)
-		document.location.href = '/users/' + this.user.id
+		document.location.href = '/users/<%= params.user_id %>'
     },
 }" x-init="get()">
     <main class="container-lg">
@@ -35,9 +35,9 @@
             <h1>Settings</h1>
 
 
-            <?php require('components/modals/delete.php'); ?>
-            <?php require('components/modals/add-input-mode.php'); ?>
-            <?php require('components/modals/confirm-delete.php'); ?>
+            <% render("views.components.modals.delete") %>
+            <% render("views.components.modals.add-input-mode") %>
+            <% render("views.components.modals.confirm-delete") %>
             <section id="form-section">
                 <form class="crud-form" action="?a=players_player1_index" method="post">
                     <label for="username" id="username-preview" title="A preview that shows how your username will look">Player1</label>

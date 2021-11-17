@@ -1,7 +1,7 @@
 <div id="player" x-data="{
     user: {},
     async get() {
-		let response = await fetch(api_url + '/api/users/' + <%= params.user_id %>, {
+		let response = await fetch('<%= api_url %>/users/<%= params.user_id %>', {
             credentials: 'same-origin'
         })
 		if (!response.ok) return alert(response.status + ' ' + response.statusText)

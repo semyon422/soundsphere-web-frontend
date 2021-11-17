@@ -5,7 +5,7 @@
     },
     async submit() {
         if (!$refs.form.checkValidity()) return
-        let response = await fetch(api_url + '/api/auth/login', {
+        let response = await fetch('<%= api_url %>/auth/login', {
             method: 'POST',
             headers: {'Authorization': 'Basic ' + btoa(this.user.email + ':' + this.user.password)},
             credentials: 'same-origin'

@@ -19,7 +19,7 @@
 		this.methods = response_json.methods
     },
     async get_leave() {
-		let response = await fetch(api_url + '/ac/communities/<%= params.community_id %>/users/<%= session.user_id %>', {
+		let response = await fetch('<%= access_url %>/communities/<%= params.community_id %>/users/<%= session.user_id %>', {
             method: 'GET',
             credentials: 'same-origin'
         })

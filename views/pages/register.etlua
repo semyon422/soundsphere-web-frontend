@@ -6,7 +6,7 @@
     },
     async post() {
         if (!$refs.form.checkValidity()) return
-        let response = await fetch(api_url + '/api/users', {
+        let response = await fetch('<%= api_url %>/users', {
             method: 'POST',
             body: JSON.stringify({user: this.user}),
             headers: {'Content-Type': 'application/json'}
@@ -18,7 +18,7 @@
         if (get_cookie('logged_in')) document.location.href = '/home'
     },
     async login() {
-        let response = await fetch(api_url + '/api/auth/login', {
+        let response = await fetch('<%= api_url %>/auth/login', {
             method: 'POST',
             headers: {'Authorization': 'Basic ' + btoa(this.user.email + ':' + this.user.password)},
             credentials: 'same-origin'

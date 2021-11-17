@@ -11,7 +11,7 @@
 		}
     },
 	async get() {
-		let response = await fetch(api_url + '/api/auth/check', {
+		let response = await fetch('<%= api_url %>/auth/check', {
             credentials: 'same-origin'
         })
 		if (!response.ok) return alert(response.status + ' ' + response.statusText)
@@ -20,7 +20,7 @@
 		this.session = response_json.session
 	},
 	async logout() {
-		let response = await fetch(api_url + '/api/auth/logout', {
+		let response = await fetch('<%= api_url %>/auth/logout', {
             method: 'POST',
             credentials: 'same-origin'
         })

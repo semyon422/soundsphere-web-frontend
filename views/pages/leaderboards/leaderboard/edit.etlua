@@ -1,7 +1,7 @@
 <div id="leaderboard-edit" x-data="{
     leaderboard: {},
     async get() {
-		let response = await fetch(api_url + '/api/leaderboards/' + <%= params.leaderboard_id %>, {
+		let response = await fetch('<%= api_url %>/leaderboards/' + <%= params.leaderboard_id %>, {
             credentials: 'same-origin'
         })
 		if (!response.ok) return alert(response.status + ' ' + response.statusText)
@@ -10,7 +10,7 @@
 		this.leaderboard = response_json.leaderboard
     },
     async patch() {
-		let response = await fetch(api_url + '/api/leaderboards/' + this.leaderboard.id, {
+		let response = await fetch('<%= api_url %>/leaderboards/' + this.leaderboard.id, {
             method: 'PATCH',
 			body: JSON.stringify({leaderboard: this.leaderboard}),
 			headers: {'Content-Type': 'application/json'},
@@ -35,11 +35,11 @@
             <h1>Leaderboard settings</h1>
 
 
-            <?php require('components/modals/delete.php'); ?>
-            <?php require('components/modals/add-modifier.php'); ?>
-            <?php require('components/modals/add-bms-table.php'); ?>
-            <?php require('components/modals/confirm-delete.php'); ?>
-            <?php require('components/modals/add-input-mode.php'); ?>
+            <% render("views.components.modals.delete") %>
+            <% render("views.components.modals.add-modifier") %>
+            <% render("views.components.modals.add-bms-table") %>
+            <% render("views.components.modals.confirm-delete") %>
+            <% render("views.components.modals.add-input-mode") %>
             <section id="form-section">
                 <form class="crud-form" action="?a=leaderboards_leaderboard1_index" method="post">
                     <div class="form-item">

@@ -1,7 +1,7 @@
 <div id="communities" x-data="{
     methods: [],
     async get() {
-		let response = await fetch(api_url + '/ac/communities', {
+		let response = await fetch('<%= access_url %>/communities', {
             credentials: 'same-origin'
         })
 		if (!response.ok) return alert(response.status + ' ' + response.statusText)
