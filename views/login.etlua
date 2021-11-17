@@ -22,7 +22,7 @@
             <img src="resources/logo.png" alt="Logo">
             <h1>Please login</h1>
 
-            <section id="form-section" class="login-form">
+            <section id="form-section">
                 <form class="login-form" x-ref="form">
                     <div class="form-item form-floating">
                         <input type="email" class="form-control" id="email" name="email" placeholder="x" required x-model="user.email">
