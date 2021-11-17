@@ -103,6 +103,11 @@ ready(() => {
             loadingRecords: '&nbsp;',
             processing: 'Loading...'
         },
+        createdRow(row, data, dataIndex) {
+            if (data.joined) {
+                $(row).addClass('highlight-row')
+            }
+        },
         columns: [
             {
                 data: "name",
@@ -128,7 +133,21 @@ ready(() => {
             {
                 className: 'table-icon-row',
                 render(data, type, row, meta) {
-                    return '<a href="#" class="table-icon teal teal-h" title="Join community"><i class="fas fa-sign-in-alt"></i></a>'
+                    if (row.joined) {
+                        return `
+                            <a href="/communities/` + row.id + `/edit" class="table-icon table-icon-s orange orange-h" title="Edit community">
+                                <i class="fas fa-pen"></i>
+                            </a>
+                            <a href="#!" class="table-icon red red-h" title="Leave community" data-bs-toggle="modal" data-bs-target="#delete-modal">
+                                <i class="fas fa-sign-out-alt"></i>
+                            </a>
+                        `
+                    }
+                    return `
+                        <a href="#!" class="table-icon teal teal-h" title="Join community" data-bs-toggle="modal" data-bs-target="#create-player-request-2-modal">
+                            <i class="fas fa-sign-in-alt"></i>
+                        </a>
+                    `
                 }
             },
         ]
