@@ -30,7 +30,7 @@
                     </div>
                 </div>
 
-                <table class="data-table data-table-leaderboards table table-icon-col-last" data-insert-top="leaderboards-insert-top">
+                <table id="#table-leaderboards" class="data-table table table-icon-col-last" data-insert-top="leaderboards-insert-top">
                     <thead>
                         <tr>
                             <th title="Leaderboard name">Name</th>
@@ -63,7 +63,7 @@
 </div>
 <script>
 ready(() =>
-    dtInit(document.querySelector(".data-table-leaderboards"), {
+    dtInit(document.querySelector("#table-leaderboards"), {
         ...dtAllOptions,
         scrollX: true,
         serverSide: true,

@@ -102,7 +102,7 @@
                     </div>
                 </div>
 
-                <table class="data-table data-table-notechart-scores table table-icon-col-last" id="scores-table" data-insert-top="scores-insert-top" data-insert-bottom="scores-insert-bottom" data-toggle-cols="">
+                <table id="table-notechart-scores" class="data-table table table-icon-col-last" id="scores-table" data-insert-top="scores-insert-top" data-insert-bottom="scores-insert-bottom" data-toggle-cols="">
                     <thead>
                         <tr>
                             <th class="table-col-minwidth" title="Players chart rank">Rank</th>
@@ -207,7 +207,7 @@
 </div>
 <script>
 ready(() => {
-    dtInit(document.querySelector(".data-table-notechart-scores"), {
+    dtInit(document.querySelector("#table-notechart-scores"), {
         ...dtAllOptions,
         serverSide: true,
         ajax: "/dt/notecharts/<%= params.notechart_id %>/scores",
