@@ -41,7 +41,3 @@ function delete_cookie(name) {
 }
 
 const encode_get_params = p => "?" + Object.entries(p).map(kv => kv.map(encodeURIComponent).join("=")).join("&");
-
-token_user = {
-	user_id: undefined
-}
