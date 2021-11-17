@@ -34,7 +34,7 @@ function bms_tables() {return {
 
 
             <section id="bms-tables-section">
-                <table id="table-tables" class="data-table table">
+                <table id="tables-table" class="data-table table">
                     <thead>
                         <tr>
                             <th title="Table name">Name</th>
@@ -60,7 +60,7 @@ function bms_tables() {return {
 </div>
 <script>
 ready(() =>
-    dtInit(document.querySelector("#table-tables"), {
+    dtInit(document.querySelector("#tables-table"), {
         ...dtAllOptions,
         scrollX: true,
         serverSide: true,

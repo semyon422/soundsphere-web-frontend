@@ -165,7 +165,7 @@ function leaderboard() {return {
                     <div class="col-sm-6">
                         <h2>Communities</h2>
 
-                        <table id="table-leaderboard-communities" class="data-table table table-icon-col-first table-icon-col-last">
+                        <table id="leaderboard-communities-table" class="data-table table table-icon-col-first table-icon-col-last">
                             <thead>
                                 <tr>
                                     <th title="Rank on leaderboard by performance rating">Rank</th>
@@ -225,7 +225,7 @@ function leaderboard() {return {
                     <div class="col-sm-6">
                         <h2>Tables</h2>
 
-                        <table id="table-leaderboard-tables" class="data-table table" data-orders="1a 0a">
+                        <table id="leaderboard-tables-table" class="data-table table" data-orders="1a 0a">
                             <thead>
                                 <tr>
                                     <th title="Table name">Name</th>
@@ -270,7 +270,7 @@ function leaderboard() {return {
                     </div>
                 </div>
 
-                <table id="table-leaderboard-users" class="data-table table" data-insert-top="ranking-insert-top" data-insert-bottom="ranking-insert-bottom">
+                <table id="leaderboard-users-table" class="data-table table" data-insert-top="ranking-insert-top" data-insert-bottom="ranking-insert-bottom">
                     <thead>
                         <tr>
                             <th class="table-col-minwidth" title="Player rank in leaderboard">Rank</th>
@@ -326,7 +326,7 @@ function leaderboard() {return {
 </div>
 <script>
 ready(() => {
-    dtInit(document.querySelector("#table-leaderboard-communities"), {
+    dtInit(document.querySelector("#leaderboard-communities-table"), {
         ...dtColOptions,
         scrollX: true,
         serverSide: true,
@@ -344,7 +344,7 @@ ready(() => {
             {data: "name"},
         ]
     })
-    dtInit(document.querySelector("#table-leaderboard-tables"), {
+    dtInit(document.querySelector("#leaderboard-tables-table"), {
         ...dtColOptions,
         scrollX: true,
         serverSide: true,
@@ -356,7 +356,7 @@ ready(() => {
             {data: "name"},
         ]
     })
-    dtInit(document.querySelector("#table-leaderboard-users"), {
+    dtInit(document.querySelector("#leaderboard-users-table"), {
         ...dtAllOptions,
         scrollX: true,
         serverSide: true,
