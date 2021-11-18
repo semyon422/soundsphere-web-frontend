@@ -149,7 +149,7 @@ function community() {return {
                     <div class="col">
                         <form class="table-form table-form-top">
                             <select class="form-select form-select-sm" id="members-leaderboard" name="leaderboard" title="Leaderboard used for member ranks and plays">
-                                <option value="Leaderboard1" selected>Leaderboard1</option>
+                                <option value="1" selected>Leaderboard1</option>
                             </select>
                         </form>
                     </div>
@@ -256,9 +256,26 @@ ready(() => {
     dtInit(document.querySelector("#community-users-table"), {
         ...dtAllOptions,
         serverSide: true,
-        ajax: "/dt/communities/<%= params.community_id %>/users",
+        ajax: {
+            url: "/dt/communities/<%= params.community_id %>/leaderboards/" + $("#members-leaderboard").val() + "/users",
+            type: "POST",
+            data(d) {
+                d.admins_only = $("#members-only-show-admins").is(':checked') ? 1 : 0
+                d.leaderboard_id = parseInt($("#members-leaderboard").val())
+            }
+        },
+        initComplete(settings, json) {
+            $("#communities-hide-joined-communities").change(() => {
+                dt.ajax.reload(null, false)
+            })
+        },
         columns: [
-            {data: "id"},
+            {
+                data: "rank",
+                render(data, type, row, meta) {
+                    return '#' + data;
+                }
+            },
             {data: "id"},
             {
                 data: "name",
@@ -266,11 +283,21 @@ ready(() => {
                     return '<a href="/users/' + row.id + '">' + data + '</a>';
                 }
             },
-            {data: "name"},
-            {data: "name"},
+            {data: "total_performance"},
             {data: "name"},
             {data: "name"},
             {data: "latest_activity"},
+            {
+                render(data, type, row, meta) {
+                    return `
+                    <td class="table-icon-cell">
+                        <a href="#!" class="table-icon table-icon-l table-icon-hide red red-h" title="Kick member" data-bs-toggle="modal" data-bs-target="#delete-modal">
+                            <i class="fas fa-times"></i>
+                        </a>
+                    </td>
+                    `
+                }
+            },
         ]
     })
 })
