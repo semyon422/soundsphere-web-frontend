@@ -1,7 +1,4 @@
-
 // response.ok 200-299 https://learn.javascript.ru/fetch
-
-api_url = "http://localhost"
 
 // https://learn.javascript.ru/cookie
 function get_cookie(name) {
@@ -41,7 +38,3 @@ function delete_cookie(name) {
 }
 
 const encode_get_params = p => "?" + Object.entries(p).map(kv => kv.map(encodeURIComponent).join("=")).join("&");
-
-token_user = {
-	user_id: undefined
-}

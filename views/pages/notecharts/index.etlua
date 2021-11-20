@@ -5,7 +5,7 @@
 
 
             <section id="charts-section">
-                <table class="data-table data-table-notecharts table table-icon-col-first" data-orders="3a 1a 2a">
+                <table id="notecharts-table" class="data-table table table-icon-col-first" data-orders="3a 1a 2a">
                     <thead>
                         <tr>
                             <th class="table-icon-th"></th>
@@ -87,7 +87,7 @@
 </div>
 <script>
 ready(() =>
-    dtInit(document.querySelector(".data-table-notecharts"), {
+    dtInit(document.querySelector("#notecharts-table"), {
         ...dtAllOptions,
         scrollX: true,
         serverSide: true,

@@ -1,4 +1,5 @@
-<div id="communities-create" x-data="{
+<script>
+function communities_create() {return {
     community: {
         name: '',
         alias: '',
@@ -6,20 +7,24 @@
         short_description: '',
         description: '',
         banner: '',
-        is_public: '',
+        is_public: false,
     },
 	async post() {
-		let response = await fetch(api_url + '/api/communities' + encode_get_params({user_id: token_user.user_id}), {
+        if (!this.$refs.form.checkValidity()) return
+		let response = await fetch('<%= api_url %>/communities', {
 			method: 'POST',
-			body: JSON.stringify(this.community),
-			headers: {'Content-Type': 'application/json'}
+			body: JSON.stringify({community: this.community}),
+			headers: {'Content-Type': 'application/json'},
+            credentials: 'same-origin'
 		})
 		if (!response.ok) return alert(response.status + ' ' + response.statusText)
 		let response_json = await response.json()
 		if (!response_json.community) return console.log(response_json)
         document.location.href = '/communities/' + response_json.community.id
 	},
-}">
+}}
+</script>
+<div id="communities-create" x-data="communities_create">
     <main class="container-lg">
         <div id="main-box">
             <nav class="navbar-expand page-icons page-icons-left page-icons-never-collapsed">
@@ -35,7 +40,7 @@
             <h1>Make a community</h1>
 
             <section id="form-section">
-                <div class="crud-form">
+                <form class="crud-form" x-ref="form">
                     <div class="row">
                         <div class="col-sm-9">
                             <div class="form-item">
@@ -74,11 +79,11 @@
 
                     <div class="form-item form-check">
                         <label for="is-public" class="form-check-label" title="Anyone can join public communities. Private communities have an invite system.">The community is public.</label>
-                        <input type="checkbox" class="form-check-input" id="is-public" name="is-public" checked  x-model="community.is_public">
+                        <input type="checkbox" class="form-check-input" id="is-public" name="is-public" checked x-model="community.is_public">
                     </div>
 
-                    <button type="submit" class="btn bg-blue bg-blue-h" @click="post()">Create</button>
-                </div>
+                    <button type="button" class="btn bg-blue bg-blue-h" @click="post()">Create</button>
+                </form>
             </section>
         </div>
     </main>

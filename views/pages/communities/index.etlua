@@ -1,7 +1,21 @@
-<div id="communities">
+<script>
+function communities() {return {
+    methods: [],
+    async get() {
+		let response = await fetch('<%= access_url %>/communities', {
+            credentials: 'same-origin'
+        })
+		if (!response.ok) return alert(response.status + ' ' + response.statusText)
+		let response_json = await response.json()
+		if (!response_json.methods) return console.log(response_json)
+		this.methods = response_json.methods
+    },
+}}
+</script>
+<div id="communities" x-data="communities" x-init="get()" x-cloak>
     <main class="container-lg">
         <div id="main-box">
-            <nav class="navbar-expand page-icons page-icons-right page-icons-never-collapsed">
+            <nav x-show="methods.includes('POST')" class="navbar-expand page-icons page-icons-right page-icons-never-collapsed">
                 <div class="navbar-nav">
                     <a href="/communities/create" class="page-icon" title="Create community">
                         <div class="page-icon-box">
@@ -28,7 +42,7 @@
                         </form>
                     </div>
                 </div>
-                <table class="data-table data-table-communities table table-icon-col-last" data-insert-top="communities-insert-top">
+                <table id="communities-table" class="data-table table table-icon-col-last" data-insert-top="communities-insert-top">
                     <thead>
                         <tr>
                             <th title="Community name">Name</th>
@@ -40,7 +54,6 @@
                             <th class="table-icon-th"></th>
                         </tr>
                     </thead>
-                    <tbody></tbody>
                     <tfoot>
                         <tr>
                             <th title="Community name">Name</th>
@@ -57,13 +70,44 @@
         </div>
     </main>
 </div>
+
 <script>
-ready(() =>
-    dtInit(document.querySelector(".data-table-communities"), {
+ready(() => {
+    var dt
+    dt = dtInit(document.querySelector("#communities-table"), {
         ...dtAllOptions,
         scrollX: true,
         serverSide: true,
-        ajax: "/dt/communities",
+        ajax: {
+            url: "/dt/communities",
+            type: "POST",
+            data(d) {
+                d.hide_joined = $("#communities-hide-joined-communities").is(':checked') ? 1 : 0
+            }
+            // data(d) {
+            //     var frm_data = $('.table-form-top').serializeArray();
+            //     $.each(frm_data, function(key, val) {
+            //         if (val.name == "hide-joined-communities") d.hide_joined = true
+            //         // d[val.name] = val.value;
+            //     })
+            //     console.log(d)
+            // }
+        },
+        initComplete(settings, json) {
+            $("#communities-hide-joined-communities").change(() => {
+                dt.ajax.reload(null, false)
+            })
+        },
+        processing: true,
+        language: {
+            loadingRecords: '&nbsp;',
+            processing: 'Loading...'
+        },
+        createdRow(row, data, dataIndex) {
+            if (data.joined) {
+                $(row).addClass('highlight-row')
+            }
+        },
         columns: [
             {
                 data: "name",
@@ -72,7 +116,12 @@ ready(() =>
                 }
             },
             {data: "alias"},
-            {data: "public"},
+            {
+                data: "is_public",
+                render(data, type, row, meta) {
+                    return row.is_public ? 'Yes' : 'No'
+                }
+            },
             {
                 data: "inputmodes",
                 render(data, type, row, meta) {
@@ -80,14 +129,28 @@ ready(() =>
                 }
             },
             {data: "users_count"},
-            {data: "description"},
+            {data: "short_description"},
             {
                 className: 'table-icon-row',
                 render(data, type, row, meta) {
-                    return '<a href="#" class="table-icon teal teal-h" title="Join community"><i class="fas fa-sign-in-alt"></i></a>'
+                    if (row.joined) {
+                        return `
+                            <a href="/communities/` + row.id + `/edit" class="table-icon table-icon-s orange orange-h" title="Edit community">
+                                <i class="fas fa-pen"></i>
+                            </a>
+                            <a href="#!" class="table-icon red red-h" title="Leave community" data-bs-toggle="modal" data-bs-target="#delete-modal">
+                                <i class="fas fa-sign-out-alt"></i>
+                            </a>
+                        `
+                    }
+                    return `
+                        <a href="#!" class="table-icon teal teal-h" title="Join community" data-bs-toggle="modal" data-bs-target="#create-player-request-2-modal">
+                            <i class="fas fa-sign-in-alt"></i>
+                        </a>
+                    `
                 }
             },
         ]
     })
-)
+})
 </script>

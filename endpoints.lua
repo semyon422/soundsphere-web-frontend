@@ -1,105 +1,99 @@
 return {
 	{
 		path = "/",
-		view = "home"
+		view = "pages.home"
 	},
 	{
 		path = "/home",
-		view = "home"
+		view = "pages.home"
 	},
 	{
 		path = "/login",
-		view = "login"
+		view = "pages.login"
 	},
 	{
 		path = "/register",
-		view = "register"
+		view = "pages.register"
 	},
-
 	{
 		path = "/communities",
-		view = "communities.index"
+		view = "pages.communities.index"
 	},
 	{
 		path = "/communities/create",
-		view = "communities.create"
+		view = "pages.communities.create"
 	},
 	{
 		path = "/communities/:community_id",
-		view = "communities.community.index"
+		view = "pages.communities.community.index"
 	},
 	{
 		path = "/communities/:community_id/edit",
-		view = "communities.community.edit"
+		view = "pages.communities.community.edit"
 	},
 	{
 		path = "/communities/:community_id/changes",
-		view = "communities.community.changes"
+		view = "pages.communities.community.changes"
 	},
 	{
 		path = "/communities/:community_id/leaderboards/create",
-		view = "leaderboards.create"
+		view = "pages.leaderboards.create"
 	},
-
 	{
 		path = "/leaderboards",
-		view = "leaderboards.index"
+		view = "pages.leaderboards.index"
 	},
 	{
 		path = "/leaderboards/:leaderboard_id",
-		view = "leaderboards.leaderboard.index"
+		view = "pages.leaderboards.leaderboard.index"
 	},
 	{
 		path = "/leaderboards/:leaderboard_id/settings",
-		view = "leaderboards.leaderboard.settings"
+		view = "pages.leaderboards.leaderboard.settings"
 	},
-
 	{
 		path = "/tables",
-		view = "tables.index"
+		view = "pages.tables.index"
 	},
 	{
 		path = "/tables/:table_id",
-		view = "tables.table"
+		view = "pages.tables.table.index"
 	},
-
 	{
 		path = "/users",
-		view = "users.index"
+		view = "pages.users.index"
 	},
 	{
 		path = "/users/:user_id",
-		view = "users.user.index"
+		view = "pages.users.user.index"
 	},
 	{
 		path = "/users/:user_id/settings",
-		view = "users.user.settings"
+		view = "pages.users.user.settings"
 	},
-
 	{
 		path = "/notecharts",
-		view = "notecharts.index"
+		view = "pages.notecharts.index"
 	},
 	{
 		path = "/notecharts/:notechart_id",
-		view = "notecharts.notechart"
+		view = "pages.notecharts.notechart.index"
 	},
-
 	{
 		path = "/help",
-		view = "help"
+		view = "pages.help"
 	},
 	{
 		path = "/download",
-		view = "download"
+		view = "pages.download"
 	},
 	{
 		path = "/notfound",
-		view = "404"
+		view = "pages.404"
 	},
 	{
 		path = "notfound",
-		view = "404"
+		view = "pages.404"
 	},
 }
 

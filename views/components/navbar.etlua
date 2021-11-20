@@ -1,18 +1,38 @@
-<nav id="primary-navbar" class="navbar navbar-expand-lg navbar-dark fixed-top bg-blue" x-data="{
+<script>
+function primary_navbar() {return {
 	open: false,
 	logged_in: false,
-	user_id: 0,
-	update_payload() {
-		let cookie = get_cookie('user_id');
+	session: {},
+    update() {
+		let cookie = get_cookie('logged_in');
 		if (cookie) {
 			this.logged_in = true
-			this.user_id = cookie
 		} else {
 			this.logged_in = false
-			this.user_id = 0
 		}
-	}
-}" x-init="update_payload()" @pinecone-start.window="update_payload()">
+    },
+	async get() {
+		let response = await fetch('<%= api_url %>/auth/check', {
+            credentials: 'same-origin'
+        })
+		if (!response.ok) return alert(response.status + ' ' + response.statusText)
+		let response_json = await response.json()
+		if (!response_json.session) return console.log(response_json)
+		this.session = response_json.session
+	},
+	async logout() {
+		let response = await fetch('<%= api_url %>/auth/logout', {
+            method: 'POST',
+            credentials: 'same-origin'
+        })
+		this.session = {}
+		this.logged_in = false
+        delete_cookie('logged_in')
+        document.location.href = ''
+	},
+}}
+</script>
+<nav id="primary-navbar" class="navbar navbar-expand-lg navbar-dark fixed-top bg-blue" x-data="primary_navbar" x-init="update(); get();">
     <div class="container-lg">
         <a class="primary-navbar-icon" href="/">
             <img src="/resources/logo-trans.png" alt="Logo">
@@ -34,27 +54,21 @@
                 <a class="nav-link" href="https://dl.soundsphere.xyz/soundsphere.zip" target="_blank" rel="noopener">Download</a>
             </div>
 
-            <div class="navbar-nav">
-                <template x-if="logged_in">
-                    <a class="nav-link" :href="'/users/' + user_id">
-                        Profile
-                    </a>
-                </template>
-                <template x-if="logged_in">
-                    <a class="nav-link" href="/" @click="delete_cookie('user_id'); update_payload();">
-                        Logout
-                    </a>
-                </template>
-                <template x-if="!logged_in">
-                    <a class="nav-link" href="/login">
-                        Login
-                    </a>
-                </template>
-                <template x-if="!logged_in">
-                    <a class="nav-link" href="/register">
-                        Register
-                    </a>
-                </template>
+            <div class="navbar-nav" x-show="logged_in" x-cloak>
+                <a class="nav-link" :href="session.user_id ? '/users/' + session.user_id : '/'">
+                    Profile
+                </a>
+                <a class="nav-link" href="#" @click="logout()">
+                    Logout
+                </a>
+            </div>
+            <div class="navbar-nav" x-show="!logged_in" x-cloak>
+                <a class="nav-link" href="/login">
+                    Login
+                </a>
+                <a class="nav-link" href="/register">
+                    Register
+                </a>
             </div>
         </div>
     </div>

@@ -1,18 +1,22 @@
-<div id="leaderboard" x-data="{
+<script>
+function leaderboard() {return {
     leaderboard: {},
     async get() {
 		let response = await fetch(
-            api_url +
-            '/api/leaderboards/' +
-            document.location.href = <%= params.leaderboard_id %> +
-            encode_get_params({users: 0, inputmodes: -1, communities: 0})
+            '<%= api_url %>/leaderboards/<%= params.leaderboard_id %>' +
+            encode_get_params({users: 0, inputmodes: -1, communities: 0}),
+            {
+                credentials: 'same-origin'
+            }
         )
 		if (!response.ok) return alert(response.status + ' ' + response.statusText)
 		let response_json = await response.json()
 		if (!response_json.leaderboard) return console.log(response_json)
 		this.leaderboard = response_json.leaderboard
     },
-}" x-init="get()">
+}}
+</script>
+<div id="leaderboard" x-data="leaderboard" x-init="get()">
     <% render("views.components.modals.properties") %>
 
 
@@ -161,7 +165,7 @@
                     <div class="col-sm-6">
                         <h2>Communities</h2>
 
-                        <table class="data-table data-table-leaderboard-communities table table-icon-col-first table-icon-col-last">
+                        <table id="leaderboard-communities-table" class="data-table table table-icon-col-first table-icon-col-last">
                             <thead>
                                 <tr>
                                     <th title="Rank on leaderboard by performance rating">Rank</th>
@@ -221,7 +225,7 @@
                     <div class="col-sm-6">
                         <h2>Tables</h2>
 
-                        <table class="data-table data-table-leaderboard-tables table" data-orders="1a 0a">
+                        <table id="leaderboard-tables-table" class="data-table table" data-orders="1a 0a">
                             <thead>
                                 <tr>
                                     <th title="Table name">Name</th>
@@ -266,7 +270,7 @@
                     </div>
                 </div>
 
-                <table class="data-table data-table-leaderboard-users table" data-insert-top="ranking-insert-top" data-insert-bottom="ranking-insert-bottom">
+                <table id="leaderboard-users-table" class="data-table table" data-insert-top="ranking-insert-top" data-insert-bottom="ranking-insert-bottom">
                     <thead>
                         <tr>
                             <th class="table-col-minwidth" title="Player rank in leaderboard">Rank</th>
@@ -322,7 +326,7 @@
 </div>
 <script>
 ready(() => {
-    dtInit(document.querySelector(".data-table-leaderboard-communities"), {
+    dtInit(document.querySelector("#leaderboard-communities-table"), {
         ...dtColOptions,
         scrollX: true,
         serverSide: true,
@@ -340,7 +344,7 @@ ready(() => {
             {data: "name"},
         ]
     })
-    dtInit(document.querySelector(".data-table-leaderboard-tables"), {
+    dtInit(document.querySelector("#leaderboard-tables-table"), {
         ...dtColOptions,
         scrollX: true,
         serverSide: true,
@@ -352,7 +356,7 @@ ready(() => {
             {data: "name"},
         ]
     })
-    dtInit(document.querySelector(".data-table-leaderboard-users"), {
+    dtInit(document.querySelector("#leaderboard-users-table"), {
         ...dtAllOptions,
         scrollX: true,
         serverSide: true,

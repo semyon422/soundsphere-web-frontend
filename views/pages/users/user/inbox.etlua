@@ -13,8 +13,8 @@
 
             <h1>Inbox</h1>
 
-            
-            <?php require('components/modals/delete.php'); ?>
+
+            <% render("views.components.modals.delete") %>
             <section id="incoming-invites-section">
                 <h2>Incoming invites</h2>
 
@@ -47,7 +47,7 @@
                 </table>
             </section>
 
-            <?php require('components/modals/create-player-request.php'); ?>
+            <% render("views.components.modals.create-player-request") %>
             <section id="outgoing-requests-section">
                 <h2>
                     Outgoing requests

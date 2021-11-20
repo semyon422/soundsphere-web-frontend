@@ -1,24 +1,25 @@
-<div id="register" x-data="{
+<script>
+function register() {return {
     user: {
         name: '',
         email: '',
         password: '',
     },
-    token: null,
     async post() {
-        let response = await fetch(api_url + '/api/users', {
+        if (!this.$refs.form.checkValidity()) return
+        let response = await fetch('<%= api_url %>/users', {
             method: 'POST',
-            body: JSON.stringify(this.user),
+            body: JSON.stringify({user: this.user}),
             headers: {'Content-Type': 'application/json'}
         })
         if (!response.ok) return alert(response.status + ' ' + response.statusText)
         let response_json = await response.json()
         if (!response_json.user) return console.log(response_json)
         await this.login()
-        if (get_cookie('user_id')) document.location.href = '/home'
+        if (get_cookie('logged_in')) document.location.href = '/home'
     },
     async login() {
-        let response = await fetch(api_url + '/api/auth/login', {
+        let response = await fetch('<%= api_url %>/auth/login', {
             method: 'POST',
             headers: {'Authorization': 'Basic ' + btoa(this.user.email + ':' + this.user.password)},
             credentials: 'same-origin'
@@ -26,16 +27,17 @@
         if (!response.ok) return alert(response.status + ' ' + response.statusText)
         let response_json = await response.json()
         if (!response_json.token) return console.log(response_json)
-        set_cookie('user_id', response_json.session.user_id)
+        set_cookie('logged_in', true)
     },
-}">
+}}
+</script>
+<div id="register" x-data="register">
     <main class="container-lg">
         <div id="main-box">
-            <div class="form-login text-center">
-                <img src="resources/logo.png" alt="Logo">
-                <h1>Make an account</h1>
-
-                <section id="form-section">
+            <img src="resources/logo.png" alt="Logo">
+            <h1>Make an account</h1>
+            <section id="form-section">
+                <form class="login-form" x-ref="form">
                     <div class="form-item form-floating">
                         <input type="text" class="form-control" id="username" name="username" placeholder="x" required x-model="user.name">
                         <label>Username</label>
@@ -52,13 +54,13 @@
                     </div>
 
                     <div class="form-item form-floating">
-                        <input type="password" class="form-control" id="confirm-password" name="confirm-password" placeholder="x" required x-model="user.password">
+                        <input type="password" class="form-control" id="confirm-password" name="confirm-password" placeholder="x" required>
                         <label>Confirm password</label>
                     </div>
 
-                    <button type="submit" class="btn btn-lg bg-blue bg-blue-h" @click="post">Register</button>
-                </section>
-            </div>
+                    <button type="button" class="btn btn-lg bg-blue bg-blue-h" @click="post">Register</button>
+                </form>
+            </section>
         </div>
     </main>
 </div>
