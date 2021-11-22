@@ -58,7 +58,7 @@ function register() {return {
                         <label>Confirm password</label>
                     </div>
 
-                    <button type="button" class="btn btn-lg bg-blue bg-blue-h" @click="post">Register</button>
+                    <button type="submit" class="btn btn-lg bg-blue bg-blue-h" @click="post">Register</button>
                 </form>
             </section>
         </div>

@@ -162,7 +162,7 @@ function leaderboards_create() {return {
                         </table>
                     </div>
 
-                    <button type="button" class="btn bg-blue bg-blue-h" @click="post">Create</button>
+                    <button type="submit" class="btn bg-blue bg-blue-h" @click="post">Create</button>
                 </form>
             </section>
         </div>

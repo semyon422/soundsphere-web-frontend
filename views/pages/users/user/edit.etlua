@@ -42,7 +42,7 @@ function player_edit() {return {
             <% render("views.components.modals.add-input-mode") %>
             <% render("views.components.modals.confirm-delete") %>
             <section id="form-section">
-                <form class="crud-form" action="?a=players_player1_index" method="post">
+                <form class="crud-form">
                     <label for="username" id="username-preview" title="A preview that shows how your username will look">Player1</label>
                     <div class="form-item input-group">
                         <input type="color" class="form-control form-control-color" id="username-color-l" name="username-color-l" required value="#000000" title="The lefter color of your username">

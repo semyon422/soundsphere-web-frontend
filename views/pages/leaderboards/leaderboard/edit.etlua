@@ -44,7 +44,7 @@ function leaderboard_edit() {return {
             <% render("views.components.modals.confirm-delete") %>
             <% render("views.components.modals.add-input-mode") %>
             <section id="form-section">
-                <form class="crud-form" action="?a=leaderboards_leaderboard1_index" method="post">
+                <form class="crud-form">
                     <div class="form-item">
                         <label for="leaderboard-name" class="form-label form-required" title="Leaderboard name">Name</label>
                         <input type="text" class="form-control" id="leaderboard-name" name="leaderboard-name" minlength="5" maxlength="30" required value="Leaderboard1">

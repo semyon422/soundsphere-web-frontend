@@ -82,7 +82,7 @@ function communities_create() {return {
                         <input type="checkbox" class="form-check-input" id="is-public" name="is-public" checked x-model="community.is_public">
                     </div>
 
-                    <button type="button" class="btn bg-blue bg-blue-h" @click="post()">Create</button>
+                    <button type="submit" class="btn bg-blue bg-blue-h" @click="post()">Create</button>
                 </form>
             </section>
         </div>

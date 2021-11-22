@@ -219,10 +219,10 @@ ready(() => {
         addEventListeners(document.querySelectorAll("form"), "submit", (e) => {
             let form = e.target;
 
-            if (!form.checkValidity()) {
+            // if (!form.checkValidity()) {
                 e.preventDefault();
                 e.stopPropagation();
-            }
+            // }
         });
 
 
