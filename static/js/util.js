@@ -38,3 +38,18 @@ function delete_cookie(name) {
 }
 
 const encode_get_params = p => "?" + Object.entries(p).map(kv => kv.map(encodeURIComponent).join("=")).join("&");
+
+async function handle_500(response) {
+	if (response.status != 500) return
+	let response_json = await response.json()
+	if (response_json.trace) {
+		console.log(response_json.err)
+		console.log(response_json.trace)
+		return true
+	}
+}
+
+async function handle_not_ok(response) {
+	alert(response.status + ' ' + response.statusText)
+	return handle_500(response)
+}

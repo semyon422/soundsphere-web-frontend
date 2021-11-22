@@ -160,6 +160,30 @@ function dtSetInsert(insertId, insertHTML) {
     document.querySelector("." + insertId).outerHTML = insertHTML;
 }
 
+
+function validateInput(input) {
+    if (input.validity.valid) {
+        hideInvalidMessage(input);
+    } else {
+        showInvalidMessage(input);
+    }
+}
+
+
+function showInvalidMessage(input) {
+    input.classList.add("form-invalid");
+
+    let messageDiv = getSiblingByClass(input, "form-invalid-message");
+    messageDiv.innerHTML = input.validationMessage;
+}
+
+function hideInvalidMessage(input) {
+    input.classList.remove("form-invalid");
+
+    let messageDiv = getSiblingByClass(input, "form-invalid-message");
+    messageDiv.innerHTML = "";
+}
+
 ready(() => {
     if (document.getElementById("properties-modal") != null) {
         var propModal = document.getElementById("properties-modal");
@@ -224,30 +248,6 @@ ready(() => {
                 e.stopPropagation();
             // }
         });
-
-
-        function validateInput(input) {
-            if (input.validity.valid) {
-                hideInvalidMessage(input);
-            } else {
-                showInvalidMessage(input);
-            }
-        }
-
-        
-        function showInvalidMessage(input) {
-            input.classList.add("form-invalid");
-
-            let messageDiv = getSiblingByClass(input, "form-invalid-message");
-            messageDiv.innerHTML = input.validationMessage;
-        }
-
-        function hideInvalidMessage(input) {
-            input.classList.remove("form-invalid");
-
-            let messageDiv = getSiblingByClass(input, "form-invalid-message");
-            messageDiv.innerHTML = "";
-        }
     }
 
 

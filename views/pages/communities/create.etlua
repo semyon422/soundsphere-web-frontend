@@ -17,7 +17,7 @@ function communities_create() {return {
 			headers: {'Content-Type': 'application/json'},
             credentials: 'same-origin'
 		})
-		if (!response.ok) return alert(response.status + ' ' + response.statusText)
+        if (!response.ok && await handle_not_ok(response)) return
 		let response_json = await response.json()
 		if (!response_json.community) return console.log(response_json)
         document.location.href = '/communities/' + response_json.community.id

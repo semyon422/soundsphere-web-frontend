@@ -11,8 +11,11 @@ function login() {return {
             headers: {'Authorization': 'Basic ' + btoa(this.user.email + ':' + this.user.password)},
             credentials: 'same-origin'
         })
-        if (!response.ok) return alert(response.status + ' ' + response.statusText)
+        if (!response.ok && await handle_not_ok(response)) return
         let response_json = await response.json()
+        if (response_json.message) {
+            this.$refs.form_invalid_message.innerHTML = response_json.message
+        }
         if (!response_json.token) return console.log(response_json)
         set_cookie('logged_in', true)
         document.location.href = '/home'
@@ -36,6 +39,8 @@ function login() {return {
                         <input type="password" class="form-control" id="password" name="password" placeholder="x" required x-model="user.password">
                         <label>Password</label>
                     </div>
+
+                    <div class="form-invalid-message" x-ref="form_invalid_message"></div>
 
                     <div class="form-item form-check">
                         <label for="remember-me" class="form-check-label" title="Stay logged in on this device">

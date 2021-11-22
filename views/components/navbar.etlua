@@ -15,7 +15,7 @@ function primary_navbar() {return {
 		let response = await fetch('<%= api_url %>/auth/check', {
             credentials: 'same-origin'
         })
-		if (!response.ok) return alert(response.status + ' ' + response.statusText)
+        if (!response.ok && await handle_not_ok(response)) return
 		let response_json = await response.json()
 		if (!response_json.session) return console.log(response_json)
 		this.session = response_json.session

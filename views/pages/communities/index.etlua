@@ -5,7 +5,7 @@ function communities() {return {
 		let response = await fetch('<%= access_url %>/communities', {
             credentials: 'same-origin'
         })
-		if (!response.ok) return alert(response.status + ' ' + response.statusText)
+        if (!response.ok && await handle_not_ok(response)) return
 		let response_json = await response.json()
 		if (!response_json.methods) return console.log(response_json)
 		this.methods = response_json.methods

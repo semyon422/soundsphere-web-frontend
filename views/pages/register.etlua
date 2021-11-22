@@ -12,8 +12,11 @@ function register() {return {
             body: JSON.stringify({user: this.user}),
             headers: {'Content-Type': 'application/json'}
         })
-        if (!response.ok) return alert(response.status + ' ' + response.statusText)
+        if (!response.ok && await handle_not_ok(response)) return
         let response_json = await response.json()
+        if (response_json.message) {
+            this.$refs.form_invalid_message.innerHTML = response_json.message
+        }
         if (!response_json.user) return console.log(response_json)
         await this.login()
         if (get_cookie('logged_in')) document.location.href = '/home'
@@ -24,7 +27,7 @@ function register() {return {
             headers: {'Authorization': 'Basic ' + btoa(this.user.email + ':' + this.user.password)},
             credentials: 'same-origin'
         })
-        if (!response.ok) return alert(response.status + ' ' + response.statusText)
+        if (!response.ok && await handle_not_ok(response)) return
         let response_json = await response.json()
         if (!response_json.token) return console.log(response_json)
         set_cookie('logged_in', true)
@@ -57,6 +60,8 @@ function register() {return {
                         <input type="password" class="form-control" id="confirm-password" name="confirm-password" placeholder="x" required>
                         <label>Confirm password</label>
                     </div>
+
+                    <div class="form-invalid-message" x-ref="form_invalid_message"></div>
 
                     <button type="submit" class="btn btn-lg bg-blue bg-blue-h" @click="post">Register</button>
                 </form>
