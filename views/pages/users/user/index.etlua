@@ -9,6 +9,7 @@ function player() {return {
 		let response_json = await response.json()
 		if (!response_json.user) return console.log(response_json)
 		this.user = response_json.user
+        dtInitUser()
     },
 }}
 </script>
@@ -502,7 +503,7 @@ function player() {return {
     </main>
 </div>
 <script>
-ready(() => {
+function dtInitUser() {
     dtInit(document.querySelector("#user-communities-table"), {
         ...dtColOptions,
         scrollX: true,
@@ -527,5 +528,5 @@ ready(() => {
             {data: "name"},
         ]
     })
-})
+}
 </script>

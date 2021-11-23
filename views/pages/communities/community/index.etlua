@@ -16,6 +16,7 @@ function community() {return {
 		if (!response_json.community) return console.log(response_json)
 		this.community = response_json.community
 		this.methods = response_json.methods
+        dtInitCommunity()
     },
     async get_leave() {
 		let response = await fetch('<%= access_url %>/communities/<%= params.community_id %>/users/<%= session.user_id %>', {
@@ -205,7 +206,7 @@ function community() {return {
     </main>
 </div>
 <script>
-ready(() => {
+function dtInitCommunity() {
     dtInit(document.querySelector("#community-leaderboards-table"), {
         ...dtSlimOptions,
         scrollX: true,
@@ -300,5 +301,5 @@ ready(() => {
             },
         ]
     })
-})
+}
 </script>

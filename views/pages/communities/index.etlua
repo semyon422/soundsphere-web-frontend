@@ -9,6 +9,7 @@ function communities() {return {
 		let response_json = await response.json()
 		if (!response_json.methods) return console.log(response_json)
 		this.methods = response_json.methods
+        dtInitCommunities()
     },
 }}
 </script>
@@ -72,7 +73,7 @@ function communities() {return {
 </div>
 
 <script>
-ready(() => {
+function dtInitCommunities() {
     var dt
     dt = dtInit(document.querySelector("#communities-table"), {
         ...dtAllOptions,
@@ -152,5 +153,5 @@ ready(() => {
             },
         ]
     })
-})
+}
 </script>

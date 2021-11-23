@@ -13,6 +13,7 @@ function leaderboard() {return {
 		let response_json = await response.json()
 		if (!response_json.leaderboard) return console.log(response_json)
 		this.leaderboard = response_json.leaderboard
+        dtInitLeaderboard()
     },
 }}
 </script>
@@ -325,7 +326,7 @@ function leaderboard() {return {
     </main>
 </div>
 <script>
-ready(() => {
+function dtInitLeaderboard() {
     dtInit(document.querySelector("#leaderboard-communities-table"), {
         ...dtColOptions,
         scrollX: true,
@@ -369,5 +370,5 @@ ready(() => {
             {data: "name"},
         ]
     })
-})
+}
 </script>
