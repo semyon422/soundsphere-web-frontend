@@ -5,6 +5,7 @@ function leaderboards_create() {return {
         description: '',
     },
     tables: [],
+    added_inputmodes: [],
     added_tables: [],
     added_table_ids: [],
     tables_search: '',
@@ -37,6 +38,9 @@ function leaderboards_create() {return {
 		if (!response_json.tables) return console.log(response_json)
 		this.tables = response_json.tables
     },
+    async add_input_mode(inputmode) {
+        this.added_inputmodes.push(inputmode)
+    },
 }}
 </script>
 <div id="leaderboards-create" x-data="leaderboards_create" x-init="get_tables()">
@@ -44,7 +48,7 @@ function leaderboards_create() {return {
         <div id="main-box">
             <nav class="navbar-expand page-icons page-icons-left page-icons-never-collapsed">
                 <div class="navbar-nav">
-                    <a href="?a=leaderboards_index" class="page-icon" title="Go back to the previous page">
+                    <a href="/communities/<%= params.community_id %>" class="page-icon" title="Go back to the previous page">
                         <div class="page-icon-box">
                             <i class="fas fa-arrow-left"></i>
                         </div>
@@ -64,12 +68,12 @@ function leaderboards_create() {return {
                 <form class="crud-form" x-ref="form">
                     <div class="form-item">
                         <label for="leaderboard-name" class="form-label form-required" title="Leaderboard name">Name</label>
-                        <input type="text" class="form-control" id="leaderboard-name" name="leaderboard-name" minlength="5" maxlength="30" required>
+                        <input type="text" class="form-control" id="leaderboard-name" name="leaderboard-name" minlength="5" maxlength="30" required x-model="leaderboard.name">
                     </div>
 
                     <div class="form-item">
                         <label for="description" class="form-label form-required" title="Description shown in popup">Description</label>
-                        <textarea class="form-control" id="description" name="description" required></textarea>
+                        <textarea class="form-control" id="description" name="description" required x-model="leaderboard.description"></textarea>
                     </div>
 
                     <div class="form-item">
@@ -124,7 +128,18 @@ function leaderboards_create() {return {
                         </label>
                         <table class="data-table data-table-slim data-table-nohead table table-icon-col-last">
                             <thead><tr> <th></th> <th></th> </tr></thead>
-                            <tbody></tbody>
+                            <tbody>
+                                <template x-for="inputmode in added_inputmodes">
+                                    <tr>
+                                        <td x-text="inputmode"></td>
+                                        <td class="table-icon-cell">
+                                            <a href="#!" class="table-icon table-icon-l red red-h" title="Remove input mode" data-bs-toggle="modal" data-bs-target="#delete-modal">
+                                                <i class="fas fa-times"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </template>
+                            </tbody>
                         </table>
                     </div>
 

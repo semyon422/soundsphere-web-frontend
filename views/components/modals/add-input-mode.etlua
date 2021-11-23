@@ -1,4 +1,12 @@
-<div class="modal" id="add-input-mode-modal">
+<script>
+function addInputModeModal() {return {
+    inputmode: undefined,
+    _add_input_mode() {
+        this.add_input_mode(this.inputmode)
+    }
+}}
+</script>
+<div class="modal" id="add-input-mode-modal" x-data="addInputModeModal">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -7,7 +15,7 @@
             </div>
             <div class="modal-body">
                 <form class="modal-form">
-                    <select class="form-select" id="add-input-mode-input-mode" name="input-mode" title="The input mode to add">
+                    <select class="form-select" id="add-input-mode-input-mode" name="input-mode" title="The input mode to add" x-model="inputmode">
                         <option selected hidden>Select an input mode</option>
                         <!-- base -->
                         <option value="1key">1K</option>
@@ -40,7 +48,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn bg-teal bg-teal-h" data-bs-dismiss="modal">Add</button>
+                <button type="button" class="btn bg-teal bg-teal-h" data-bs-dismiss="modal" @click="_add_input_mode">Add</button>
                 <button type="button" class="btn bg-gray bg-gray-h" data-bs-dismiss="modal">Cancel</button>
             </div>
         </div>

@@ -48,8 +48,8 @@ return {
 		view = "pages.leaderboards.leaderboard.index"
 	},
 	{
-		path = "/leaderboards/:leaderboard_id/settings",
-		view = "pages.leaderboards.leaderboard.settings"
+		path = "/leaderboards/:leaderboard_id/edit",
+		view = "pages.leaderboards.leaderboard.edit"
 	},
 	{
 		path = "/tables",

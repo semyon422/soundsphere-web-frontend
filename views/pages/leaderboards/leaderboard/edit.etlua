@@ -2,9 +2,13 @@
 function leaderboard_edit() {return {
     leaderboard: {},
     async get() {
-		let response = await fetch('<%= api_url %>/leaderboards/<%= params.leaderboard_id %>', {
-            credentials: 'same-origin'
-        })
+		let response = await fetch(
+            '<%= api_url %>/leaderboards/<%= params.leaderboard_id %>' +
+            encode_get_params({inputmodes: -1}),
+            {
+                credentials: 'same-origin'
+            }
+        )
         if (!response.ok && await handle_not_ok(response)) return
 		let response_json = await response.json()
 		if (!response_json.leaderboard) return console.log(response_json)
@@ -20,6 +24,15 @@ function leaderboard_edit() {return {
         if (!response.ok && await handle_not_ok(response)) return
 		document.location.href = '/leaderboards/<%= params.leaderboard_id %>'
     },
+    async add_input_mode(inputmode) {
+        if (!Array.isArray(this.leaderboard.inputmodes)) this.leaderboard.inputmodes = []
+        this.leaderboard.inputmodes.push(inputmode)
+		let response = await fetch('<%= api_url %>/leaderboards/<%= params.leaderboard_id %>/inputmodes/' + inputmode, {
+            method: 'PUT',
+            credentials: 'same-origin'
+        })
+        if (!response.ok && await handle_not_ok(response)) return
+    },
 }}
 </script>
 <div id="leaderboard-edit" x-data="leaderboard_edit" x-init="get()">
@@ -27,7 +40,7 @@ function leaderboard_edit() {return {
         <div id="main-box">
             <nav class="navbar-expand page-icons page-icons-left page-icons-never-collapsed">
                 <div class="navbar-nav">
-                    <a href="?a=leaderboards_leaderboard1_index" class="page-icon" title="Go back to the previous page">
+                    <a href="/leaderboards/<%= params.leaderboard_id %>" class="page-icon" title="Go back to the previous page">
                         <div class="page-icon-box">
                             <i class="fas fa-arrow-left"></i>
                         </div>
@@ -47,12 +60,12 @@ function leaderboard_edit() {return {
                 <form class="crud-form">
                     <div class="form-item">
                         <label for="leaderboard-name" class="form-label form-required" title="Leaderboard name">Name</label>
-                        <input type="text" class="form-control" id="leaderboard-name" name="leaderboard-name" minlength="5" maxlength="30" required value="Leaderboard1">
+                        <input type="text" class="form-control" id="leaderboard-name" name="leaderboard-name" minlength="5" maxlength="30" required x-model="leaderboard.name">
                     </div>
 
                     <div class="form-item">
                         <label for="description" class="form-label form-required" title="Description shown in popup">Description</label>
-                        <textarea class="form-control" id="description" name="description" required>Maecenas at orci feugiat, pharetra est quis, vulputate neque. Vestibulum elementum, orci nec laoreet pretium, lectus velit viverra lacus, at blandit lorem purus sed ex. Cras erat elit, condimentum at dignissim ut, sodales sit amet lorem. Nullam sagittis felis enim, et congue mi facilisis a. Ut maximus hendrerit lectus. Aliquam sit amet lacus quis mi semper rhoncus. Quisque a orci tincidunt, posuere risus eget, vehicula purus. Mauris id leo a massa vulputate venenatis at ac nisl. Nullam non aliquet augue. Donec eu urna at magna feugiat tristique. Nunc non dui ut nisl faucibus rutrum. Aenean vulputate interdum vulputate. Curabitur auctor, dolor sit amet viverra laoreet, elit metus dictum massa, ut dapibus purus nibh ac eros. Duis eget finibus purus, vel efficitur mauris. Etiam id risus vitae nunc lobortis luctus non at mauris. Phasellus ut lorem massa. In non eleifend erat. Nam dapibus mauris et eros pretium, et malesuada ante varius. Quisque ac odio vel mauris pretium suscipit sit amet in quam. Phasellus id erat consectetur, sollicitudin velit quis, suscipit dui. Morbi sit amet faucibus felis. enim.</textarea>
+                        <textarea class="form-control" id="description" name="description" required x-model="leaderboard.description"></textarea>
                     </div>
 
                     <div class="form-item">
@@ -108,14 +121,16 @@ function leaderboard_edit() {return {
                         <table class="data-table data-table-slim data-table-nohead table table-icon-col-last">
                             <thead><tr> <th></th> <th></th> </tr></thead>
                             <tbody>
-                                <tr>
-                                    <td>7K</td>
-                                    <td class="table-icon-cell">
-                                        <a href="#!" class="table-icon table-icon-l red red-h" title="Remove input mode" data-bs-toggle="modal" data-bs-target="#delete-modal">
-                                            <i class="fas fa-times"></i>
-                                        </a>
-                                    </td>
-                                </tr>
+                                <template x-for="inputmode in leaderboard.inputmodes">
+                                    <tr>
+                                        <td x-text="inputmode"></td>
+                                        <td class="table-icon-cell">
+                                            <a href="#!" class="table-icon table-icon-l red red-h" title="Remove input mode" data-bs-toggle="modal" data-bs-target="#delete-modal">
+                                                <i class="fas fa-times"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </template>
                             </tbody>
                         </table>
                     </div>
@@ -178,7 +193,7 @@ function leaderboard_edit() {return {
                         </table>
                     </div>
 
-                    <button type="submit" class="btn bg-blue bg-blue-h">Save</button>
+                    <button type="submit" class="btn bg-blue bg-blue-h" @click="patch">Save</button>
                     <a href="#!" class="btn bg-red bg-red-h float-end" data-bs-toggle="modal" data-bs-target="#confirm-delete-modal">Delete</a>
                 </form>
             </section>
