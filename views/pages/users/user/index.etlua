@@ -43,7 +43,7 @@ function player() {return {
 
                 <div class="collapse navbar-collapse" id="page-icons-right">
                     <div class="navbar-nav">
-                        <a href="?a=players_player1_inbox" class="page-icon" title="Accept requests and send invites">
+                        <a :href="'/users/' + user.id + '/inbox'" class="page-icon" title="Accept requests and send invites">
                             <span class="page-icon-text">Inbox</span>
                             <div class="page-icon-box">
                                 <i class="fas fa-inbox"></i>
@@ -51,7 +51,7 @@ function player() {return {
                             </div>
                         </a>
 
-                        <a href="?a=players_player1_edit" class="page-icon" title="Your settings">
+                        <a :href="'/users/' + user.id + '/edit'" class="page-icon" title="Your settings">
                             <span class="page-icon-text">Settings</span>
                             <div class="page-icon-box">
                                 <i class="fas fa-cog"></i>
@@ -61,7 +61,7 @@ function player() {return {
                 </div>
             </nav>
 
-            <h1>Player1</h1>
+            <h1 x-text="user.name"></h1>
 
 
             <section id="info-section">
@@ -102,15 +102,7 @@ function player() {return {
             <section id="description-section">
                 <h2>Description</h2>
 
-                <p>
-                    Maecenas at orci feugiat, pharetra est quis, vulputate neque. Vestibulum elementum, orci nec laoreet pretium, lectus
-                    velit viverra lacus, at blandit lorem purus sed ex. Cras erat elit, condimentum at dignissim ut, sodales sit amet
-                    lorem. Nullam sagittis felis enim, et congue mi facilisis a. Ut maximus hendrerit lectus. Aliquam sit amet lacus quis
-                    mi semper rhoncus. Quisque a orci tincidunt, posuere risus eget, vehicula purus. Mauris id leo a massa vulputate
-                    venenatis at ac nisl. Nullam non aliquet augue. Donec eu urna at magna feugiat tristique. Nunc non dui ut nisl
-                    faucibus rutrum. Aenean vulputate interdum vulputate.
-                    enim.
-                </p>
+                <p x-text="user.description"></p>
             </section>
 
 
@@ -122,7 +114,7 @@ function player() {return {
                     <div class="col-sm-6">
                         <h2>
                             Communities
-                            <a href="?a=communities_create" class="title-icon h2-icon teal teal-h" title="Create community">
+                            <a href="/communities/create" class="title-icon h2-icon teal teal-h" title="Create community">
                                 <i class="fas fa-plus"></i>
                             </a>
                         </h2>
@@ -137,26 +129,7 @@ function player() {return {
                                     <th class="table-icon-th"></th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="table-icon-cell">
-                                        <span class="table-icon table-icon-s orange" title="The owner of the community">
-                                            <i class="fas fa-crown"></i>
-                                        </span>
-                                    </td>
-                                    <td><a href="?a=communities_community1_index">Community1</a></td>
-                                    <td>No</td>
-                                    <td>7K, 10K</td>
-                                    <td class="table-icon-cell">
-                                        <a href="?a=communities_community1_edit" class="table-icon table-icon-s orange orange-h" title="Edit community">
-                                            <i class="fas fa-pen"></i>
-                                        </a>
-                                        <a href="#!" class="table-icon red red-h" title="Leave community" data-bs-toggle="modal" data-bs-target="#delete-modal">
-                                            <i class="fas fa-sign-out-alt"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                            </tbody>
+                            <tbody></tbody>
                         </table>
                     </div>
 
@@ -179,26 +152,7 @@ function player() {return {
                                     <th class="table-icon-th"></th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="table-icon-cell">
-                                        <span class="table-icon table-icon-s orange" title="The owner, an admin or a mod of the community that owns this leaderboard">
-                                            <i class="fas fa-user-shield"></i>
-                                        </span>
-                                    </td>
-                                    <td><a href="?a=leaderboards_leaderboard1_index">Leaderboard1</a></td>
-                                    <td>7K, 10K</td>
-                                    <td>#3</td>
-                                    <td class="table-icon-cell">
-                                        <a href="?a=leaderboards_leaderboard1_edit" class="table-icon table-icon-s orange orange-h" title="Edit leaderboard">
-                                            <i class="fas fa-pen"></i>
-                                        </a>
-                                        <a href="#!" class="table-icon teal teal-h" title="Add to community" data-bs-toggle="modal" data-bs-target="#add-leaderboard-modal">
-                                            <i class="fas fa-sign-in-alt"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                            </tbody>
+                            <tbody></tbody>
                         </table>
                     </div>
                 </div>
@@ -239,7 +193,7 @@ function player() {return {
                     </div>
                 </div>
 
-                <table class="data-table data-table-all table table-icon-col-last" id="best-scores-table" data-insert-top="best-scores-insert-top" data-toggle-cols="">
+                <table id="user-best-scores-table" class="data-table table table-icon-col-last" id="best-scores-table" data-insert-top="best-scores-insert-top" data-toggle-cols="">
                     <thead>
                         <tr>
                             <th class="table-col-minwidth" title="Rank compared to other scores of the player">Rank</th>
@@ -255,88 +209,7 @@ function player() {return {
                             <th class="table-icon-th"></th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>#1</td>
-                            <td>Chart1</td>
-                            <td><a href="?a=charts_chart1_index">Difficulty1</a></td>
-                            <td>12</td>
-                            <td>1000</td>
-                            <td>20</td>
-                            <td>8</td>
-                            <td>10K</td>
-                            <td>CMod, 1.4X</td>
-                            <td>10-10-21 15:28</td>
-                            <td class="table-icon-cell">
-                                <a href="#!" class="table-icon table-icon-l table-icon-hide red red-h" title="Delete score" data-bs-toggle="modal" data-bs-target="#delete-modal">
-                                    <i class="fas fa-times"></i>
-                                </a>
-                                <a href="#!" class="table-icon table-icon-hide blue blue-h" title="Download replay">
-                                    <i class="fas fa-download"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>#2</td>
-                            <td>Chart1</td>
-                            <td><a href="?a=charts_chart1_index">Difficulty1</a></td>
-                            <td>12</td>
-                            <td>1000</td>
-                            <td>20</td>
-                            <td>8</td>
-                            <td>10K</td>
-                            <td>CMod, 1.4X</td>
-                            <td>10-10-21 15:28</td>
-                            <td class="table-icon-cell">
-                                <a href="#!" class="table-icon table-icon-l table-icon-hide red red-h" title="Delete score" data-bs-toggle="modal" data-bs-target="#delete-modal">
-                                    <i class="fas fa-times"></i>
-                                </a>
-                                <a href="#!" class="table-icon table-icon-hide blue blue-h" title="Download replay">
-                                    <i class="fas fa-download"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>#3</td>
-                            <td>Chart1</td>
-                            <td><a href="?a=charts_chart1_index">Difficulty1</a></td>
-                            <td>12</td>
-                            <td>1000</td>
-                            <td>20</td>
-                            <td>8</td>
-                            <td>10K</td>
-                            <td>CMod, 1.4X</td>
-                            <td>10-10-21 15:28</td>
-                            <td class="table-icon-cell">
-                                <a href="#!" class="table-icon table-icon-l table-icon-hide red red-h" title="Delete score" data-bs-toggle="modal" data-bs-target="#delete-modal">
-                                    <i class="fas fa-times"></i>
-                                </a>
-                                <a href="#!" class="table-icon table-icon-hide blue blue-h" title="Download replay">
-                                    <i class="fas fa-download"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>#4</td>
-                            <td>Chart1</td>
-                            <td><a href="?a=charts_chart1_index">Difficulty1</a></td>
-                            <td>12</td>
-                            <td>1000</td>
-                            <td>20</td>
-                            <td>8</td>
-                            <td>10K</td>
-                            <td>CMod, 1.4X</td>
-                            <td>10-10-21 15:28</td>
-                            <td class="table-icon-cell">
-                                <a href="#!" class="table-icon table-icon-l table-icon-hide red red-h" title="Delete score" data-bs-toggle="modal" data-bs-target="#delete-modal">
-                                    <i class="fas fa-times"></i>
-                                </a>
-                                <a href="#!" class="table-icon table-icon-hide blue blue-h" title="Download replay">
-                                    <i class="fas fa-download"></i>
-                                </a>
-                            </td>
-                        </tr>
-                    </tbody>
+                    <tbody></tbody>
                     <tfoot>
                         <tr>
                             <th title="Rank compared to other scores of the player">Rank</th>
@@ -390,7 +263,7 @@ function player() {return {
                     </div>
                 </div>
 
-                <table class="data-table data-table-all table table-icon-col-last" id="all-scores-table" data-orders="8d" data-insert-top="all-scores-insert-top" data-toggle-cols="">
+                <table id="user-all-scores-table" class="data-table table table-icon-col-last" id="all-scores-table" data-orders="8d" data-insert-top="all-scores-insert-top" data-toggle-cols="">
                     <thead>
                         <tr>
                             <th title="Chart title">Title</th>
@@ -405,84 +278,7 @@ function player() {return {
                             <th class="table-icon-th"></th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>Chart1</td>
-                            <td><a href="?a=charts_chart1_index">Difficulty1</a></td>
-                            <td>12</td>
-                            <td>1000</td>
-                            <td>20</td>
-                            <td>8</td>
-                            <td>10K</td>
-                            <td>CMod, 1.4X</td>
-                            <td>10-10-21 15:28</td>
-                            <td class="table-icon-cell">
-                                <a href="#!" class="table-icon table-icon-l table-icon-hide red red-h" title="Delete score" data-bs-toggle="modal" data-bs-target="#delete-modal">
-                                    <i class="fas fa-times"></i>
-                                </a>
-                                <a href="#!" class="table-icon table-icon-hide blue blue-h" title="Download replay">
-                                    <i class="fas fa-download"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Chart1</td>
-                            <td><a href="?a=charts_chart1_index">Difficulty1</a></td>
-                            <td>12</td>
-                            <td>1000</td>
-                            <td>20</td>
-                            <td>8</td>
-                            <td>10K</td>
-                            <td>CMod, 1.4X</td>
-                            <td>10-10-21 15:27</td>
-                            <td class="table-icon-cell">
-                                <a href="#!" class="table-icon table-icon-l table-icon-hide red red-h" title="Delete score" data-bs-toggle="modal" data-bs-target="#delete-modal">
-                                    <i class="fas fa-times"></i>
-                                </a>
-                                <a href="#!" class="table-icon table-icon-hide blue blue-h" title="Download replay">
-                                    <i class="fas fa-download"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Chart1</td>
-                            <td><a href="?a=charts_chart1_index">Difficulty1</a></td>
-                            <td>12</td>
-                            <td>1000</td>
-                            <td>20</td>
-                            <td>8</td>
-                            <td>10K</td>
-                            <td>CMod, 1.4X</td>
-                            <td>10-10-21 15:25</td>
-                            <td class="table-icon-cell">
-                                <a href="#!" class="table-icon table-icon-l table-icon-hide red red-h" title="Delete score" data-bs-toggle="modal" data-bs-target="#delete-modal">
-                                    <i class="fas fa-times"></i>
-                                </a>
-                                <a href="#!" class="table-icon table-icon-hide blue blue-h" title="Download replay">
-                                    <i class="fas fa-download"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Chart1</td>
-                            <td><a href="?a=charts_chart1_index">Difficulty1</a></td>
-                            <td>12</td>
-                            <td>1000</td>
-                            <td>20</td>
-                            <td>8</td>
-                            <td>10K</td>
-                            <td>CMod, 1.4X</td>
-                            <td>10-10-21 14:12</td>
-                            <td class="table-icon-cell">
-                                <a href="#!" class="table-icon table-icon-l table-icon-hide red red-h" title="Delete score" data-bs-toggle="modal" data-bs-target="#delete-modal">
-                                    <i class="fas fa-times"></i>
-                                </a>
-                                <a href="#!" class="table-icon table-icon-hide blue blue-h" title="Download replay">
-                                    <i class="fas fa-download"></i>
-                                </a>
-                            </td>
-                        </tr>
-                    </tbody>
+                    <tbody></tbody>
                     <tfoot>
                         <tr>
                             <th title="Chart title">Title</th>
@@ -510,22 +306,189 @@ function dtInitUser() {
         serverSide: true,
         ajax: "/dt/users/<%= params.user_id %>/communities",
         columns: [
-            {data: "name"},
-            {data: "name"},
-            {data: "name"},
-            {data: "name"},
+            {
+                className: 'table-icon-cell',
+                render(data, type, row, meta) {
+                    return `
+                    <span class="table-icon table-icon-s orange" title="The owner of the community">
+                        <i class="fas fa-crown"></i>
+                    </span>
+                    `
+                }
+            },
+            {
+                data: "id",
+                render(data, type, row, meta) {
+                    return '<a href="/' + data + '">' + row.name + '</a>'
+                }
+            },
+            {
+                data: "is_public",
+                render(data, type, row, meta) {
+                    return data ? 'Yes' : 'No'
+                }
+            },
+            {
+                data: "inputmodes",
+                render(data, type, row, meta) {
+                    return Array.isArray(data) ? data.join(', ') : ''
+                }
+            },
+            {
+                className: 'table-icon-row',
+                render(data, type, row, meta) {
+                    return `
+                        <a href="/communities/` + row.id + `/edit" class="table-icon table-icon-s orange orange-h" title="Edit community">
+                            <i class="fas fa-pen"></i>
+                        </a>
+                        <a href="#!" class="table-icon red red-h" title="Leave community" data-bs-toggle="modal" data-bs-target="#delete-modal">
+                            <i class="fas fa-sign-out-alt"></i>
+                        </a>
+                    `
+                }
+            },
         ]
     })
     dtInit(document.querySelector("#user-leaderboards-table"), {
         ...dtColOptions,
         scrollX: true,
         serverSide: true,
-        ajax: "/dt/users/<%= params.user_id %>/communities",
+        ajax: "/dt/users/<%= params.user_id %>/leaderboards",
         columns: [
-            {data: "name"},
-            {data: "name"},
-            {data: "name"},
-            {data: "name"},
+            {
+                className: 'table-icon-cell',
+                render(data, type, row, meta) {
+                    return `
+                    <span class="table-icon table-icon-s orange" title="The owner, an admin or a mod of the community that owns this leaderboard">
+                        <i class="fas fa-user-shield"></i>
+                    </span>
+                    `
+                }
+            },
+            {
+                data: "id",
+                render(data, type, row, meta) {
+                    return '<a href="/' + data + '">' + row.name + '</a>'
+                }
+            },
+            {
+                data: "inputmodes",
+                render(data, type, row, meta) {
+                    return Array.isArray(data) ? data.join(', ') : ''
+                }
+            },
+            {
+                render(data, type, row, meta) {
+                    return '#0'
+                }
+            },
+            {
+                className: 'table-icon-row',
+                render(data, type, row, meta) {
+                    return `
+                        <a href="/leaderboards/` + row.id + `/edit" class="table-icon table-icon-s orange orange-h" title="Edit leaderboard">
+                            <i class="fas fa-pen"></i>
+                        </a>
+                        <a href="#!" class="table-icon teal teal-h" title="Add to community" data-bs-toggle="modal" data-bs-target="#add-leaderboard-modal">
+                            <i class="fas fa-sign-in-alt"></i>
+                        </a>
+                    `
+                }
+            },
+        ]
+    })
+    dtInit(document.querySelector("#user-best-scores-table"), {
+        ...dtAllOptions,
+        scrollX: true,
+        serverSide: true,
+        ajax: "/dt/users/<%= params.user_id %>/scores",
+        columns: [
+            {
+                data: "rank",
+                render(data, type, row, meta) {
+                    return '#' + data
+                }
+            },
+            {
+                render(data, type, row, meta) {
+                    return row.notechart.title
+                }
+            },
+            {
+                render(data, type, row, meta) {
+                    return '<a href="/' + row.notechart.id + '">' + row.notechart.name + '</a>'
+                }
+            },
+            {
+                render(data, type, row, meta) {
+                    return row.notechart.level
+                }
+            },
+            {data: "rating"},
+            {data: "accuracy"},
+            {data: "miss_count"},
+            {data: "inputmode"},
+            {data: "modifiers"},
+            {data: "played_at"},
+            {
+                className: 'table-icon-th',
+                render(data, type, row, meta) {
+                    return `
+                    <td class="table-icon-cell">
+                        <a href="#!" class="table-icon table-icon-l table-icon-hide red red-h" title="Delete score" data-bs-toggle="modal" data-bs-target="#delete-modal">
+                            <i class="fas fa-times"></i>
+                        </a>
+                        <a href="#!" class="table-icon table-icon-hide blue blue-h" title="Download replay">
+                            <i class="fas fa-download"></i>
+                        </a>
+                    </td>
+                    `
+                }
+            },
+        ]
+    })
+    dtInit(document.querySelector("#user-all-scores-table"), {
+        ...dtAllOptions,
+        scrollX: true,
+        serverSide: true,
+        ajax: "/dt/users/<%= params.user_id %>/scores",
+        columns: [
+            {
+                render(data, type, row, meta) {
+                    return row.notechart.title
+                }
+            },
+            {
+                render(data, type, row, meta) {
+                    return '<a href="/' + row.notechart.id + '">' + row.notechart.name + '</a>'
+                }
+            },
+            {
+                render(data, type, row, meta) {
+                    return row.notechart.level
+                }
+            },
+            {data: "rating"},
+            {data: "accuracy"},
+            {data: "miss_count"},
+            {data: "inputmode"},
+            {data: "modifiers"},
+            {data: "played_at"},
+            {
+                className: 'table-icon-th',
+                render(data, type, row, meta) {
+                    return `
+                    <td class="table-icon-cell">
+                        <a href="#!" class="table-icon table-icon-l table-icon-hide red red-h" title="Delete score" data-bs-toggle="modal" data-bs-target="#delete-modal">
+                            <i class="fas fa-times"></i>
+                        </a>
+                        <a href="#!" class="table-icon table-icon-hide blue blue-h" title="Download replay">
+                            <i class="fas fa-download"></i>
+                        </a>
+                    </td>
+                    `
+                }
+            },
         ]
     })
 }

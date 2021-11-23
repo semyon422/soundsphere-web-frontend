@@ -27,7 +27,7 @@ function player_edit() {return {
         <div id="main-box">
             <nav class="navbar-expand page-icons page-icons-left page-icons-never-collapsed">
                 <div class="navbar-nav">
-                    <a href="?a=players_player1_index" class="page-icon" title="Go back to the previous page">
+                    <a :href="'/users/' + user.id" class="page-icon" title="Go back to the previous page">
                         <div class="page-icon-box">
                             <i class="fas fa-arrow-left"></i>
                         </div>
@@ -43,17 +43,17 @@ function player_edit() {return {
             <% render("views.components.modals.confirm-delete") %>
             <section id="form-section">
                 <form class="crud-form">
-                    <label for="username" id="username-preview" title="A preview that shows how your username will look">Player1</label>
+                    <label for="username" id="username-preview" title="A preview that shows how your username will look" x-text="user.name"></label>
                     <div class="form-item input-group">
                         <input type="color" class="form-control form-control-color" id="username-color-l" name="username-color-l" required value="#000000" title="The lefter color of your username">
-                        <input type="text" class="form-control" id="username" name="username" title="Your username" minlength="5" maxlength="30" required value="Player1">
+                        <input type="text" class="form-control" id="username" name="username" title="Your username" minlength="5" maxlength="30" required x-model="user.name">
                         <input type="color" class="form-control form-control-color" id="username-color-r" name="username-color-r" required value="#000000" title="The righter color of your username">
                         <div class="form-invalid-message"></div>
                     </div>
 
                     <div class="form-item">
                         <label for="description" class="form-label" title="Page description">Description</label>
-                        <textarea class="form-control" id="description" name="description">Maecenas at orci feugiat, pharetra est quis, vulputate neque. Vestibulum elementum, orci nec laoreet pretium, lectus velit viverra lacus, at blandit lorem purus sed ex. Cras erat elit, condimentum at dignissim ut, sodales sit amet lorem. Nullam sagittis felis enim, et congue mi facilisis a. Ut maximus hendrerit lectus. Aliquam sit amet lacus quis mi semper rhoncus. Quisque a orci tincidunt, posuere risus eget, vehicula purus. Mauris id leo a massa vulputate venenatis at ac nisl. Nullam non aliquet augue. Donec eu urna at magna feugiat tristique. Nunc non dui ut nisl faucibus rutrum. Aenean vulputate interdum vulputate. Curabitur auctor, dolor sit amet viverra laoreet, elit metus dictum massa, ut dapibus purus nibh ac eros. Duis eget finibus purus, vel efficitur mauris. Etiam id risus vitae nunc lobortis luctus non at mauris. Phasellus ut lorem massa. In non eleifend erat. Nam dapibus mauris et eros pretium, et malesuada ante varius. Quisque ac odio vel mauris pretium suscipit sit amet in quam. Phasellus id erat consectetur, sollicitudin velit quis, suscipit dui. Morbi sit amet faucibus felis. enim.</textarea>
+                        <textarea class="form-control" id="description" name="description" x-model="user.description"></textarea>
                     </div>
 
                     <div class="row">
@@ -118,7 +118,7 @@ function player_edit() {return {
                         </table>
                     </div>
 
-                    <button type="submit" class="btn bg-blue bg-blue-h">Save</button>
+                    <button type="submit" class="btn bg-blue bg-blue-h" @click="patch">Save</button>
                     <a href="#!" class="btn bg-red bg-red-h float-end" data-bs-toggle="modal" data-bs-target="#confirm-delete-modal">Delete</a>
                 </form>
             </section>

@@ -68,8 +68,12 @@ return {
 		view = "pages.users.user.index"
 	},
 	{
-		path = "/users/:user_id/settings",
-		view = "pages.users.user.settings"
+		path = "/users/:user_id/edit",
+		view = "pages.users.user.edit"
+	},
+	{
+		path = "/users/:user_id/inbox",
+		view = "pages.users.user.inbox"
 	},
 	{
 		path = "/notecharts",
