@@ -101,7 +101,7 @@ function community() {return {
                         <th title="Member count">Members:</th>
                         <td x-text="community.users_count"></td>
                         <th title="Input modes in community leaderboards">Modes:</th>
-                        <td x-text="Array.isArray(community.inputmodes) ? community.inputmodes.join(',') : ''"></td>
+                        <td x-text="inputmodesToString(community.inputmodes)"></td>
                     </tr>
                     <tr>
                         <th title="To join private communities, you have to send a request">Public:</th>
@@ -230,7 +230,12 @@ function dtInitCommunity() {
                     return '<a href="/leaderboards/' + row.id + '">' + data + '</a>';
                 }
             },
-            {data: "name"},
+            {
+                data: "inputmodes",
+                render(data, type, row, meta) {
+                    return inputmodesToString(data)
+                }
+            },
             {
                 data: "name",
                 render(data, type, row, meta) {

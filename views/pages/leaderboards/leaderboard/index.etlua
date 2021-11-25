@@ -100,7 +100,7 @@ function leaderboard() {return {
                         <table class="meta-table">
                             <tr>
                                 <th title="Leaderboard input modes">Modes:</th>
-                                <td x-text="Array.isArray(leaderboard.inputmodes) ? leaderboard.inputmodes.join(',') : ''"></td>
+                                <td x-text="inputmodesToString(leaderboard.inputmodes)"></td>
                                 <th title="Player count">Players:</th>
                                 <td x-text="leaderboard.users_count"></td>
                             </tr>
@@ -292,7 +292,7 @@ function dtInitLeaderboard() {
                 }
             },
             {render(data, type, row, meta) {
-                Array.isArray(row.inputmodes) ? row.inputmodes.join(',') : ''
+                return inputmodesToString(row.inputmodes)
             }},
             {data: "name"}, //charts
             {data: "name"}, //plays

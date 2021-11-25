@@ -126,7 +126,7 @@ function dtInitCommunities() {
             {
                 data: "inputmodes",
                 render(data, type, row, meta) {
-                    return Array.isArray(data) ? data.join(', ') : ''
+                    return inputmodesToString(data)
                 }
             },
             {data: "users_count"},

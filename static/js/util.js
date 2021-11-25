@@ -53,3 +53,33 @@ async function handle_not_ok(response) {
 	alert(response.status + ' ' + response.statusText)
 	return handle_500(response)
 }
+
+var inputmodesMap = {
+	"1key": "1K",
+	"2key": "2K",
+	"3key": "3K",
+	"4key": "4K",
+	"5key": "5K",
+	"6key": "6K",
+	"7key": "7K",
+	"8key": "8K",
+	"9key": "9K",
+	"10key": "10K",
+	"12key": "12K",
+	"14key": "14K",
+	"16key": "16K",
+	"18key": "18K",
+	"20key": "20K",
+	"5key1scratch": "5K1S",
+	"7key1scratch": "7K1S",
+	"10key2scratch": "10K2S",
+	"14key2scratch": "14K2S",
+	"24key": "24K",
+	"48key": "48K",
+	"88key": "88K",
+	"4bt2fx2laserleft2laserright": "SDVX",
+}
+
+function inputmodesToString(inputmodes) {
+	return Array.isArray(inputmodes) ? inputmodes.map((i) => inputmodesMap[i]).join(', ') : ''
+}
