@@ -225,9 +225,8 @@ function dtInitCommunity() {
                 }
             },
             {
-                data: "name",
                 render(data, type, row, meta) {
-                    return '<a href="/leaderboards/' + row.id + '">' + data + '</a>';
+                    return leaderboardLink(row)
                 }
             },
             {
@@ -237,13 +236,12 @@ function dtInitCommunity() {
                 }
             },
             {
-                data: "name",
                 render(data, type, row, meta) {
-                    return '<a href="/users/' + row.id + '">' + data + '</a>';
+                    return userLink(row.top_user)
                 }
             },
-            {data: "name"},
-            {data: "name"},
+            {data: "users_count"},
+            {data: "tables_count"},
             {
                 className: 'table-icon-row',
                 render(data, type, row, meta) {
@@ -284,9 +282,8 @@ function dtInitCommunity() {
             },
             {data: "id"},
             {
-                data: "name",
                 render(data, type, row, meta) {
-                    return '<a href="/users/' + row.id + '">' + data + '</a>';
+                    return userLink(row)
                 }
             },
             {data: "total_performance"},

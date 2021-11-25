@@ -317,9 +317,8 @@ function dtInitUser() {
                 }
             },
             {
-                data: "id",
                 render(data, type, row, meta) {
-                    return '<a href="/' + data + '">' + row.name + '</a>'
+                    return communityLink(row)
                 }
             },
             {
@@ -416,7 +415,7 @@ function dtInitUser() {
             },
             {
                 render(data, type, row, meta) {
-                    return '<a href="/' + row.notechart.id + '">' + row.notechart.name + '</a>'
+                    return notechartLink(row.notechart)
                 }
             },
             {
@@ -460,7 +459,7 @@ function dtInitUser() {
             },
             {
                 render(data, type, row, meta) {
-                    return '<a href="/' + row.notechart.id + '">' + row.notechart.name + '</a>'
+                    return notechartLink(row.notechart)
                 }
             },
             {

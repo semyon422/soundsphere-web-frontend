@@ -83,3 +83,38 @@ var inputmodesMap = {
 function inputmodesToString(inputmodes) {
 	return Array.isArray(inputmodes) ? inputmodes.map((i) => inputmodesMap[i]).join(', ') : ''
 }
+
+function userLink(user) {
+	if (user) {
+		return '<a href="/users/' + user.id + '">' + user.name + '</a>'
+	}
+	return ''
+}
+
+function communityLink(community) {
+	if (community) {
+		return '<a href="/communities/' + community.id + '">' + community.name + '</a>'
+	}
+	return ''
+}
+
+function leaderboardLink(leaderboard) {
+	if (leaderboard) {
+		return '<a href="/leaderboards/' + leaderboard.id + '">' + leaderboard.name + '</a>'
+	}
+	return ''
+}
+
+function tableLink(table) {
+	if (table) {
+		return '<a href="/tables/' + table.id + '">' + table.name + '</a>'
+	}
+	return ''
+}
+
+function notechartLink(notechart) {
+	if (notechart) {
+		return '<a href="/notecharts/' + notechart.id + '">' + notechart.name + '</a>'
+	}
+	return ''
+}

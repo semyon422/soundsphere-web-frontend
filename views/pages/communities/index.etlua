@@ -111,9 +111,8 @@ function dtInitCommunities() {
         },
         columns: [
             {
-                data: "name",
                 render(data, type, row, meta) {
-                    return '<a href="/communities/' + row.id + '">' + data + '</a>';
+                    return communityLink(row)
                 }
             },
             {data: "alias"},

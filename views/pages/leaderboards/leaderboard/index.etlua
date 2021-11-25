@@ -260,9 +260,8 @@ function dtInitLeaderboard() {
             {render() {return '#0'}},
             {render() {return ''}},
             {
-                data: "name",
                 render(data, type, row, meta) {
-                    return '<a href="/communities/' + row.id + '">' + data + '</a>';
+                    return communityLink(row)
                 }
             },
             {data: "id"}, //total_performance
@@ -288,7 +287,7 @@ function dtInitLeaderboard() {
             {
                 data: "name",
                 render(data, type, row, meta) {
-                    return '<a href="/tables/' + row.id + '">' + data + '</a>';
+                    return tableLink(row)
                 }
             },
             {render(data, type, row, meta) {
@@ -306,9 +305,8 @@ function dtInitLeaderboard() {
         columns: [
             {data: "id"}, //rank
             {
-                data: "name",
                 render(data, type, row, meta) {
-                    return '<a href="/users/' + row.id + '">' + data + '</a>';
+                    return userLink(row)
                 }
             },
             {data: "name"}, //link to community

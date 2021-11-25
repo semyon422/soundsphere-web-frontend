@@ -70,16 +70,14 @@ ready(() =>
         ajax: "/dt/leaderboards",
         columns: [
             {
-                data: "name",
                 render(data, type, row, meta) {
-                    return '<a href="/leaderboards/' + row.id + '">' + data + '</a>';
+                    return leaderboardLink(row)
                 }
             },
             {data: "name"},
             {
-                data: "name",
                 render(data, type, row, meta) {
-                    return '<a href="/users/' + row.id + '">' + data + '</a>';
+                    return userLink(row.top_user)
                 }
             },
             {data: "users_count"},

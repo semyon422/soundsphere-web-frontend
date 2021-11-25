@@ -244,9 +244,8 @@ ready(() => {
         columns: [
             {data: "name"},
             {
-                data: "name",
                 render(data, type, row, meta) {
-                    return '<a href="/notechart/' + row.id + '">' + data + '</a>';
+                    return notechartLink(row)
                 }
             },
             {data: "name"},
