@@ -215,13 +215,16 @@ function dtInitCommunity() {
         columns: [
             {
                 render(data, type, row, meta) {
-                    return `
-                        <td class="table-icon-cell">
-                            <span class="table-icon table-icon-s orange" title="This community owns this leaderboard">
-                                <i class="fas fa-crown"></i>
-                            </span>
-                        </td>
-                    `;
+                    if (row.is_owner) {
+                        return `
+                            <td class="table-icon-cell">
+                                <span class="table-icon table-icon-s orange" title="This community owns this leaderboard">
+                                    <i class="fas fa-crown"></i>
+                                </span>
+                            </td>
+                        `
+                    }
+                    return ''
                 }
             },
             {
