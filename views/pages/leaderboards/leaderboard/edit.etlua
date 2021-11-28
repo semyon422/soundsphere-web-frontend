@@ -1,6 +1,7 @@
 <script>
 function leaderboard_edit() {return {
     leaderboard: {},
+    selected_inputmode: '',
     async get() {
 		let response = await fetch(
             '<%= api_url %>/leaderboards/<%= params.leaderboard_id %>' +
@@ -27,11 +28,10 @@ function leaderboard_edit() {return {
     async add_input_mode(inputmode) {
         if (!Array.isArray(this.leaderboard.inputmodes)) this.leaderboard.inputmodes = []
         this.leaderboard.inputmodes.push(inputmode)
-		let response = await fetch('<%= api_url %>/leaderboards/<%= params.leaderboard_id %>/inputmodes/' + inputmode, {
-            method: 'PUT',
-            credentials: 'same-origin'
-        })
-        if (!response.ok && await handle_not_ok(response)) return
+    },
+    async remove_input_mode(inputmode) {
+        if (!Array.isArray(this.leaderboard.inputmodes)) this.leaderboard.inputmodes = []
+        this.leaderboard.inputmodes = this.leaderboard.inputmodes.filter(item => item !== inputmode)
     },
 }}
 </script>
@@ -51,6 +51,7 @@ function leaderboard_edit() {return {
             <h1>Leaderboard settings</h1>
 
 
+            <% render("views.components.modals.delete", {id = "delete-inputmode-modal", on_delete = "remove_input_mode(selected_inputmode)"}) %>
             <% render("views.components.modals.delete") %>
             <% render("views.components.modals.add-modifier") %>
             <% render("views.components.modals.add-bms-table") %>
@@ -125,7 +126,7 @@ function leaderboard_edit() {return {
                                     <tr>
                                         <td x-text="inputmode"></td>
                                         <td class="table-icon-cell">
-                                            <a href="#!" class="table-icon table-icon-l red red-h" title="Remove input mode" data-bs-toggle="modal" data-bs-target="#delete-modal">
+                                            <a href="#!" class="table-icon table-icon-l red red-h" title="Remove input mode" data-bs-toggle="modal" data-bs-target="#delete-inputmode-modal" @click="selected_inputmode = inputmode">
                                                 <i class="fas fa-times"></i>
                                             </a>
                                         </td>
