@@ -44,6 +44,11 @@ return {
 		name = "community.changes",
 	},
 	{
+		path = "/communities/:community_id/inbox",
+		view = "pages.communities.community.inbox",
+		name = "community.inbox",
+	},
+	{
 		path = "/communities/:community_id/leaderboards/create",
 		view = "pages.leaderboards.create",
 		name = "leaderboards.create",
