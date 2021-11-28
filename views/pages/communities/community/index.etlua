@@ -65,7 +65,7 @@ function community() {return {
                             </div>
                         </a>
 
-                        <a x-show="methods.includes('PATCH')" :href="'/communities/' + community.id + '/inbox'" class="page-icon" title="Accept requests and send invites">
+                        <a x-show="methods.includes('PATCH')" href="<%= url_for("community.inbox", params) %>" class="page-icon" title="Accept requests and send invites">
                             <span class="page-icon-text">Inbox</span>
                             <div class="page-icon-box">
                                 <i class="fas fa-inbox"></i>
@@ -73,14 +73,14 @@ function community() {return {
                             </div>
                         </a>
 
-                        <a x-show="methods.includes('PATCH')" :href="'/communities/' + community.id + '/changes'" class="page-icon" title="All community changes and who made them">
+                        <a x-show="methods.includes('PATCH')" href="<%= url_for("community.changes", params) %>" class="page-icon" title="All community changes and who made them">
                             <span class="page-icon-text">Changes</span>
                             <div class="page-icon-box">
                                 <i class="fas fa-list-alt"></i>
                             </div>
                         </a>
 
-                        <a x-show="methods.includes('PATCH')" :href="'/communities/' + community.id + '/edit'" class="page-icon" title="Community settings">
+                        <a x-show="methods.includes('PATCH')" href="<%= url_for("community.edit", params) %>" class="page-icon" title="Community settings">
                             <span class="page-icon-text">Settings</span>
                             <div class="page-icon-box">
                                 <i class="fas fa-cog"></i>
@@ -121,7 +121,7 @@ function community() {return {
             <section id="leaderboards-section">
                 <h2>
                     Leaderboards
-                    <a :href="'/communities/' + community.id + '/leaderboards/create'" class="title-icon h2-icon teal teal-h" title="Create leaderboard">
+                    <a href="<%= url_for("leaderboards.create", params) %>" class="title-icon h2-icon teal teal-h" title="Create leaderboard">
                         <i class="fas fa-plus"></i>
                     </a>
                 </h2>
@@ -249,7 +249,7 @@ function dtInitCommunity() {
                 className: 'table-icon-row',
                 render(data, type, row, meta) {
                     return `
-                    <a href="/leaderboards/` + row.id + `/edit" class="table-icon table-icon-s orange orange-h" title="Edit leaderboard">
+                    <a href="<%= url_for("leaderboard.edit", {leaderboard_id = "${row.id}"}) %>" class="table-icon table-icon-s orange orange-h" title="Edit leaderboard">
                         <i class="fas fa-pen"></i>
                     </a>
                     <a href="#!" class="table-icon teal teal-h" title="Add to community" data-bs-toggle="modal" data-bs-target="#add-leaderboard-modal">

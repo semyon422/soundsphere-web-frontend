@@ -28,7 +28,7 @@ function community_edit() {return {
         <div id="main-box">
             <nav class="navbar-expand page-icons page-icons-left page-icons-never-collapsed">
                 <div class="navbar-nav">
-                    <a :href="'/communities/<%= params.community_id %>'" class="page-icon" title="Go back to the previous page">
+                    <a href="<%= url_for("community", params) %>" class="page-icon" title="Go back to the previous page">
                         <div class="page-icon-box">
                             <i class="fas fa-arrow-left"></i>
                         </div>

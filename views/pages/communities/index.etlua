@@ -18,7 +18,7 @@ function communities() {return {
         <div id="main-box">
             <nav x-show="methods.includes('POST')" class="navbar-expand page-icons page-icons-right page-icons-never-collapsed">
                 <div class="navbar-nav">
-                    <a href="/communities/create" class="page-icon" title="Create community">
+                    <a href="<%= url_for("communities.create") %>" class="page-icon" title="Create community">
                         <div class="page-icon-box">
                             <i class="fas fa-plus"></i>
                         </div>
@@ -135,7 +135,7 @@ function dtInitCommunities() {
                 render(data, type, row, meta) {
                     if (row.joined) {
                         return `
-                            <a href="/communities/` + row.id + `/edit" class="table-icon table-icon-s orange orange-h" title="Edit community">
+                            <a href="<%= url_for("community.edit", {community_id = "${row.id}"}) %>" class="table-icon table-icon-s orange orange-h" title="Edit community">
                                 <i class="fas fa-pen"></i>
                             </a>
                             <a href="#!" class="table-icon red red-h" title="Leave community" data-bs-toggle="modal" data-bs-target="#delete-modal">

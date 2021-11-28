@@ -79,7 +79,7 @@ function leaderboard() {return {
                             </div>
                         </a>
 
-                        <a href="/leaderboards/<%= params.leaderboard_id %>/edit" class="page-icon" title="leaderboard settings">
+                        <a href="<%= url_for("leaderboards.edit", params) %>" class="page-icon" title="leaderboard settings">
                             <span class="page-icon-text">Settings</span>
                             <div class="page-icon-box">
                                 <i class="fas fa-cog"></i>

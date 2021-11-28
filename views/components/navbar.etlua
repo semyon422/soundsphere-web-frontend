@@ -55,7 +55,7 @@ function primary_navbar() {return {
             </div>
 
             <div class="navbar-nav" x-show="logged_in" x-cloak>
-                <a class="nav-link" :href="session.user_id ? '/users/' + session.user_id : '/'">
+                <a class="nav-link" href="<%= url_for("user", session) %>">
                     Profile
                 </a>
                 <a class="nav-link" href="#" @click="logout()">

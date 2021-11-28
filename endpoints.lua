@@ -1,103 +1,122 @@
 return {
 	{
 		path = "/",
-		view = "pages.home"
+		view = "pages.home",
 	},
 	{
 		path = "/home",
-		view = "pages.home"
+		view = "pages.home",
+		name = "home",
 	},
 	{
 		path = "/login",
-		view = "pages.login"
+		view = "pages.login",
+		name = "login",
 	},
 	{
 		path = "/register",
-		view = "pages.register"
+		view = "pages.register",
+		name = "register",
 	},
 	{
 		path = "/communities",
-		view = "pages.communities.index"
+		view = "pages.communities.index",
+		name = "communities",
 	},
 	{
 		path = "/communities/create",
-		view = "pages.communities.create"
+		view = "pages.communities.create",
+		name = "communities.create",
 	},
 	{
 		path = "/communities/:community_id",
-		view = "pages.communities.community.index"
+		view = "pages.communities.community.index",
+		name = "community",
 	},
 	{
 		path = "/communities/:community_id/edit",
-		view = "pages.communities.community.edit"
+		view = "pages.communities.community.edit",
+		name = "community.edit",
 	},
 	{
 		path = "/communities/:community_id/changes",
-		view = "pages.communities.community.changes"
+		view = "pages.communities.community.changes",
+		name = "community.changes",
 	},
 	{
 		path = "/communities/:community_id/leaderboards/create",
-		view = "pages.leaderboards.create"
+		view = "pages.leaderboards.create",
+		name = "leaderboards.create",
 	},
 	{
 		path = "/leaderboards",
-		view = "pages.leaderboards.index"
+		view = "pages.leaderboards.index",
+		name = "leaderboards",
 	},
 	{
 		path = "/leaderboards/:leaderboard_id",
-		view = "pages.leaderboards.leaderboard.index"
+		view = "pages.leaderboards.leaderboard.index",
+		name = "leaderboard",
 	},
 	{
 		path = "/leaderboards/:leaderboard_id/edit",
-		view = "pages.leaderboards.leaderboard.edit"
+		view = "pages.leaderboards.leaderboard.edit",
+		name = "leaderboard.edit",
 	},
 	{
 		path = "/tables",
-		view = "pages.tables.index"
+		view = "pages.tables.index",
+		name = "tables",
 	},
 	{
 		path = "/tables/:table_id",
-		view = "pages.tables.table.index"
+		view = "pages.tables.table.index",
+		name = "table",
 	},
 	{
 		path = "/users",
-		view = "pages.users.index"
+		view = "pages.users.index",
+		name = "users",
 	},
 	{
 		path = "/users/:user_id",
-		view = "pages.users.user.index"
+		view = "pages.users.user.index",
+		name = "user",
 	},
 	{
 		path = "/users/:user_id/edit",
-		view = "pages.users.user.edit"
+		view = "pages.users.user.edit",
+		name = "user.edit",
 	},
 	{
 		path = "/users/:user_id/inbox",
-		view = "pages.users.user.inbox"
+		view = "pages.users.user.inbox",
+		name = "user.inbox",
 	},
 	{
 		path = "/notecharts",
-		view = "pages.notecharts.index"
+		view = "pages.notecharts.index",
+		name = "notecharts",
 	},
 	{
 		path = "/notecharts/:notechart_id",
-		view = "pages.notecharts.notechart.index"
+		view = "pages.notecharts.notechart.index",
+		name = "notechart",
 	},
 	{
 		path = "/help",
-		view = "pages.help"
+		view = "pages.help",
+		name = "help",
 	},
 	{
 		path = "/download",
-		view = "pages.download"
+		view = "pages.download",
+		name = "download",
 	},
 	{
 		path = "/notfound",
-		view = "pages.404"
-	},
-	{
-		path = "notfound",
-		view = "pages.404"
+		view = "pages.404",
+		name = "notfound",
 	},
 }
 
