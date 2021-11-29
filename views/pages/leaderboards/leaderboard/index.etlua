@@ -282,7 +282,7 @@ function dtInitLeaderboard() {
         ...dtColOptions,
         scrollX: true,
         serverSide: true,
-        ajax: "/dt/leaderboards/<%= params.leaderboard_id %>/tables",
+        ajax: "/dt/leaderboards/<%= params.leaderboard_id %>/difftables",
         columns: [
             {
                 data: "name",
