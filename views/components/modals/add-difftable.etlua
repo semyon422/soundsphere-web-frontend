@@ -1,4 +1,4 @@
-<div class="modal" id="add-bms-table-modal">
+<div class="modal" id="add-difftable-modal">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -7,8 +7,8 @@
             </div>
             <div class="modal-body">
                 <form class="modal-form">
-                    <input class="form-control" list="bms-table-options" id="add-bms-table-bms-table" name="bms-table" title="The table to add" placeholder="Search for a table...">
-                    <datalist id="bms-table-options">
+                    <input class="form-control" list="difftable-options" id="add-difftable-difftable" name="difftable" title="The table to add" placeholder="Search for a table...">
+                    <datalist id="difftable-options">
                         <option value="Table1">
                         <option value="Table2">
                         <option value="Table3">

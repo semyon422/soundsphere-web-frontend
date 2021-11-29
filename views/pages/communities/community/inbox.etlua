@@ -29,7 +29,7 @@
 
             <h2>Players</h2>
 
-            <?php require('components/modals/delete.php'); ?>
+            <% render("views.components.modals.delete") %>
             <section id="incoming-player-requests-section">
                 <h3>Incoming requests</h3>
 
@@ -61,7 +61,7 @@
             </section>
 
 
-            <?php require('components/modals/create-player-invite.php'); ?>
+            <% render("views.components.modals.create-player-invite") %>
             <section id="outgoing-player-invites-section">
                 <h3>
                     Outgoing invites
@@ -134,7 +134,7 @@
             </section>
 
 
-            <?php require('components/modals/create-leaderboard-invite.php'); ?>
+            <% render("views.components.modals.create-leaderboard-invite") %>
             <section id="outgoing-leaderboard-invites-section">
                 <h3>
                     Outgoing invites

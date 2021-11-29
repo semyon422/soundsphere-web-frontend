@@ -105,9 +105,9 @@ function leaderboardLink(leaderboard) {
 	return ''
 }
 
-function tableLink(table) {
-	if (table) {
-		return '<a href="/tables/' + table.id + '">' + table.name + '</a>'
+function difftableLink(difftable) {
+	if (difftable) {
+		return '<a href="/difftables/' + difftable.id + '">' + difftable.name + '</a>'
 	}
 	return ''
 }

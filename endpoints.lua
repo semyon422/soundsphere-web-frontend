@@ -69,14 +69,14 @@ return {
 		name = "leaderboard.edit",
 	},
 	{
-		path = "/tables",
-		view = "pages.tables.index",
-		name = "tables",
+		path = "/difftables",
+		view = "pages.difftables.index",
+		name = "difftables",
 	},
 	{
-		path = "/tables/:table_id",
-		view = "pages.tables.table.index",
-		name = "table",
+		path = "/difftables/:difftable_id",
+		view = "pages.difftables.difftable.index",
+		name = "difftable",
 	},
 	{
 		path = "/users",

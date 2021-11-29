@@ -55,7 +55,7 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td><a href="?a=bms-tables_bms-table1_index">Table1</a></td>
+                            <td><a href="?a=difftables_difftable1_index">Table1</a></td>
                             <td>15</td>
                             <td>7K</td>
                             <td>20</td>

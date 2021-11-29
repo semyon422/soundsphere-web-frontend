@@ -26,8 +26,8 @@ function leaderboard() {return {
             <div class="nav">
                 <a class="nav-link" href="#info-community-ranking-section">Info</a>
                 <a class="nav-link" href="#modifiers-section">Modifiers</a>
-                <a class="nav-link" href="#communities-bms-tables-section">Communities</a>
-                <a class="nav-link" href="#communities-bms-tables-section">Tables</a>
+                <a class="nav-link" href="#communities-difftables-section">Communities</a>
+                <a class="nav-link" href="#communities-difftables-section">Tables</a>
                 <a class="nav-link" href="#ranking-section">Ranking</a>
             </div>
         </div>
@@ -162,7 +162,7 @@ function leaderboard() {return {
 
 
             <% render("views.components.modals.delete") %>
-            <section id="communities-bms-tables-section" class="section-grid">
+            <section id="communities-difftables-section" class="section-grid">
                 <div class="row">
                     <div class="col-sm-6">
                         <h2>Communities</h2>
@@ -186,7 +186,7 @@ function leaderboard() {return {
                     <div class="col-sm-6">
                         <h2>Tables</h2>
 
-                        <table id="leaderboard-tables-table" class="data-table table" data-orders="1a 0a">
+                        <table id="leaderboard-difftables-table" class="data-table table" data-orders="1a 0a">
                             <thead>
                                 <tr>
                                     <th title="Table name">Name</th>
@@ -278,7 +278,7 @@ function dtInitLeaderboard() {
             },
         ]
     })
-    dtInit(document.querySelector("#leaderboard-tables-table"), {
+    dtInit(document.querySelector("#leaderboard-difftables-table"), {
         ...dtColOptions,
         scrollX: true,
         serverSide: true,

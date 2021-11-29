@@ -54,7 +54,7 @@ function leaderboard_edit() {return {
             <% render("views.components.modals.delete", {id = "delete-inputmode-modal", on_delete = "remove_input_mode(selected_inputmode)"}) %>
             <% render("views.components.modals.delete") %>
             <% render("views.components.modals.add-modifier") %>
-            <% render("views.components.modals.add-bms-table") %>
+            <% render("views.components.modals.add-difftable") %>
             <% render("views.components.modals.confirm-delete") %>
             <% render("views.components.modals.add-input-mode") %>
             <section id="form-section">
@@ -173,17 +173,17 @@ function leaderboard_edit() {return {
                     </div>
 
                     <div class="form-item">
-                        <label for="bms-tables" class="form-label form-required w-100" title="Tables of which the charts will be used for ranking">
+                        <label for="difftables" class="form-label form-required w-100" title="Tables of which the charts will be used for ranking">
                             Tables
-                            <a href="#!" class="title-icon label-icon teal teal-h" title="Add table" data-bs-toggle="modal" data-bs-target="#add-bms-table-modal">
+                            <a href="#!" class="title-icon label-icon teal teal-h" title="Add table" data-bs-toggle="modal" data-bs-target="#add-difftable-modal">
                                 <i class="fas fa-plus"></i>
                             </a>
                         </label>
-                        <table class="data-table data-table-slim data-table-nohead table table-icon-col-last" id="bms-tables">
+                        <table class="data-table data-table-slim data-table-nohead table table-icon-col-last" id="difftables">
                             <thead><tr> <th></th> <th></th> </tr></thead>
                             <tbody>
                                 <tr>
-                                    <td><a href="?a=bms-tables_bms-table1_index">Table1</a></td>
+                                    <td><a href="?a=difftables_difftable1_index">Table1</a></td>
                                     <td class="table-icon-cell">
                                         <a href="#!" class="table-icon table-icon-l red red-h" title="Remove table" data-bs-toggle="modal" data-bs-target="#delete-modal">
                                             <i class="fas fa-times"></i>

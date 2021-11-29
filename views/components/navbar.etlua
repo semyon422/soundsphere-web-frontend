@@ -47,7 +47,7 @@ function primary_navbar() {return {
                 <a class="nav-link" href="/">Home</a>
                 <a class="nav-link" href="/communities">Communities</a>
                 <a class="nav-link" href="/leaderboards">Leaderboards</a>
-                <a class="nav-link" href="/tables">Tables</a>
+                <a class="nav-link" href="/difftables">Tables</a>
                 <a class="nav-link" href="/users">Players</a>
                 <a class="nav-link" href="/notecharts">Charts</a>
                 <a class="nav-link" href="/help">Help</a>

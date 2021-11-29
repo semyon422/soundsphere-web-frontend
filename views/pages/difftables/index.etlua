@@ -1,28 +1,28 @@
 <script>
-function bms_tables() {return {
-    table: {
+function difftables() {return {
+    difftable: {
         url: '',
     },
 	async post() {
-		let response = await fetch('<%= api_url %>/tables', {
+		let response = await fetch('<%= api_url %>/difftables', {
 			method: 'POST',
-			body: JSON.stringify(this.table),
+			body: JSON.stringify(this.difftable),
 			headers: {'Content-Type': 'application/json'},
             credentials: 'same-origin'
 		})
         if (!response.ok && await handle_not_ok(response)) return
 		let response_json = await response.json()
-		if (!response_json.table) return console.log(response_json)
+		if (!response_json.difftable) return console.log(response_json)
 	},
 }}
 </script>
-<div id="bms-tables" x-data="bms_tables">
+<div id="difftables" x-data="difftables">
     <main class="container-lg">
         <div id="main-box">
-            <% render("views.components.modals.create-bms-table") %>
+            <% render("views.components.modals.create-difftable") %>
             <nav class="navbar-expand page-icons page-icons-right page-icons-never-collapsed">
                 <div class="navbar-nav">
-                    <a href="#!" class="page-icon" title="Add table" data-bs-toggle="modal" data-bs-target="#create-bms-table-modal">
+                    <a href="#!" class="page-icon" title="Add table" data-bs-toggle="modal" data-bs-target="#create-difftable-modal">
                         <div class="page-icon-box">
                             <i class="fas fa-plus"></i>
                         </div>
@@ -33,8 +33,8 @@ function bms_tables() {return {
             <h1>Tables</h1>
 
 
-            <section id="bms-tables-section">
-                <table id="tables-table" class="data-table table">
+            <section id="difftables-section">
+                <table id="difftables-table" class="data-table table">
                     <thead>
                         <tr>
                             <th title="Table name">Name</th>
@@ -60,11 +60,11 @@ function bms_tables() {return {
 </div>
 <script>
 ready(() =>
-    dtInit(document.querySelector("#tables-table"), {
+    dtInit(document.querySelector("#difftables-table"), {
         ...dtAllOptions,
         scrollX: true,
         serverSide: true,
-        ajax: "/dt/tables",
+        ajax: "/dt/difftables",
         columns: [
             {data: "name"},
             {data: "name"},
