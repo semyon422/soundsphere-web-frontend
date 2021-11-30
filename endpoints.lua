@@ -54,6 +54,11 @@ return {
 		name = "leaderboards.create",
 	},
 	{
+		path = "/communities/:community_id/difftables/create",
+		view = "pages.difftables.create",
+		name = "difftables.create",
+	},
+	{
 		path = "/leaderboards",
 		view = "pages.leaderboards.index",
 		name = "leaderboards",

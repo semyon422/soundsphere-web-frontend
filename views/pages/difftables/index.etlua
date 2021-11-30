@@ -22,7 +22,7 @@ function difftables() {return {
             <% render("views.components.modals.create-difftable") %>
             <nav class="navbar-expand page-icons page-icons-right page-icons-never-collapsed">
                 <div class="navbar-nav">
-                    <a href="#!" class="page-icon" title="Add table" data-bs-toggle="modal" data-bs-target="#create-difftable-modal">
+                    <a href="#!" class="page-icon" title="Create table">
                         <div class="page-icon-box">
                             <i class="fas fa-plus"></i>
                         </div>
@@ -66,10 +66,19 @@ ready(() =>
         serverSide: true,
         ajax: "/dt/difftables",
         columns: [
-            {data: "name"},
-            {data: "name"},
-            {data: "name"},
-            {data: "name"},
+            {
+                render(data, type, row, meta) {
+                    return difftableLink(row)
+                }
+            },
+            {
+                data: "inputmodes",
+                render(data, type, row, meta) {
+                    return inputmodesToString(data)
+                }
+            },
+            {data: "notecharts_count"},
+            {data: "scores_count"},
         ]
     })
 )

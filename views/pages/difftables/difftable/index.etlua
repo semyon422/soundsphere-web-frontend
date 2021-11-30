@@ -1,10 +1,28 @@
-<div id="difftable">
+<script>
+function difftable() {return {
+    difftable: {},
+    async get() {
+		let response = await fetch(
+            '<%= api_url %>/difftables/<%= params.difftable_id %>',
+            {
+                credentials: 'same-origin'
+            }
+        )
+        if (!response.ok && await handle_not_ok(response)) return
+		let response_json = await response.json()
+		if (!response_json.difftable) return console.log(response_json)
+		this.difftable = response_json.difftable
+        dtInitDifftable()
+    },
+}}
+</script>
+<div id="difftable" x-data="difftable" x-init="get()">
     <% render("views.components.modals.properties") %>
 
 
     <main class="container-lg">
         <div id="main-box">
-            <h1>Table1</h1>
+            <h1 x-text="difftable.name"></h1>
 
 
             <section id="info-section">
@@ -13,15 +31,15 @@
                 <table class="meta-table">
                     <tr>
                         <th title="Input modes in the table charts">Modes:</th>
-                        <td>7K</td>
+                        <td x-text="inputmodesToString(difftable.inputmodes)"></td>
                         <th title="Chart count">Charts:</th>
-                        <td>20</td>
+                        <td x-text="difftable.notecharts_count"></td>
                     </tr>
                     <tr>
                         <th title="Plays over all charts">Plays:</th>
-                        <td>115</td>
+                        <td x-text="difftable.scores_count"></td>
                         <th title="The link to the original table">Link:</th>
-                        <td><a href="https://stellabms.xyz/st/table.html">stellabms.xyz/st/table.html</a></td>
+                        <td><a :href="difftable.link" x-text="difftable.link"></a></td>
                     </tr>
                 </table>
             </section>
@@ -39,24 +57,12 @@
                                 <tr>
                                     <th title="Community name">Name</th>
                                     <th title="To join private communities, you have to send a request">Public</th>
-                                    <th title="Input modes in community leaderboards">Modes</th>
+                                    <th title="Input modes in community difftables">Modes</th>
                                     <th title="Player count">Members</th>
                                     <th class="table-icon-th"></th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr class="highlight-row">
-                                    <td><a href="?a=communities_community1_index">Community1</a></td>
-                                    <td>No</td>
-                                    <td>7K, 10K</td>
-                                    <td>25</td>
-                                    <td class="table-icon-cell">
-                                        <a href="#!" class="table-icon table-icon-hide red red-h" title="Leave community" data-bs-toggle="modal" data-bs-target="#delete-modal">
-                                            <i class="fas fa-sign-out-alt"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                            </tbody>
+                            <tbody></tbody>
                         </table>
                     </div>
 
@@ -74,19 +80,7 @@
                                     <th class="table-icon-th"></th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr class="highlight-row">
-                                    <td><a href="?a=leaderboards_leaderboard1_index">Leaderboard1</a></td>
-                                    <td>7K, 10K</td>
-                                    <td>10</td>
-                                    <td>1</td>
-                                    <td class="table-icon-cell">
-                                        <a href="#!" class="table-icon teal teal-h" title="Add to community" data-bs-toggle="modal" data-bs-target="#add-leaderboard-modal">
-                                            <i class="fas fa-sign-in-alt"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                            </tbody>
+                            <tbody></tbody>
                         </table>
                     </div>
                 </div>
@@ -109,56 +103,7 @@
                             <th title="File format">Format</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td></td>
-                            <td>Chart1</td>
-                            <td><a href="?a=charts_chart1_index">Difficulty1</a></td>
-                            <td>15</td>
-                            <td>A charter</td>
-                            <td>An artist</td>
-                            <td>7K</td>
-                            <td>BME</td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td>Chart1</td>
-                            <td><a href="?a=charts_chart1_index">Difficulty1</a></td>
-                            <td>15</td>
-                            <td>A charter</td>
-                            <td>An artist</td>
-                            <td>7K</td>
-                            <td>BME</td>
-                        </tr>
-                        <tr>
-                            <td class="table-icon-cell">
-                                <span class="table-icon table-icon-s gray" title="You have a score on this chart">
-                                    <i class="fas fa-check"></i>
-                                </span>
-                            </td>
-                            <td>Chart1</td>
-                            <td><a href="?a=charts_chart1_index">Difficulty1</a></td>
-                            <td>15</td>
-                            <td>A charter</td>
-                            <td>An artist</td>
-                            <td>7K</td>
-                            <td>BME</td>
-                        </tr>
-                        <tr>
-                            <td class="table-icon-cell">
-                                <span class="table-icon table-icon-s gray" title="You have a score on this chart">
-                                    <i class="fas fa-check"></i>
-                                </span>
-                            </td>
-                            <td>Chart1</td>
-                            <td><a href="?a=charts_chart1_index">Difficulty1</a></td>
-                            <td>15</td>
-                            <td>A charter</td>
-                            <td>An artist</td>
-                            <td>7K</td>
-                            <td>BME</td>
-                        </tr>
-                    </tbody>
+                    <tbody></tbody>
                     <tfoot>
                         <tr>
                             <th class="table-icon-th"></th>
@@ -185,24 +130,26 @@ ready(() => {
         ajax: "/dt/difftables/<%= params.difftable_id %>/communities",
         columns: [
             {
-                data: "name",
                 render(data, type, row, meta) {
-                    return '<a href="/communities/' + row.id + '">' + data + '</a>';
+                    return communityLink(row)
                 }
             },
-            {data: "name"},
-            {data: "name"},
-            {data: "name"},
+            {render(data, type, row, meta) {return row.is_public ? 'Yes' : 'No'}},
             {
-                className: 'table-icon-row',
+                data: "inputmodes",
                 render(data, type, row, meta) {
+                    return inputmodesToString(data)
+                }
+            },
+            {data: "users_count"},
+            {
+                className: 'table-icon-cell',
+                render() {
                     return `
-                    <td class="table-icon-row">
-                        <a href="#" class="table-icon green green-h" title="Join community">
-                            <i class="fas fa-sign-in-alt"></i>
+                        <a href="#!" class="table-icon table-icon-hide red red-h" title="Leave community" data-bs-toggle="modal" data-bs-target="#delete-modal">
+                            <i class="fas fa-sign-out-alt"></i>
                         </a>
-                    </td>
-                    `;
+                    `
                 }
             },
         ]
@@ -214,23 +161,25 @@ ready(() => {
         ajax: "/dt/difftables/<%= params.difftable_id %>/leaderboards",
         columns: [
             {
-                data: "name",
                 render(data, type, row, meta) {
-                    return '<a href="/leaderboards/' + row.id + '">' + data + '</a>';
+                    return leaderboardLink(row)
                 }
             },
-            {data: "name"},
-            {data: "name"},
-            {data: "name"},
             {
-                className: 'table-icon-row',
+                data: "inputmodes",
+                render(data, type, row, meta) {
+                    return inputmodesToString(data)
+                }
+            },
+            {data: "users_count"},
+            {data: "difftables_count"},
+            {
+                className: 'table-icon-cell',
                 render(data, type, row, meta) {
                     return `
-                    <td class="table-icon-row">
-                        <a href="#" class="table-icon blue blue-h" data-bs-toggle="modal" data-bs-target="#add-leaderboard-modal">
-                            <i class="fas fa-sign-in-alt" title="Add to community"></i>
+                        <a href="#!" class="table-icon teal teal-h" title="Add to community" data-bs-toggle="modal" data-bs-target="#add-difftable-modal">
+                            <i class="fas fa-sign-in-alt"></i>
                         </a>
-                    </td>
                     `;
                 }
             },
@@ -242,17 +191,22 @@ ready(() => {
         serverSide: true,
         ajax: "/dt/difftables/<%= params.difftable_id %>/notecharts",
         columns: [
-            {data: "name"},
+            {
+                render(data, type, row, meta) {
+                    return ''
+                }
+            },
+            {data: "title"},
             {
                 render(data, type, row, meta) {
                     return notechartLink(row)
                 }
             },
-            {data: "name"},
-            {data: "name"},
-            {data: "name"},
-            {data: "name"},
-            {data: "name"},
+            {data: "level"},
+            {data: "creator"},
+            {data: "artist"},
+            {data: "inputmode"},
+            {data: "format"},
         ]
     })
 })
