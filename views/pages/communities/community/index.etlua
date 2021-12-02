@@ -1,8 +1,11 @@
 <script>
 function community() {return {
+    communities: {},
     community: {},
     methods: [],
     user_methods: [],
+    selected_leaderboard_id: 0,
+    selected_community_id: 0,
     async get() {
 		let response = await fetch(
             '<%= api_url %>/communities/<%= params.community_id %>' +
@@ -17,6 +20,7 @@ function community() {return {
 		this.community = response_json.community
 		this.methods = response_json.methods
         dtInitCommunity()
+        this.get_communities()
     },
     async get_leave() {
 		let response = await fetch('<%= access_url %>/communities/<%= params.community_id %>/users/<%= session.user_id %>', {
@@ -26,7 +30,26 @@ function community() {return {
 		let response_json = await response.json()
 		if (!response_json.methods) return console.log(response_json)
 		this.user_methods = response_json.methods
-    }
+    },
+    async get_communities() {
+		let response = await fetch('<%= api_url %>/users/<%= session.user_id %>/communities?is_admin', {
+            credentials: 'same-origin'
+        })
+        if (!response.ok && await handle_not_ok(response)) return
+		let response_json = await response.json()
+		if (!response_json.communities) return console.log(response_json)
+		this.communities = response_json.communities
+    },
+    async add_to_community() {
+		let response = await fetch(
+            '<%= api_url %>/communities/' + this.selected_community_id + '/leaderboards/' + this.selected_leaderboard_id,
+            {
+                method: 'PUT',
+                credentials: 'same-origin'
+            }
+        )
+        if (!response.ok && await handle_not_ok(response)) return
+    },
 }}
 </script>
 <div id="community" x-data="community" x-init="get(); get_leave();" x-show="community.id" x-cloak>
@@ -49,6 +72,7 @@ function community() {return {
     <main class="container-lg">
         <div id="main-box">
             <% render("views.components.modals.delete") %>
+            <% render("views.components.modals.add-leaderboard") %>
 
             <nav class="page-icons page-icons-right page-icons-always-collapsed">
                 <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#page-icons-right">
@@ -250,6 +274,9 @@ function dtInitCommunity() {
                     return `
                     <a href="<%= url_for("leaderboard.edit", {leaderboard_id = "${row.id}"}) %>" class="table-icon table-icon-s orange orange-h" title="Edit leaderboard">
                         <i class="fas fa-pen"></i>
+                    </a>
+                    <a href="#!" class="table-icon teal teal-h" title="Add to community" data-bs-toggle="modal" data-bs-target="#add-leaderboard-modal" @click="selected_leaderboard_id=${row.id}">
+                        <i class="fas fa-sign-in-alt"></i>
                     </a>
                     `;
                 }
