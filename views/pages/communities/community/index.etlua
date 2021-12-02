@@ -49,7 +49,6 @@ function community() {return {
     <main class="container-lg">
         <div id="main-box">
             <% render("views.components.modals.delete") %>
-            <% render("views.components.modals.add-leaderboard") %>
 
             <nav class="page-icons page-icons-right page-icons-always-collapsed">
                 <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#page-icons-right">
@@ -251,9 +250,6 @@ function dtInitCommunity() {
                     return `
                     <a href="<%= url_for("leaderboard.edit", {leaderboard_id = "${row.id}"}) %>" class="table-icon table-icon-s orange orange-h" title="Edit leaderboard">
                         <i class="fas fa-pen"></i>
-                    </a>
-                    <a href="#!" class="table-icon teal teal-h" title="Add to community" data-bs-toggle="modal" data-bs-target="#add-leaderboard-modal">
-                        <i class="fas fa-sign-in-alt"></i>
                     </a>
                     `;
                 }

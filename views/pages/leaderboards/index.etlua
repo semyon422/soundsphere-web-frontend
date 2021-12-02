@@ -1,4 +1,45 @@
-<div id="leaderboards">
+<script>
+function leaderboards() {return {
+    methods: [],
+    communities: [],
+    selected_leaderboard_id: 0,
+    selected_community_id: 0,
+    async get() {
+		let response = await fetch('<%= access_url %>/leaderboards', {
+            credentials: 'same-origin'
+        })
+        if (!response.ok && await handle_not_ok(response)) return
+		let response_json = await response.json()
+		if (!response_json.methods) return console.log(response_json)
+		this.methods = response_json.methods
+        dtInitLeaderboards()
+        this.get_communities()
+    },
+    async get_communities() {
+		let response = await fetch('<%= api_url %>/users/<%= session.user_id %>/communities?is_admin', {
+            credentials: 'same-origin'
+        })
+        if (!response.ok && await handle_not_ok(response)) return
+		let response_json = await response.json()
+		if (!response_json.communities) return console.log(response_json)
+		this.communities = response_json.communities
+    },
+    async add_to_community() {
+		let response = await fetch(
+            '<%= api_url %>/communities/' + this.selected_community_id + '/leaderboards/' + this.selected_leaderboard_id,
+            {
+                method: 'PUT',
+                credentials: 'same-origin'
+            }
+        )
+        if (!response.ok && await handle_not_ok(response)) return
+    },
+    async create_at_community() {
+        document.location.href = '/communities/' + this.selected_community_id + '/leaderboards/create'
+    },
+}}
+</script>
+<div id="leaderboards" x-data="leaderboards" x-init="get()" x-cloak>
     <main class="container-lg">
         <div id="main-box">
             <% render("views.components.modals.create-leaderboard") %>
@@ -62,8 +103,9 @@
     </main>
 </div>
 <script>
-ready(() =>
-    dtInit(document.querySelector("#leaderboards-table"), {
+function dtInitLeaderboards() {
+    var dt
+    dt = dtInit(document.querySelector("#leaderboards-table"), {
         ...dtAllOptions,
         scrollX: true,
         serverSide: true,
@@ -81,13 +123,13 @@ ready(() =>
                 }
             },
             {data: "users_count"},
-            {data: "tables_count"},
+            {data: "difftables_count"},
             {data: "communities_count"},
             {
                 className: 'table-icon-row',
                 render(data, type, row, meta) {
                     return `
-                    <a href="#" class="table-icon blue blue-h" data-bs-toggle="modal" data-bs-target="#add-leaderboard-modal">
+                    <a href="#" class="table-icon blue blue-h" data-bs-toggle="modal" data-bs-target="#add-leaderboard-modal" @click="selected_leaderboard_id=${row.id}">
                         <i class="fas fa-sign-in-alt" title="Add to community"></i>
                     </a>
                     `;
@@ -95,5 +137,6 @@ ready(() =>
             },
         ]
     })
-)
+    return dt
+}
 </script>

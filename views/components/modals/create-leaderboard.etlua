@@ -7,16 +7,16 @@
             </div>
             <div class="modal-body">
                 <form class="modal-form">
-                    <select class="form-select" id="create-leaderboard-community" name="community" title="The community to create the leaderboard for">
+                    <select class="form-select" id="create-leaderboard-community" name="community" title="The community to create the leaderboard for" x-model="selected_community_id">
                         <option selected hidden>Select a community</option>
-                        <option value="Community1">Community1</option>
-                        <option value="Community2">Community2</option>
-                        <option value="Community3">Community3</option>
+                        <template x-for="community in communities">
+                            <option :value="community.id" x-text="community.name"></option>
+                        </template>
                     </select>
                 </form>
             </div>
             <div class="modal-footer">
-                <a href="?a=leaderboards_create" class="btn bg-teal bg-teal-h">Start creation</a>
+                <a href="#!" class="btn bg-teal bg-teal-h" @click="create_at_community">Start creation</a>
                 <button type="button" class="btn bg-gray bg-gray-h" data-bs-dismiss="modal">Cancel</button>
             </div>
         </div>
