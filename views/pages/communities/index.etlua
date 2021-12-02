@@ -1,6 +1,10 @@
 <script>
 function communities() {return {
     methods: [],
+    dtCommunities: undefined,
+    selected_community_id: 0,
+    selected_community_name: '',
+    request_message: '',
     async get() {
 		let response = await fetch('<%= access_url %>/communities', {
             credentials: 'same-origin'
@@ -9,7 +13,30 @@ function communities() {return {
 		let response_json = await response.json()
 		if (!response_json.methods) return console.log(response_json)
 		this.methods = response_json.methods
-        dtInitCommunities()
+        this.dtCommunities = dtInitCommunities()
+    },
+    async join_community(community_id) {
+		let response = await fetch(
+            '<%= api_url %>/communities/' + community_id + '/users/<%= session.user_id %>',
+            {
+                method: 'PUT',
+                message: this.request_message,
+                credentials: 'same-origin'
+            }
+        )
+        if (!response.ok && await handle_not_ok(response)) return
+		this.dtCommunities.ajax.reload()
+    },
+    async leave_community(community_id) {
+		let response = await fetch(
+            '<%= api_url %>/communities/' + community_id + '/users/<%= session.user_id %>',
+            {
+                method: 'DELETE',
+                credentials: 'same-origin'
+            }
+        )
+        if (!response.ok && await handle_not_ok(response)) return
+		this.dtCommunities.ajax.reload()
     },
 }}
 </script>
@@ -28,8 +55,8 @@ function communities() {return {
 
             <h1>Communities</h1>
 
-            <% render("views.components.modals.delete") %>
-            <% render("views.components.modals.create-player-request-2") %>
+            <% render("views.components.modals.delete", {on_delete = "leave_community(selected_community_id)"}) %>
+            <% render("views.components.modals.create-player-request-2", {community_name = "selected_community_name"}) %>
             <section id="communities-section">
                 <div id="communities-insert-top" hidden>
                     <div class="col">
@@ -138,13 +165,20 @@ function dtInitCommunities() {
                             <a href="<%= url_for("community.edit", {community_id = "${row.id}"}) %>" class="table-icon table-icon-s orange orange-h" title="Edit community">
                                 <i class="fas fa-pen"></i>
                             </a>
-                            <a href="#!" class="table-icon red red-h" title="Leave community" data-bs-toggle="modal" data-bs-target="#delete-modal">
+                            <a href="#!" class="table-icon red red-h" title="Leave community" data-bs-toggle="modal" data-bs-target="#delete-modal" @click="selected_community_id = ${row.id}">
                                 <i class="fas fa-sign-out-alt"></i>
                             </a>
                         `
                     }
+                    if (row.is_public) {
+                        return `
+                            <a href="#!" class="table-icon teal teal-h" title="Join community" @click="join_community(${row.id})">
+                                <i class="fas fa-sign-in-alt"></i>
+                            </a>
+                        `
+                    }
                     return `
-                        <a href="#!" class="table-icon teal teal-h" title="Join community" data-bs-toggle="modal" data-bs-target="#create-player-request-2-modal">
+                        <a href="#!" class="table-icon teal teal-h" title="Join community" data-bs-toggle="modal" data-bs-target="#create-player-request-2-modal" @click="selected_community_id = ${row.id}; selected_community_name = '${row.name}';">
                             <i class="fas fa-sign-in-alt"></i>
                         </a>
                     `
@@ -152,5 +186,6 @@ function dtInitCommunities() {
             },
         ]
     })
+    return dt
 }
 </script>
