@@ -1,4 +1,11 @@
-<div id="community-inbox">
+<script>
+function communityInbox() {return {
+    dtInit() {
+        dtInitInbox()
+    }
+}}
+</script>
+<div id="community-inbox" x-data="communityInbox" x-init="dtInit" x-cloak>
     <nav id="secondary-navbar">
         <div class="container-lg">
             <div class="nav">
@@ -16,7 +23,7 @@
         <div id="main-box">
             <nav class="navbar-expand page-icons page-icons-left page-icons-never-collapsed">
                 <div class="navbar-nav">
-                    <a href="?a=communities_community1_index" class="page-icon" title="Go back to the previous page">
+                    <a href="<%= url_for("community", params) %>" class="page-icon" title="Go back to the previous page">
                         <div class="page-icon-box">
                             <i class="fas fa-arrow-left"></i>
                         </div>
@@ -33,7 +40,7 @@
             <section id="incoming-player-requests-section">
                 <h3>Incoming requests</h3>
 
-                <table class="data-table data-table-slim table table-icon-col-last" data-orders="2d">
+                <table id="users-requests-table" class="data-table table table-icon-col-last" data-orders="2d">
                     <thead>
                         <tr>
                             <th title="Player name">Player</th>
@@ -43,19 +50,6 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td><a href="?a=players_player1_index">Player1</a></td>
-                            <td>Hey it's Bob from Bob's Burgers.</td>
-                            <td>20-07-21 12:16</td>
-                            <td class="table-icon-cell">
-                                <a href="#!" class="table-icon table-icon-l teal teal-h" title="Accept the request. The player will join the community.">
-                                    <i class="fas fa-check"></i>
-                                </a>
-                                <a href="#!" class="table-icon table-icon-l red red-h" title="Deny the request. The player won't be able to send new requests." data-bs-toggle="modal" data-bs-target="#delete-modal">
-                                    <i class="fas fa-times"></i>
-                                </a>
-                            </td>
-                        </tr>
                     </tbody>
                 </table>
             </section>
@@ -70,7 +64,7 @@
                     </a>
                 </h3>
 
-                <table class="data-table data-table-slim table table-icon-col-last" data-orders="3d">
+                <table id="users-invitations-table" class="data-table table table-icon-col-last" data-orders="3d">
                     <thead>
                         <tr>
                             <th title="Player the invite is for">Player</th>
@@ -80,19 +74,7 @@
                             <th class="table-icon-th"></th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr class="highlight-row">
-                            <td><a href="?a=players_player1_index">Player1</a></td>
-                            <td><a href="?a=players_player1_index">Player1</a></td>
-                            <td>We are proud to invite you to the one and only first community!!</td>
-                            <td>20-07-21 12:16</td>
-                            <td class="table-icon-cell">
-                                <a href="#!" class="table-icon table-icon-l table-icon-hide red red-h" title="Cancel the invite">
-                                    <i class="fas fa-times"></i>
-                                </a>
-                            </td>
-                        </tr>
-                    </tbody>
+                    <tbody></tbody>
                 </table>
             </section>
 
@@ -102,7 +84,7 @@
             <section id="incoming-leaderboard-invites-section">
                 <h3>Incoming invites</h3>
 
-                <table class="data-table data-table-slim table table-icon-col-last" data-orders="3d">
+                <table class="data-table table table-icon-col-last" data-orders="3d">
                     <thead>
                         <tr>
                             <th title="Community name">Community</th>
@@ -143,7 +125,7 @@
                     </a>
                 </h3>
 
-                <table class="data-table data-table-slim table table-icon-col-last" data-orders="3d">
+                <table class="data-table table table-icon-col-last" data-orders="3d">
                     <thead>
                         <tr>
                             <th title="community the invite is for">Community</th>
@@ -173,3 +155,65 @@
         </div>
     </main>
 </div>
+<script>
+function dtInitInbox() {
+    dtInit(document.querySelector("#users-requests-table"), {
+        ...dtSlimOptions,
+        scrollX: true,
+        serverSide: true,
+        ajax: "/dt/communities/<%= params.community_id %>/users?requests",
+        columns: [
+            {
+                render(data, type, row, meta) {
+                    return userLink(row)
+                }
+            },
+            {data: "message"},
+            {data: "created_at"},
+            {
+                className: 'table-icon-cell',
+                render(data, type, row, meta) {
+                    return `
+                        <a href="#!" class="table-icon table-icon-l teal teal-h" title="Accept the request. The player will join the community.">
+                            <i class="fas fa-check"></i>
+                        </a>
+                        <a href="#!" class="table-icon table-icon-l red red-h" title="Deny the request. The player won't be able to send new requests." data-bs-toggle="modal" data-bs-target="#delete-modal">
+                            <i class="fas fa-times"></i>
+                        </a>
+                    `
+                }
+            },
+        ]
+    })
+    dtInit(document.querySelector("#users-invitations-table"), {
+        ...dtSlimOptions,
+        scrollX: true,
+        serverSide: true,
+        ajax: "/dt/communities/<%= params.community_id %>/users?invitations",
+        columns: [
+            {
+                render(data, type, row, meta) {
+                    return userLink(row)
+                }
+            },
+            {
+                render(data, type, row, meta) {
+                    return userLink(row.sender)
+                }
+            },
+            {data: "message"},
+            {data: "created_at"},
+            {
+                className: 'table-icon-cell',
+                render(data, type, row, meta) {
+                    return `
+                        <a href="#!" class="table-icon table-icon-l table-icon-hide red red-h" title="Cancel the invite">
+                            <i class="fas fa-times"></i>
+                        </a>
+                    `
+                }
+            },
+        ]
+    })
+}
+</script>
