@@ -3,6 +3,24 @@ function communityInbox() {return {
     dtInit() {
         dtInitInbox()
     },
+    async acceptUser(user_id) {
+		let response = await fetch(`<%= api_url %>/communities/<%= params.community_id %>/users/${user_id}?invitation`, {
+            method: 'PUT',
+            credentials: 'same-origin'
+        })
+        if (!response.ok && await handle_not_ok(response)) return
+		dtUsersRequests.ajax.reload()
+		dtUsersInvites.ajax.reload()
+    },
+    async denyUser(user_id) {
+		let response = await fetch(`<%= api_url %>/communities/<%= params.community_id %>/users/${user_id}`, {
+            method: 'DELETE',
+            credentials: 'same-origin'
+        })
+        if (!response.ok && await handle_not_ok(response)) return
+		dtUsersRequests.ajax.reload()
+		dtUsersInvites.ajax.reload()
+    },
     async acceptLeaderboard(community_id, leaderboard_id) {
 		let response = await fetch(`<%= api_url %>/communities/${community_id}/leaderboards/${leaderboard_id}`, {
             method: 'PATCH',
@@ -167,6 +185,7 @@ function dtInitInbox() {
                             href="#!"
                             class="table-icon table-icon-l teal teal-h"
                             title="Accept the request. The player will join the community."
+                            @click="acceptUser(${row.id})"
                         >
                             <i class="fas fa-check"></i>
                         </a>
@@ -176,6 +195,7 @@ function dtInitInbox() {
                             title="Deny the request. The player won't be able to send new requests."
                             data-bs-toggle="modal"
                             data-bs-target="#delete-modal"
+                            @click="denyUser(${row.id})"
                         >
                             <i class="fas fa-times"></i>
                         </a>
