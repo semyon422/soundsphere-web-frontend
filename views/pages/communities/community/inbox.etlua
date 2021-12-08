@@ -21,6 +21,15 @@ function communityInbox() {return {
 		dtUsersRequests.ajax.reload()
 		dtUsersInvites.ajax.reload()
     },
+    selectedUserId: 0,
+    selectedLeaderboardId: 0,
+    selectedCommunityId: 0,
+    denySelectedUser() {
+        this.denyUser(this.selectedUserId)
+    },
+    denyLeaderboard() {
+        this.denyLeaderboard(this.selectedCommunityId, this.selectedCommunityId)
+    },
     async acceptLeaderboard(community_id, leaderboard_id) {
 		let response = await fetch(`<%= api_url %>/communities/${community_id}/leaderboards/${leaderboard_id}`, {
             method: 'PATCH',
@@ -72,7 +81,8 @@ function communityInbox() {return {
 
             <h2>Players</h2>
 
-            <% render("views.components.modals.delete") %>
+            <% render("views.components.modals.delete", {id = "deny-user-modal", delete = "denySelectedUser"}) %>
+            <% render("views.components.modals.delete", {id = "deny-leaderboard-modal", delete = "denySelectedUser"}) %>
             <section id="incoming-player-requests-section">
                 <h3>Incoming requests</h3>
 
@@ -194,8 +204,8 @@ function dtInitInbox() {
                             class="table-icon table-icon-l red red-h"
                             title="Deny the request. The player won't be able to send new requests."
                             data-bs-toggle="modal"
-                            data-bs-target="#delete-modal"
-                            @click="denyUser(${row.id})"
+                            data-bs-target="#deny-user-modal"
+                            @click="selectedUserId = ${row.id}"
                         >
                             <i class="fas fa-times"></i>
                         </a>
@@ -285,8 +295,9 @@ function dtInitInbox() {
                             href="#!"
                             class="table-icon table-icon-l red red-h"
                             title="Deny the invite. The community won't be able to send new invites."
-                            data-bs-toggle="modal" data-bs-target="#delete-modal"
-                            @click="denyLeaderboard(${row.community_leaderboard.community_id}, ${row.id})"
+                            data-bs-toggle="modal" data-bs-target="#deny-leaderboard-modal"
+                            @click="selectedCommunityId = ${row.community_leaderboard.community_id}"
+                            @click="selectedLeaderboardId = ${row.id}"
                         >
                             <i class="fas fa-times"></i>
                         </a>
