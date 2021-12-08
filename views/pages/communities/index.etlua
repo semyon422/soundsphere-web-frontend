@@ -55,7 +55,7 @@ function communities() {return {
 
             <h1>Communities</h1>
 
-            <% render("views.components.modals.delete", {on_delete = "leave_community(selected_community_id)"}) %>
+            <% render("views.components.modals.delete", {delete = "leave_community(selected_community_id)"}) %>
             <% render("views.components.modals.create-player-request-2", {community_name = "selected_community_name"}) %>
             <section id="communities-section">
                 <div id="communities-insert-top" hidden>

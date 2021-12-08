@@ -51,7 +51,7 @@ function leaderboard_edit() {return {
             <h1>Leaderboard settings</h1>
 
 
-            <% render("views.components.modals.delete", {id = "delete-inputmode-modal", on_delete = "remove_input_mode(selected_inputmode)"}) %>
+            <% render("views.components.modals.delete", {id = "delete-inputmode-modal", delete = "remove_input_mode(selected_inputmode)"}) %>
             <% render("views.components.modals.delete") %>
             <% render("views.components.modals.add-modifier") %>
             <% render("views.components.modals.add-difftable") %>
