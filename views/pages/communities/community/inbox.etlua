@@ -2,7 +2,25 @@
 function communityInbox() {return {
     dtInit() {
         dtInitInbox()
-    }
+    },
+    async acceptLeaderboard(community_id, leaderboard_id) {
+		let response = await fetch(`<%= api_url %>/communities/${community_id}/leaderboards/${leaderboard_id}`, {
+            method: 'PATCH',
+            credentials: 'same-origin'
+        })
+        if (!response.ok && await handle_not_ok(response)) return
+		dtLeaderboardsIncoming.ajax.reload()
+		dtLeaderboardsOutgoing.ajax.reload()
+    },
+    async denyLeaderboard(community_id, leaderboard_id) {
+		let response = await fetch(`<%= api_url %>/communities/${community_id}/leaderboards/${leaderboard_id}`, {
+            method: 'DELETE',
+            credentials: 'same-origin'
+        })
+        if (!response.ok && await handle_not_ok(response)) return
+		dtLeaderboardsIncoming.ajax.reload()
+		dtLeaderboardsOutgoing.ajax.reload()
+    },
 }}
 </script>
 <div id="community-inbox" x-data="communityInbox" x-init="dtInit" x-cloak>
@@ -84,7 +102,7 @@ function communityInbox() {return {
             <section id="incoming-leaderboard-invites-section">
                 <h3>Incoming invites</h3>
 
-                <table class="data-table table table-icon-col-last" data-orders="3d">
+                <table id="leaderboards-incoming-table" class="data-table table table-icon-col-last" data-orders="3d">
                     <thead>
                         <tr>
                             <th title="Community name">Community</th>
@@ -95,23 +113,7 @@ function communityInbox() {return {
                             <th class="table-icon-th"></th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td><a href="?a=communities_community1_index">Community1</a></td>
-                            <td><a href="?a=players_player1_index">Player1</a></td>
-                            <td><a href="?a=leaderboards_leaderboard1_index">Leaderboard1</a></td>
-                            <td></td>
-                            <td>20-07-21 12:16</td>
-                            <td class="table-icon-cell">
-                                <a href="#!" class="table-icon table-icon-l teal teal-h" title="Accept the invite. Your community will join the leaderboard.">
-                                    <i class="fas fa-check"></i>
-                                </a>
-                                <a href="#!" class="table-icon table-icon-l red red-h" title="Deny the invite. The community won't be able to send new invites." data-bs-toggle="modal" data-bs-target="#delete-modal">
-                                    <i class="fas fa-times"></i>
-                                </a>
-                            </td>
-                        </tr>
-                    </tbody>
+                    <tbody></tbody>
                 </table>
             </section>
 
@@ -125,7 +127,7 @@ function communityInbox() {return {
                     </a>
                 </h3>
 
-                <table class="data-table table table-icon-col-last" data-orders="3d">
+                <table id="leaderboards-outgoing-table" class="data-table table table-icon-col-last" data-orders="3d">
                     <thead>
                         <tr>
                             <th title="community the invite is for">Community</th>
@@ -136,20 +138,7 @@ function communityInbox() {return {
                             <th class="table-icon-th"></th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr class="highlight-row">
-                            <td><a href="?a=communities_community1_index">Community1</a></td>
-                            <td><a href="?a=players_player1_index">Player1</a></td>
-                            <td><a href="?a=leaderboards_leaderboard1_index">Leaderboard1</a></td>
-                            <td></td>
-                            <td>20-07-21 12:16</td>
-                            <td class="table-icon-cell">
-                                <a href="#!" class="table-icon table-icon-l table-icon-hide red red-h" title="Cancel the invite">
-                                    <i class="fas fa-times"></i>
-                                </a>
-                            </td>
-                        </tr>
-                    </tbody>
+                    <tbody></tbody>
                 </table>
             </section>
         </div>
@@ -157,7 +146,7 @@ function communityInbox() {return {
 </div>
 <script>
 function dtInitInbox() {
-    dtInit(document.querySelector("#users-requests-table"), {
+    dtUsersRequests = dtInit(document.querySelector("#users-requests-table"), {
         ...dtSlimOptions,
         scrollX: true,
         serverSide: true,
@@ -174,10 +163,20 @@ function dtInitInbox() {
                 className: 'table-icon-cell',
                 render(data, type, row, meta) {
                     return `
-                        <a href="#!" class="table-icon table-icon-l teal teal-h" title="Accept the request. The player will join the community.">
+                        <a
+                            href="#!"
+                            class="table-icon table-icon-l teal teal-h"
+                            title="Accept the request. The player will join the community."
+                        >
                             <i class="fas fa-check"></i>
                         </a>
-                        <a href="#!" class="table-icon table-icon-l red red-h" title="Deny the request. The player won't be able to send new requests." data-bs-toggle="modal" data-bs-target="#delete-modal">
+                        <a
+                            href="#!"
+                            class="table-icon table-icon-l red red-h"
+                            title="Deny the request. The player won't be able to send new requests."
+                            data-bs-toggle="modal"
+                            data-bs-target="#delete-modal"
+                        >
                             <i class="fas fa-times"></i>
                         </a>
                     `
@@ -185,7 +184,7 @@ function dtInitInbox() {
             },
         ]
     })
-    dtInit(document.querySelector("#users-invitations-table"), {
+    dtUsersInvites = dtInit(document.querySelector("#users-invitations-table"), {
         ...dtSlimOptions,
         scrollX: true,
         serverSide: true,
@@ -207,7 +206,116 @@ function dtInitInbox() {
                 className: 'table-icon-cell',
                 render(data, type, row, meta) {
                     return `
-                        <a href="#!" class="table-icon table-icon-l table-icon-hide red red-h" title="Cancel the invite">
+                        <a
+                            href="#!"
+                            class="table-icon table-icon-l table-icon-hide red red-h"
+                            title="Cancel the invite"
+                        >
+                            <i class="fas fa-times"></i>
+                        </a>
+                    `
+                }
+            },
+        ]
+    })
+    dtLeaderboardsIncoming = dtInit(document.querySelector("#leaderboards-incoming-table"), {
+        ...dtSlimOptions,
+        scrollX: true,
+        serverSide: true,
+        ajax: "/dt/communities/<%= params.community_id %>/leaderboards?incoming",
+        columns: [
+            {
+                render(data, type, row, meta) {
+                    return communityLink(row.community_leaderboard.community)
+                }
+            },
+            {
+                render(data, type, row, meta) {
+                    return userLink(row.community_leaderboard.sender)
+                }
+            },
+            {
+                render(data, type, row, meta) {
+                    return leaderboardLink(row)
+                }
+            },
+            {
+                render(data, type, row, meta) {
+                    return row.community_leaderboard.message
+                }
+            },
+            {
+                render(data, type, row, meta) {
+                    return row.community_leaderboard.created_at
+                }
+            },
+            {
+                className: 'table-icon-cell',
+                render(data, type, row, meta) {
+                    return `
+                        <a
+                            href="#!"
+                            class="table-icon table-icon-l teal teal-h"
+                            title="Accept the invite. Your community will join the leaderboard."
+                            @click="acceptLeaderboard(${row.community_leaderboard.community_id}, ${row.id})"
+                        >
+                            <i class="fas fa-check"></i>
+                        </a>
+                        <a
+                            href="#!"
+                            class="table-icon table-icon-l red red-h"
+                            title="Deny the invite. The community won't be able to send new invites."
+                            data-bs-toggle="modal" data-bs-target="#delete-modal"
+                            @click="denyLeaderboard(${row.community_leaderboard.community_id}, ${row.id})"
+                        >
+                            <i class="fas fa-times"></i>
+                        </a>
+                    `
+                }
+            },
+        ]
+    })
+    dtLeaderboardsOutgoing = dtInit(document.querySelector("#leaderboards-outgoing-table"), {
+        ...dtSlimOptions,
+        scrollX: true,
+        serverSide: true,
+        ajax: "/dt/communities/<%= params.community_id %>/leaderboards?outgoing",
+        columns: [
+            {
+                render(data, type, row, meta) {
+                    return communityLink(row.community_leaderboard.community)
+                }
+            },
+            {
+                render(data, type, row, meta) {
+                    return userLink(row.community_leaderboard.sender)
+                }
+            },
+            {
+                render(data, type, row, meta) {
+                    return leaderboardLink(row)
+                }
+            },
+            {
+                render(data, type, row, meta) {
+                    return row.community_leaderboard.message
+                }
+            },
+            {
+                render(data, type, row, meta) {
+                    return row.community_leaderboard.created_at
+                }
+            },
+            {
+                className: 'table-icon-cell',
+                render(data, type, row, meta) {
+                    return `
+                        <a
+                            href="#!"
+                            class="table-icon table-icon-l table-icon-hide red red-h"
+                            title="Cancel the invite"
+                            @click="denyLeaderboard(${row.community_leaderboard.community_id}, ${row.id})"
+                        >
                             <i class="fas fa-times"></i>
                         </a>
                     `

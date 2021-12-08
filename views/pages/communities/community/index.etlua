@@ -238,7 +238,7 @@ function dtInitCommunity() {
         columns: [
             {
                 render(data, type, row, meta) {
-                    if (row.is_owner) {
+                    if (row.community_leaderboard.is_owner) {
                         return `
                             <td class="table-icon-cell">
                                 <span class="table-icon table-icon-s orange" title="This community owns this leaderboard">
@@ -271,13 +271,18 @@ function dtInitCommunity() {
             {
                 className: 'table-icon-row',
                 render(data, type, row, meta) {
-                    return `
-                    <a href="<%= url_for("leaderboard.edit", {leaderboard_id = "${row.id}"}) %>" class="table-icon table-icon-s orange orange-h" title="Edit leaderboard">
-                        <i class="fas fa-pen"></i>
-                    </a>
-                    <a href="#!" class="table-icon teal teal-h" title="Add to community" data-bs-toggle="modal" data-bs-target="#add-leaderboard-modal" @click="selected_leaderboard_id=${row.id}">
-                        <i class="fas fa-sign-in-alt"></i>
-                    </a>
+                    var out = ''
+                    if (row.community_leaderboard.is_owner) {
+                        out = out + `
+                            <a href="<%= url_for("leaderboard.edit", {leaderboard_id = "${row.id}"}) %>" class="table-icon table-icon-s orange orange-h" title="Edit leaderboard">
+                                <i class="fas fa-pen"></i>
+                            </a>
+                        `
+                    }
+                    return out + `
+                        <a href="#!" class="table-icon teal teal-h" title="Add to community" data-bs-toggle="modal" data-bs-target="#add-leaderboard-modal" @click="selected_leaderboard_id=${row.id}">
+                            <i class="fas fa-sign-in-alt"></i>
+                        </a>
                     `;
                 }
             },

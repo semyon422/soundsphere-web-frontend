@@ -116,15 +116,23 @@ function dtInitLeaderboards() {
                     return leaderboardLink(row)
                 }
             },
-            {data: "name"},
             {
                 render(data, type, row, meta) {
-                    return userLink(row.top_user)
+                    return inputmodesToString(row.inputmodes)
                 }
             },
-            {data: "users_count"},
-            {data: "difftables_count"},
+            {
+                render(data, type, row, meta) {
+                    return 0
+                }
+            },
+            {
+                render(data, type, row, meta) {
+                    return 0
+                }
+            },
             {data: "communities_count"},
+            {data: "difftables_count"},
             {
                 className: 'table-icon-row',
                 render(data, type, row, meta) {
