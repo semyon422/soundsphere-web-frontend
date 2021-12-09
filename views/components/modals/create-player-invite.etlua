@@ -1,4 +1,34 @@
-<div class="modal" id="create-player-invite-modal">
+<script>
+function createPlayerInviteModal() {return {
+    name: '',
+    message: '',
+    search: '',
+    users: [],
+    async getUsers() {
+		let response = await fetch('<%= api_url %>/users' + encode_get_params({search: this.search}), {
+            credentials: 'same-origin'
+        })
+        if (!response.ok && await handle_not_ok(response)) return
+		let response_json = await response.json()
+		if (!response_json.users) return console.log(response_json)
+        if (Array.isArray(response_json.users)) {
+    		this.users = response_json.users
+        }
+    },
+    async send() {
+        var users = this.users.filter(i => i.name == this.search)
+        if (users.length != 1) return
+        var user = users[0]
+		let response = await fetch(`<%= api_url %>/communities/<%= params.community_id %>/users/${user.id}?invitation`, {
+            method: 'PUT',
+            body: JSON.stringify({message: this.message}),
+            credentials: 'same-origin'
+        })
+        if (!response.ok && await handle_not_ok(response)) return
+    }
+}}
+</script>
+<div class="modal" id="create-player-invite-modal" x-data="createPlayerInviteModal">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -9,11 +39,11 @@
                 <form class="modal-form">
                     <div class="form-item">
                         <label for="create-player-invite-player" class="form-label form-required" title="The player to send an invite to">Player</label>
-                        <input class="form-control" list="player-options" id="create-player-invite-player" name="player" placeholder="Search for a player..." required>
+                        <input class="form-control" list="player-options" id="create-player-invite-player" name="player" placeholder="Search for a player..." required x-model="search" @input.debounce="getUsers">
                         <datalist id="player-options">
-                            <option value="Player1">
-                            <option value="Player2">
-                            <option value="Player3">
+                            <template x-for="user in users">
+                                <option :value="user.name">
+                            </template>
                         </datalist>
                     </div>
 
@@ -24,7 +54,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn bg-teal bg-teal-h" data-bs-dismiss="modal">Send</button>
+                <button type="button" class="btn bg-teal bg-teal-h" data-bs-dismiss="modal" @click="<%= send or "send" %>">Send</button>
                 <button type="button" class="btn bg-gray bg-gray-h" data-bs-dismiss="modal">Cancel</button>
             </div>
         </div>

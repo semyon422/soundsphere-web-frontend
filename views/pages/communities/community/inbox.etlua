@@ -82,7 +82,6 @@ function communityInbox() {return {
             <h2>Players</h2>
 
             <% render("views.components.modals.delete", {id = "deny-user-modal", delete = "denySelectedUser"}) %>
-            <% render("views.components.modals.delete", {id = "deny-leaderboard-modal", delete = "denySelectedUser"}) %>
             <section id="incoming-player-requests-section">
                 <h3>Incoming requests</h3>
 
@@ -101,7 +100,7 @@ function communityInbox() {return {
             </section>
 
 
-            <% render("views.components.modals.create-player-invite") %>
+            <% render("views.components.modals.create-player-invite", {send = "send().then(() => dtUsersInvites.ajax.reload())"}) %>
             <section id="outgoing-player-invites-section">
                 <h3>
                     Outgoing invites
@@ -127,6 +126,7 @@ function communityInbox() {return {
             
             <h2>Leaderboards</h2>
 
+            <% render("views.components.modals.delete", {id = "deny-leaderboard-modal", delete = "denySelectedUser"}) %>
             <section id="incoming-leaderboard-invites-section">
                 <h3>Incoming invites</h3>
 
@@ -240,6 +240,7 @@ function dtInitInbox() {
                             href="#!"
                             class="table-icon table-icon-l table-icon-hide red red-h"
                             title="Cancel the invite"
+                            @click="denyUser(${row.id})"
                         >
                             <i class="fas fa-times"></i>
                         </a>
