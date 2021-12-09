@@ -1,4 +1,54 @@
-<div class="modal" id="create-leaderboard-invite-modal">
+<script>
+function createLeaderboardInviteModal() {return {
+    name: '',
+    message: '',
+    search: '',
+    leaderboardId: 0,
+    communities: [],
+    leaderboards: [],
+    async getCommunities() {
+		let response = await fetch('<%= api_url %>/communities' + encode_get_params({search: this.search}), {
+            credentials: 'same-origin'
+        })
+        if (!response.ok && await handle_not_ok(response)) return
+		let response_json = await response.json()
+		if (!response_json.communities) return console.log(response_json)
+
+        if (Array.isArray(response_json.communities)) {
+    		this.communities = response_json.communities
+        } else return
+        var communities = this.communities.filter(i => i.name == this.search)
+        if (communities.length != 1) return
+        var community = communities[0]
+
+		response = await fetch(`<%= api_url %>/communities/${community.id}/leaderboards`, {
+            credentials: 'same-origin'
+        })
+        if (!response.ok && await handle_not_ok(response)) return
+		response_json = await response.json()
+		if (!response_json.leaderboards) return console.log(response_json)
+
+        if (Array.isArray(response_json.leaderboards)) {
+    		this.leaderboards = response_json.leaderboards
+        }
+    },
+    async send() {
+        var communities = this.communities.filter(i => i.name == this.search)
+        var leaderboards = this.leaderboards.filter(i => i.id == this.leaderboardId)
+        if (communities.length != 1) return
+        if (leaderboards.length != 1) return
+        var leaderboard = leaderboards[0]
+
+		let response = await fetch(`<%= api_url %>/communities/<%= params.community_id %>/leaderboards/${leaderboard.id}`, {
+            method: 'PUT',
+            body: JSON.stringify({message: this.message}),
+            credentials: 'same-origin'
+        })
+        if (!response.ok && await handle_not_ok(response)) return
+    }
+}}
+</script>
+<div class="modal" id="create-leaderboard-invite-modal" x-data="createLeaderboardInviteModal">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -9,21 +59,21 @@
                 <form class="modal-form">
                     <div class="form-item">
                         <label for="create-leaderboard-invite-community" class="form-label form-required" title="The community to send the invite to">Community</label>
-                        <input class="form-control" list="community-options" id="create-leaderboard-invite-community" name="community" placeholder="Search for a community..." required>
+                        <input class="form-control" list="community-options" id="create-leaderboard-invite-community" name="community" placeholder="Search for a community..." required x-model="search" @input.debounce="getCommunities">
                         <datalist id="community-options">
-                            <option value="Community1">
-                            <option value="Community2">
-                            <option value="Community3">
+                            <template x-for="community in communities">
+                                <option :value="community.name">
+                            </template>
                         </datalist>
                     </div>
 
                     <div class="form-item">
                         <label for="create-leaderboard-invite-leaderboard" class="form-label form-required" title="The leaderboard to send the invite for">Leaderboard</label>
-                        <select class="form-select" id="create-leaderboard-invite-leaderboard" name="leaderboard" required>
+                        <select class="form-select" id="create-leaderboard-invite-leaderboard" name="leaderboard" required x-model="leaderboardId">
                             <option selected hidden>Select a leaderboard</option>
-                            <option value="Leaderboard1">Leaderboard1</option>
-                            <option value="Leaderboard2">Leaderboard3</option>
-                            <option value="Leaderboard3">Leaderboard2</option>
+                            <template x-for="leaderboard in leaderboards">
+                                <option :value="leaderboard.id" x-text="leaderboard.name">
+                            </template>
                         </select>
                     </div>
 
@@ -34,7 +84,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn bg-teal bg-teal-h" data-bs-dismiss="modal">Send</button>
+                <button type="button" class="btn bg-teal bg-teal-h" data-bs-dismiss="modal" @click="<%= send or "send" %>">Send</button>
                 <button type="button" class="btn bg-gray bg-gray-h" data-bs-dismiss="modal">Cancel</button>
             </div>
         </div>

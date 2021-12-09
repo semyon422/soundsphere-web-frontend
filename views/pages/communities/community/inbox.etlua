@@ -146,7 +146,7 @@ function communityInbox() {return {
             </section>
 
 
-            <% render("views.components.modals.create-leaderboard-invite") %>
+            <% render("views.components.modals.create-leaderboard-invite", {send = "send().then(() => dtLeaderboardsOutgoing.ajax.reload())"}) %>
             <section id="outgoing-leaderboard-invites-section">
                 <h3>
                     Outgoing invites
