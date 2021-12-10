@@ -5,11 +5,8 @@ function createPlayerInviteModal() {return {
     search: '',
     users: [],
     async getUsers() {
-		let response = await fetch('<%= api_url %>/users' + encode_get_params({search: this.search}), {
-            credentials: 'same-origin'
-        })
-        if (!response.ok && await handle_not_ok(response)) return
-		let response_json = await response.json()
+		let response_json = await _get('<%= api_url %>/users', {search: this.search})
+        if (!response_json) return
 		if (!response_json.users) return console.log(response_json)
         if (Array.isArray(response_json.users)) {
     		this.users = response_json.users
@@ -19,13 +16,8 @@ function createPlayerInviteModal() {return {
         var users = this.users.filter(i => i.name == this.search)
         if (users.length != 1) return
         var user = users[0]
-		let response = await fetch(`<%= api_url %>/communities/<%= params.community_id %>/users/${user.id}?invitation`, {
-            method: 'PUT',
-            body: JSON.stringify({message: this.message}),
-            headers: {'Content-Type': 'application/json'},
-            credentials: 'same-origin'
-        })
-        if (!response.ok && await handle_not_ok(response)) return
+		let response_json = await _put(`<%= api_url %>/communities/<%= params.community_id %>/users/${user.id}?invitation`, {message: this.message})
+        if (!response_json) return
     }
 }}
 </script>

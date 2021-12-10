@@ -7,11 +7,8 @@ function createLeaderboardInviteModal() {return {
     communities: [],
     leaderboards: [],
     async getCommunities() {
-		let response = await fetch('<%= api_url %>/communities' + encode_get_params({search: this.search}), {
-            credentials: 'same-origin'
-        })
-        if (!response.ok && await handle_not_ok(response)) return
-		let response_json = await response.json()
+		let response_json = await _get('<%= api_url %>/communities', {search: this.search})
+        if (!response_json) return
 		if (!response_json.communities) return console.log(response_json)
 
         if (Array.isArray(response_json.communities)) {
@@ -21,11 +18,8 @@ function createLeaderboardInviteModal() {return {
         if (communities.length != 1) return
         var community = communities[0]
 
-		response = await fetch(`<%= api_url %>/communities/${community.id}/leaderboards`, {
-            credentials: 'same-origin'
-        })
-        if (!response.ok && await handle_not_ok(response)) return
-		response_json = await response.json()
+		response_json = await _get(`<%= api_url %>/communities/${community.id}/leaderboards`)
+        if (!response_json) return
 		if (!response_json.leaderboards) return console.log(response_json)
 
         if (Array.isArray(response_json.leaderboards)) {
@@ -39,13 +33,8 @@ function createLeaderboardInviteModal() {return {
         if (leaderboards.length != 1) return
         var leaderboard = leaderboards[0]
 
-		let response = await fetch(`<%= api_url %>/communities/<%= params.community_id %>/leaderboards/${leaderboard.id}`, {
-            method: 'PUT',
-            body: JSON.stringify({message: this.message}),
-            headers: {'Content-Type': 'application/json'},
-            credentials: 'same-origin'
-        })
-        if (!response.ok && await handle_not_ok(response)) return
+		let response_json = await _put(`<%= api_url %>/communities/<%= params.community_id %>/leaderboards/${leaderboard.id}`, {message: this.message})
+        if (!response_json) return
     }
 }}
 </script>
@@ -80,7 +69,7 @@ function createLeaderboardInviteModal() {return {
 
                     <div class="form-item">
                         <label for="create-leaderboard-invite-message" class="form-label" title="You can add the reason for the invite, or an identifier like a username from a different game etc.">Message</label>
-                        <input type="text" class="form-control" id="create-leaderboard-invite-message" name="message" maxlength="100">
+                        <input type="text" class="form-control" id="create-leaderboard-invite-message" name="message" maxlength="100" x-model="message">
                     </div>
                 </form>
             </div>

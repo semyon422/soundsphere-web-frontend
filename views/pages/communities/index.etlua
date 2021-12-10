@@ -4,39 +4,22 @@ function communities() {return {
     dtCommunities: undefined,
     selected_community_id: 0,
     selected_community_name: '',
-    request_message: '',
+    message: '',
     async get() {
-		let response = await fetch('<%= access_url %>/communities', {
-            credentials: 'same-origin'
-        })
-        if (!response.ok && await handle_not_ok(response)) return
-		let response_json = await response.json()
+		let response_json = await _get('<%= access_url %>/communities')
+        if (!response_json) return
 		if (!response_json.methods) return console.log(response_json)
 		this.methods = response_json.methods
         this.dtCommunities = dtInitCommunities()
     },
     async join_community(community_id) {
-		let response = await fetch(
-            '<%= api_url %>/communities/' + community_id + '/users/<%= session.user_id %>',
-            {
-                method: 'PUT',
-                body: JSON.stringify({message: this.request_message}),
-                headers: {'Content-Type': 'application/json'},
-                credentials: 'same-origin'
-            }
-        )
-        if (!response.ok && await handle_not_ok(response)) return
+		let response_json = await _put(`<%= api_url %>/communities/${community_id}/users/<%= session.user_id %>`, {message: this.message})
+        if (!response_json) return
 		this.dtCommunities.ajax.reload()
     },
     async leave_community(community_id) {
-		let response = await fetch(
-            '<%= api_url %>/communities/' + community_id + '/users/<%= session.user_id %>',
-            {
-                method: 'DELETE',
-                credentials: 'same-origin'
-            }
-        )
-        if (!response.ok && await handle_not_ok(response)) return
+		let response_json = await _delete(`<%= api_url %>/communities/${community_id}/users/<%= session.user_id %>`)
+        if (!response_json) return
 		this.dtCommunities.ajax.reload()
     },
 }}

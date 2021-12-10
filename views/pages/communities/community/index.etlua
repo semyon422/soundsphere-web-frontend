@@ -7,15 +7,8 @@ function community() {return {
     selected_leaderboard_id: 0,
     selected_community_id: 0,
     async get() {
-		let response = await fetch(
-            '<%= api_url %>/communities/<%= params.community_id %>' +
-            encode_get_params({users: 0, inputmodes: -1, leaderboards: 0}),
-            {
-                credentials: 'same-origin'
-            }
-        )
-        if (!response.ok && await handle_not_ok(response)) return
-		let response_json = await response.json()
+		let response_json = await _get('<%= api_url %>/communities/<%= params.community_id %>', {users: 0, inputmodes: -1, leaderboards: 0})
+        if (!response_json) return
 		if (!response_json.community) return console.log(response_json)
 		this.community = response_json.community
 		this.methods = response_json.methods
@@ -23,32 +16,20 @@ function community() {return {
         this.get_communities()
     },
     async get_leave() {
-		let response = await fetch('<%= access_url %>/communities/<%= params.community_id %>/users/<%= session.user_id %>', {
-            credentials: 'same-origin'
-        })
-        if (!response.ok && await handle_not_ok(response)) return
-		let response_json = await response.json()
+		let response_json = await _get('<%= access_url %>/communities/<%= params.community_id %>/users/<%= session.user_id %>')
+        if (!response_json) return
 		if (!response_json.methods) return console.log(response_json)
 		this.user_methods = response_json.methods
     },
     async get_communities() {
-		let response = await fetch('<%= api_url %>/users/<%= session.user_id %>/communities?is_admin', {
-            credentials: 'same-origin'
-        })
-        if (!response.ok && await handle_not_ok(response)) return
-		let response_json = await response.json()
+		let response_json = await _get('<%= api_url %>/users/<%= session.user_id %>/communities?is_admin')
+        if (!response_json) return
 		if (!response_json.communities) return console.log(response_json)
 		this.communities = response_json.communities
     },
     async add_to_community() {
-		let response = await fetch(
-            '<%= api_url %>/communities/' + this.selected_community_id + '/leaderboards/' + this.selected_leaderboard_id,
-            {
-                method: 'PUT',
-                credentials: 'same-origin'
-            }
-        )
-        if (!response.ok && await handle_not_ok(response)) return
+		let response_json = await _put(`<%= api_url %>/communities/${this.selected_community_id}/leaderboards/${this.selected_leaderboard_id}`)
+        if (!response_json) return
     },
 }}
 </script>

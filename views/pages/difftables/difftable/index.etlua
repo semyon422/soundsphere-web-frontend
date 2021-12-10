@@ -2,14 +2,8 @@
 function difftable() {return {
     difftable: {},
     async get() {
-		let response = await fetch(
-            '<%= api_url %>/difftables/<%= params.difftable_id %>',
-            {
-                credentials: 'same-origin'
-            }
-        )
-        if (!response.ok && await handle_not_ok(response)) return
-		let response_json = await response.json()
+		let response_json = await _get('<%= api_url %>/difftables/<%= params.difftable_id %>')
+        if (!response_json) return
 		if (!response_json.difftable) return console.log(response_json)
 		this.difftable = response_json.difftable
         dtInitDifftable()

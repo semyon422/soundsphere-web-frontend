@@ -2,23 +2,15 @@
 function community_edit() {return {
     community: {},
     async get() {
-		let response = await fetch('<%= api_url %>/communities/<%= params.community_id %>', {
-            credentials: 'same-origin'
-        })
-        if (!response.ok && await handle_not_ok(response)) return
-		let response_json = await response.json()
+		let response_json = await _get('<%= api_url %>/communities/<%= params.community_id %>')
+        if (!response_json) return
 		if (!response_json.community) return console.log(response_json)
 		this.community = response_json.community
     },
     async patch() {
         if (!this.$refs.form.checkValidity()) return
-		let response = await fetch('<%= api_url %>/communities/<%= params.community_id %>', {
-            method: 'PATCH',
-			body: JSON.stringify({community: this.community}),
-			headers: {'Content-Type': 'application/json'},
-            credentials: 'same-origin'
-        })
-        if (!response.ok && await handle_not_ok(response)) return
+		let response_json = await _patch('<%= api_url %>/communities/<%= params.community_id %>', {community: this.community})
+        if (!response_json) return
 		document.location.href = '/communities/<%= params.community_id %>'
     },
 }}

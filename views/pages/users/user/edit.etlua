@@ -2,22 +2,14 @@
 function player_edit() {return {
     user: {},
     async get() {
-		let response = await fetch('<%= api_url %>/users/<%= params.user_id %>', {
-            credentials: 'same-origin'
-        })
-        if (!response.ok && await handle_not_ok(response)) return
-		let response_json = await response.json()
+		let response_json = await _get('<%= api_url %>/users/<%= params.user_id %>')
+        if (!response_json) return
 		if (!response_json.user) return console.log(response_json)
 		this.user = response_json.user
     },
     async patch() {
-		let response = await fetch('<%= api_url %>/users/<%= params.user_id %>', {
-            method: 'PATCH',
-			body: JSON.stringify({user: this.user}),
-			headers: {'Content-Type': 'application/json'},
-            credentials: 'same-origin'
-        })
-        if (!response.ok && await handle_not_ok(response)) return
+		let response_json = await _patch('<%= api_url %>/users/<%= params.user_id %>', {user: this.user})
+        if (!response_json) return
 		document.location.href = '/users/<%= params.user_id %>'
     },
 }}

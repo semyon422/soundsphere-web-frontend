@@ -5,37 +5,25 @@ function leaderboards() {return {
     selected_leaderboard_id: 0,
     selected_community_id: 0,
     async get() {
-		let response = await fetch('<%= access_url %>/leaderboards', {
-            credentials: 'same-origin'
-        })
-        if (!response.ok && await handle_not_ok(response)) return
-		let response_json = await response.json()
+		let response_json = await _get('<%= access_url %>/leaderboards')
+        if (!response_json) return
 		if (!response_json.methods) return console.log(response_json)
 		this.methods = response_json.methods
         dtInitLeaderboards()
         this.get_communities()
     },
     async get_communities() {
-		let response = await fetch('<%= api_url %>/users/<%= session.user_id %>/communities?is_admin', {
-            credentials: 'same-origin'
-        })
-        if (!response.ok && await handle_not_ok(response)) return
-		let response_json = await response.json()
+		let response_json = await _get('<%= api_url %>/users/<%= session.user_id %>/communities?is_admin')
+        if (!response_json) return
 		if (!response_json.communities) return console.log(response_json)
 		this.communities = response_json.communities
     },
     async add_to_community() {
-		let response = await fetch(
-            '<%= api_url %>/communities/' + this.selected_community_id + '/leaderboards/' + this.selected_leaderboard_id,
-            {
-                method: 'PUT',
-                credentials: 'same-origin'
-            }
-        )
-        if (!response.ok && await handle_not_ok(response)) return
+		let response_json = await _put(`<%= api_url %>/communities/${this.selected_community_id}/leaderboards/${this.selected_leaderboard_id}`)
+        if (!response_json) return
     },
     async create_at_community() {
-        document.location.href = '/communities/' + this.selected_community_id + '/leaderboards/create'
+        document.location.href = `/communities/${this.selected_community_id}/leaderboards/create`
     },
 }}
 </script>

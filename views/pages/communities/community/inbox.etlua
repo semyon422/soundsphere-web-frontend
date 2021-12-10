@@ -4,20 +4,14 @@ function communityInbox() {return {
         dtInitInbox()
     },
     async acceptUser(user_id) {
-		let response = await fetch(`<%= api_url %>/communities/<%= params.community_id %>/users/${user_id}?invitation`, {
-            method: 'PUT',
-            credentials: 'same-origin'
-        })
-        if (!response.ok && await handle_not_ok(response)) return
+		let response_json = await _put(`<%= api_url %>/communities/<%= params.community_id %>/users/${user_id}?invitation`)
+        if (!response_json) return
 		dtUsersRequests.ajax.reload()
 		dtUsersInvites.ajax.reload()
     },
     async denyUser(user_id) {
-		let response = await fetch(`<%= api_url %>/communities/<%= params.community_id %>/users/${user_id}`, {
-            method: 'DELETE',
-            credentials: 'same-origin'
-        })
-        if (!response.ok && await handle_not_ok(response)) return
+		let response_json = await _delete(`<%= api_url %>/communities/<%= params.community_id %>/users/${user_id}`)
+        if (!response_json) return
 		dtUsersRequests.ajax.reload()
 		dtUsersInvites.ajax.reload()
     },
@@ -27,24 +21,18 @@ function communityInbox() {return {
     denySelectedUser() {
         this.denyUser(this.selectedUserId)
     },
-    denyLeaderboard() {
-        this.denyLeaderboard(this.selectedCommunityId, this.selectedCommunityId)
+    denySelectedLeaderboard() {
+        this.denyLeaderboard(this.selectedCommunityId, this.selectedLeaderboardId)
     },
     async acceptLeaderboard(community_id, leaderboard_id) {
-		let response = await fetch(`<%= api_url %>/communities/${community_id}/leaderboards/${leaderboard_id}`, {
-            method: 'PATCH',
-            credentials: 'same-origin'
-        })
-        if (!response.ok && await handle_not_ok(response)) return
+		let response_json = await _patch(`<%= api_url %>/communities/${community_id}/leaderboards/${leaderboard_id}`)
+        if (!response_json) return
 		dtLeaderboardsIncoming.ajax.reload()
 		dtLeaderboardsOutgoing.ajax.reload()
     },
     async denyLeaderboard(community_id, leaderboard_id) {
-		let response = await fetch(`<%= api_url %>/communities/${community_id}/leaderboards/${leaderboard_id}`, {
-            method: 'DELETE',
-            credentials: 'same-origin'
-        })
-        if (!response.ok && await handle_not_ok(response)) return
+		let response_json = await _delete(`<%= api_url %>/communities/${community_id}/leaderboards/${leaderboard_id}`)
+        if (!response_json) return
 		dtLeaderboardsIncoming.ajax.reload()
 		dtLeaderboardsOutgoing.ajax.reload()
     },
@@ -126,7 +114,7 @@ function communityInbox() {return {
             
             <h2>Leaderboards</h2>
 
-            <% render("views.components.modals.delete", {id = "deny-leaderboard-modal", delete = "denySelectedUser"}) %>
+            <% render("views.components.modals.delete", {id = "deny-leaderboard-modal", delete = "denySelectedLeaderboard"}) %>
             <section id="incoming-leaderboard-invites-section">
                 <h3>Incoming invites</h3>
 
@@ -305,8 +293,7 @@ function dtInitInbox() {
                             class="table-icon table-icon-l red red-h"
                             title="Deny the invite. The community won't be able to send new invites."
                             data-bs-toggle="modal" data-bs-target="#deny-leaderboard-modal"
-                            @click="selectedCommunityId = ${row.community_leaderboard.community_id}"
-                            @click="selectedLeaderboardId = ${row.id}"
+                            @click="selectedCommunityId = ${row.community_leaderboard.community_id}; selectedLeaderboardId = ${row.id}"
                         >
                             <i class="fas fa-times"></i>
                         </a>

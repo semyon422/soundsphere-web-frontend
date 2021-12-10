@@ -7,13 +7,8 @@ function register() {return {
     },
     async post() {
         if (!this.$refs.form.checkValidity()) return
-        let response = await fetch('<%= api_url %>/users', {
-            method: 'POST',
-            body: JSON.stringify({user: this.user}),
-            headers: {'Content-Type': 'application/json'}
-        })
-        if (!response.ok && await handle_not_ok(response)) return
-        let response_json = await response.json()
+		let response_json = await _post('<%= api_url %>/users', {user: this.user})
+        if (!response_json) return
         if (response_json.message) {
             this.$refs.form_invalid_message.innerHTML = response_json.message
         }

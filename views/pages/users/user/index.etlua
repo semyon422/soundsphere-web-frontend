@@ -2,11 +2,8 @@
 function player() {return {
     user: {},
     async get() {
-		let response = await fetch('<%= api_url %>/users/<%= params.user_id %>', {
-            credentials: 'same-origin'
-        })
-        if (!response.ok && await handle_not_ok(response)) return
-		let response_json = await response.json()
+		let response_json = await _get('<%= api_url %>/users/<%= params.user_id %>')
+        if (!response_json) return
 		if (!response_json.user) return console.log(response_json)
 		this.user = response_json.user
         dtInitUser()

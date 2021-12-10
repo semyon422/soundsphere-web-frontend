@@ -89,6 +89,53 @@ function formatDate(time) {
 	return new Date(time * 1e3).toLocaleString()
 }
 
+async function _get(url, obj) {
+	let params = obj ? encode_get_params(obj) : ''
+	let response = await fetch(url + params, {
+		method: 'GET',
+		credentials: 'same-origin'
+	})
+	if (!response.ok && await handle_not_ok(response)) return false
+	let response_json = await response.json()
+	return response_json
+}
+
+async function _fetch(url, obj, method) {
+	let response
+	if (obj) {
+		response = await fetch(url, {
+			method: method,
+			body: JSON.stringify(obj),
+			headers: {'Content-Type': 'application/json'},
+			credentials: 'same-origin'
+		})
+	} else {
+		response = await fetch(url, {
+			method: method,
+			credentials: 'same-origin'
+		})
+	}
+	if (!response.ok && await handle_not_ok(response)) return false
+	let response_json = await response.json()
+	return response_json
+}
+
+async function _post(url, obj) {
+	return await _fetch(url, obj, "POST")
+}
+
+async function _patch(url, obj) {
+	return await _fetch(url, obj, "PATCH")
+}
+
+async function _put(url, obj) {
+	return await _fetch(url, obj, "PUT")
+}
+
+async function _delete(url, obj) {
+	return await _fetch(url, obj, "DELETE")
+}
+
 function userLink(user) {
 	if (user) {
 		return '<a href="/users/' + user.id + '">' + user.name + '</a>'

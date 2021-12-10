@@ -3,26 +3,14 @@ function leaderboard_edit() {return {
     leaderboard: {},
     selected_inputmode: '',
     async get() {
-		let response = await fetch(
-            '<%= api_url %>/leaderboards/<%= params.leaderboard_id %>' +
-            encode_get_params({inputmodes: -1}),
-            {
-                credentials: 'same-origin'
-            }
-        )
-        if (!response.ok && await handle_not_ok(response)) return
-		let response_json = await response.json()
+		let response_json = await _get('<%= api_url %>/leaderboards/<%= params.leaderboard_id %>', {inputmodes: -1})
+        if (!response_json) return
 		if (!response_json.leaderboard) return console.log(response_json)
 		this.leaderboard = response_json.leaderboard
     },
     async patch() {
-		let response = await fetch('<%= api_url %>/leaderboards/<%= params.leaderboard_id %>', {
-            method: 'PATCH',
-			body: JSON.stringify({leaderboard: this.leaderboard}),
-			headers: {'Content-Type': 'application/json'},
-            credentials: 'same-origin'
-        })
-        if (!response.ok && await handle_not_ok(response)) return
+		let response_json = await _patch('<%= api_url %>/leaderboards/<%= params.leaderboard_id %>', {leaderboard: this.leaderboard})
+        if (!response_json) return
 		document.location.href = '/leaderboards/<%= params.leaderboard_id %>'
     },
     async add_input_mode(inputmode) {

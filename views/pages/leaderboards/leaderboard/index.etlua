@@ -2,15 +2,13 @@
 function leaderboard() {return {
     leaderboard: {},
     async get() {
-		let response = await fetch(
-            '<%= api_url %>/leaderboards/<%= params.leaderboard_id %>' +
-            encode_get_params({users: 0, inputmodes: -1, communities: 0, difftables: 0}),
-            {
-                credentials: 'same-origin'
-            }
-        )
-        if (!response.ok && await handle_not_ok(response)) return
-		let response_json = await response.json()
+		let response_json = await _get('<%= api_url %>/leaderboards/<%= params.leaderboard_id %>', {
+            users: 0,
+            inputmodes: -1,
+            communities: 0,
+            difftables: 0
+        })
+        if (!response_json) return
 		if (!response_json.leaderboard) return console.log(response_json)
 		this.leaderboard = response_json.leaderboard
         dtInitLeaderboard()
