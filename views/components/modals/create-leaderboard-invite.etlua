@@ -42,6 +42,7 @@ function createLeaderboardInviteModal() {return {
 		let response = await fetch(`<%= api_url %>/communities/<%= params.community_id %>/leaderboards/${leaderboard.id}`, {
             method: 'PUT',
             body: JSON.stringify({message: this.message}),
+            headers: {'Content-Type': 'application/json'},
             credentials: 'same-origin'
         })
         if (!response.ok && await handle_not_ok(response)) return

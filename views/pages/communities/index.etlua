@@ -20,7 +20,8 @@ function communities() {return {
             '<%= api_url %>/communities/' + community_id + '/users/<%= session.user_id %>',
             {
                 method: 'PUT',
-                message: this.request_message,
+                body: JSON.stringify({message: this.request_message}),
+                headers: {'Content-Type': 'application/json'},
                 credentials: 'same-origin'
             }
         )
