@@ -186,7 +186,11 @@ function dtInitInbox() {
                 }
             },
             {data: "message"},
-            {data: "created_at"},
+            {
+                render(data, type, row, meta) {
+                    return formatDate(row.created_at)
+                }
+            },
             {
                 className: 'table-icon-cell',
                 render(data, type, row, meta) {
@@ -231,7 +235,11 @@ function dtInitInbox() {
                 }
             },
             {data: "message"},
-            {data: "created_at"},
+            {
+                render(data, type, row, meta) {
+                    return formatDate(row.created_at)
+                }
+            },
             {
                 className: 'table-icon-cell',
                 render(data, type, row, meta) {
@@ -277,7 +285,7 @@ function dtInitInbox() {
             },
             {
                 render(data, type, row, meta) {
-                    return row.community_leaderboard.created_at
+                    return formatDate(row.community_leaderboard.created_at)
                 }
             },
             {
@@ -335,7 +343,7 @@ function dtInitInbox() {
             },
             {
                 render(data, type, row, meta) {
-                    return row.community_leaderboard.created_at
+                    return formatDate(row.community_leaderboard.created_at)
                 }
             },
             {

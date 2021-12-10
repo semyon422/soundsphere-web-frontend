@@ -84,6 +84,11 @@ function inputmodesToString(inputmodes) {
 	return Array.isArray(inputmodes) ? inputmodes.map((i) => inputmodesMap[i]).join(', ') : ''
 }
 
+function formatDate(time) {
+	// return new Date(time * 1e3).toUTCString()
+	return new Date(time * 1e3).toLocaleString()
+}
+
 function userLink(user) {
 	if (user) {
 		return '<a href="/users/' + user.id + '">' + user.name + '</a>'
