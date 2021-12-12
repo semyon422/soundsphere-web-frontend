@@ -7,14 +7,16 @@
             </div>
             <div class="modal-body">
                 <form class="modal-form">
-                    <div class="form-item">
-                        <label for="create-difftable-link" class="form-label form-required" title="The website link of the table">Table link</label>
-                        <input type="url" class="form-control" id="create-difftable-link" name="link" required>
-                    </div>
+                    <select class="form-select" id="create-difftable-community" name="community" title="The community to create the difftable for" x-model="selected_community_id">
+                        <option selected hidden>Select a community</option>
+                        <template x-for="community in communities">
+                            <option :value="community.id" x-text="community.name"></option>
+                        </template>
+                    </select>
                 </form>
             </div>
             <div class="modal-footer">
-                <a href="?a=difftables_difftable1_index" class="btn bg-teal bg-teal-h">Create</a>
+                <a href="#!" class="btn bg-teal bg-teal-h" @click="create_at_community">Create</a>
                 <button type="button" class="btn bg-gray bg-gray-h" data-bs-dismiss="modal">Cancel</button>
             </div>
         </div>

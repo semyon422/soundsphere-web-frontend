@@ -1,22 +1,39 @@
 <script>
 function difftables() {return {
-    difftable: {
-        url: '',
-    },
-	async post() {
-		let response_json = await _post('<%= api_url %>/difftables', {difftable: this.difftable})
+    methods: [],
+    communities: [],
+    selected_difftable_id: 0,
+    selected_community_id: 0,
+    async get() {
+		let response_json = await _get('<%= access_url %>/difftables')
         if (!response_json) return
-		if (!response_json.difftable) return console.log(response_json)
-	},
+		if (!response_json.methods) return console.log(response_json)
+		this.methods = response_json.methods
+        dtInitDifftables()
+        this.get_communities()
+    },
+    async get_communities() {
+		let response_json = await _get('<%= api_url %>/users/<%= session.user_id %>/communities?is_admin')
+        if (!response_json) return
+		if (!response_json.communities) return console.log(response_json)
+		this.communities = response_json.communities
+    },
+    async add_to_community() {
+		let response_json = await _put(`<%= api_url %>/communities/${this.selected_community_id}/difftables/${this.selected_difftable_id}`)
+        if (!response_json) return
+    },
+    async create_at_community() {
+        document.location.href = `/communities/${this.selected_community_id}/difftables/create`
+    },
 }}
 </script>
-<div id="difftables" x-data="difftables">
+<div id="difftables" x-data="difftables" x-init="get()" x-cloak>
     <main class="container-lg">
         <div id="main-box">
             <% render("views.components.modals.create-difftable") %>
             <nav class="navbar-expand page-icons page-icons-right page-icons-never-collapsed">
                 <div class="navbar-nav">
-                    <a href="#!" class="page-icon" title="Create table">
+                    <a href="#!" class="page-icon" title="Create table" data-bs-toggle="modal" data-bs-target="#create-difftable-modal">
                         <div class="page-icon-box">
                             <i class="fas fa-plus"></i>
                         </div>
@@ -53,7 +70,7 @@ function difftables() {return {
     </main>
 </div>
 <script>
-ready(() =>
+function dtInitDifftables() {
     dtInit(document.querySelector("#difftables-table"), {
         ...dtAllOptions,
         scrollX: true,
@@ -75,5 +92,5 @@ ready(() =>
             {data: "scores_count"},
         ]
     })
-)
+}
 </script>
