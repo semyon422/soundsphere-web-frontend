@@ -1,4 +1,19 @@
-<div class="modal" id="create-leaderboard-modal">
+<script>
+function createLeaderboardsModal() {return {
+    communities: [],
+    selected_community_id: 0,
+    async getCommunities() {
+		let response_json = await _get('<%= api_url %>/users/<%= session.user_id %>/communities?is_admin')
+        if (!response_json) return
+		if (!response_json.communities) return console.log(response_json)
+		this.communities = response_json.communities
+    },
+    _create() {
+        this.createAtCommunity(selected_community_id)
+    }
+}}
+</script>
+<div class="modal" id="create-leaderboard-modal" x-data="createLeaderboardsModal" x-init="getCommunities">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -16,7 +31,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <a href="#!" class="btn bg-teal bg-teal-h" @click="create_at_community">Start creation</a>
+                <a href="#!" class="btn bg-teal bg-teal-h" @click="_create">Start creation</a>
                 <button type="button" class="btn bg-gray bg-gray-h" data-bs-dismiss="modal">Cancel</button>
             </div>
         </div>

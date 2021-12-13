@@ -1,29 +1,20 @@
 <script>
 function difftables() {return {
     methods: [],
-    communities: [],
     selected_difftable_id: 0,
-    selected_community_id: 0,
     async get() {
 		let response_json = await _get('<%= access_url %>/difftables')
         if (!response_json) return
 		if (!response_json.methods) return console.log(response_json)
 		this.methods = response_json.methods
         dtInitDifftables()
-        this.get_communities()
     },
-    async get_communities() {
-		let response_json = await _get('<%= api_url %>/users/<%= session.user_id %>/communities?is_admin')
-        if (!response_json) return
-		if (!response_json.communities) return console.log(response_json)
-		this.communities = response_json.communities
-    },
-    async add_to_community() {
-		let response_json = await _put(`<%= api_url %>/communities/${this.selected_community_id}/difftables/${this.selected_difftable_id}`)
+    async addToCommunity(community_id) {
+		let response_json = await _put(`<%= api_url %>/communities/${community_id}/difftables/${this.selected_difftable_id}`)
         if (!response_json) return
     },
-    async create_at_community() {
-        document.location.href = `/communities/${this.selected_community_id}/difftables/create`
+    async createAtCommunity(community_id) {
+        document.location.href = `/communities/${community_id}/difftables/create`
     },
 }}
 </script>

@@ -116,7 +116,7 @@ function difftable() {return {
     </main>
 </div>
 <script>
-ready(() => {
+function dtInitDifftable() {
     dtInit(document.querySelector("#difftable-communities-table"), {
         ...dtColOptions,
         scrollX: true,
@@ -203,5 +203,5 @@ ready(() => {
             {data: "format"},
         ]
     })
-})
+}
 </script>

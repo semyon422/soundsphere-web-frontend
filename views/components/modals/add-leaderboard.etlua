@@ -1,4 +1,19 @@
-<div class="modal" id="add-leaderboard-modal">
+<script>
+function addLeaderboardsModal() {return {
+    communities: [],
+    selected_community_id: 0,
+    async getCommunities() {
+		let response_json = await _get('<%= api_url %>/users/<%= session.user_id %>/communities?is_admin')
+        if (!response_json) return
+		if (!response_json.communities) return console.log(response_json)
+		this.communities = response_json.communities
+    },
+    _add() {
+        this.addToCommunity(selected_community_id)
+    }
+}}
+</script>
+<div class="modal" id="add-leaderboard-modal" x-data="addLeaderboardsModal" x-init="getCommunities">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -16,7 +31,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn bg-teal bg-teal-h" data-bs-dismiss="modal" @click="add_to_community">Add</button>
+                <button type="button" class="btn bg-teal bg-teal-h" data-bs-dismiss="modal" @click="_add">Add</button>
                 <button type="button" class="btn bg-gray bg-gray-h" data-bs-dismiss="modal">Cancel</button>
             </div>
         </div>

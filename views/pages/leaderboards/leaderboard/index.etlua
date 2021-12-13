@@ -13,6 +13,10 @@ function leaderboard() {return {
 		this.leaderboard = response_json.leaderboard
         dtInitLeaderboard()
     },
+    async addToCommunity(community_id) {
+		let response_json = await _put(`<%= api_url %>/communities/${community_id}/leaderboards/<%= params.leaderboard_id %>`)
+        if (!response_json) return
+    },
 }}
 </script>
 <div id="leaderboard" x-data="leaderboard" x-init="get()">
@@ -285,7 +289,7 @@ function dtInitLeaderboard() {
             {
                 data: "name",
                 render(data, type, row, meta) {
-                    return tableLink(row)
+                    return difftableLink(row)
                 }
             },
             {render(data, type, row, meta) {
