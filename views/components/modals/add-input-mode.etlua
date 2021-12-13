@@ -1,8 +1,8 @@
 <script>
 function addInputModeModal() {return {
     inputmode: undefined,
-    _add_input_mode() {
-        this.add_input_mode(this.inputmode)
+    _add() {
+        this.addInputmode(this.inputmode)
     }
 }}
 </script>
@@ -48,7 +48,7 @@ function addInputModeModal() {return {
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn bg-teal bg-teal-h" data-bs-dismiss="modal" @click="_add_input_mode">Add</button>
+                <button type="button" class="btn bg-teal bg-teal-h" data-bs-dismiss="modal" @click="_add">Add</button>
                 <button type="button" class="btn bg-gray bg-gray-h" data-bs-dismiss="modal">Cancel</button>
             </div>
         </div>

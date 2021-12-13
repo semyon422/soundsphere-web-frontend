@@ -2,8 +2,12 @@
 function leaderboard_edit() {return {
     leaderboard: {},
     selected_inputmode: '',
+    selected_difftable: {},
     async get() {
-		let response_json = await _get('<%= api_url %>/leaderboards/<%= params.leaderboard_id %>', {inputmodes: -1})
+		let response_json = await _get('<%= api_url %>/leaderboards/<%= params.leaderboard_id %>', {
+            inputmodes: -1,
+            difftables: -1,
+        })
         if (!response_json) return
 		if (!response_json.leaderboard) return console.log(response_json)
 		this.leaderboard = response_json.leaderboard
@@ -13,13 +17,21 @@ function leaderboard_edit() {return {
         if (!response_json) return
 		document.location.href = '/leaderboards/<%= params.leaderboard_id %>'
     },
-    async add_input_mode(inputmode) {
+    async addInputmode(inputmode) {
         if (!Array.isArray(this.leaderboard.inputmodes)) this.leaderboard.inputmodes = []
         this.leaderboard.inputmodes.push(inputmode)
     },
-    async remove_input_mode(inputmode) {
+    async removeInputmode(inputmode) {
         if (!Array.isArray(this.leaderboard.inputmodes)) this.leaderboard.inputmodes = []
         this.leaderboard.inputmodes = this.leaderboard.inputmodes.filter(item => item !== inputmode)
+    },
+    async addDifftable(difftable) {
+        if (!Array.isArray(this.leaderboard.difftables)) this.leaderboard.difftables = []
+        this.leaderboard.difftables.push(difftable)
+    },
+    async removeDifftable(difftable) {
+        if (!Array.isArray(this.leaderboard.difftables)) this.leaderboard.difftables = []
+        this.leaderboard.difftables = this.leaderboard.difftables.filter(item => item.id !== difftable.id)
     },
 }}
 </script>
@@ -39,7 +51,8 @@ function leaderboard_edit() {return {
             <h1>Leaderboard settings</h1>
 
 
-            <% render("views.components.modals.delete", {id = "delete-inputmode-modal", delete = "remove_input_mode(selected_inputmode)"}) %>
+            <% render("views.components.modals.delete", {id = "delete-inputmode-modal", delete = "removeInputmode(selected_inputmode)"}) %>
+            <% render("views.components.modals.delete", {id = "delete-difftable-modal", delete = "removeDifftable(selected_difftable)"}) %>
             <% render("views.components.modals.delete") %>
             <% render("views.components.modals.add-modifier") %>
             <% render("views.components.modals.add-difftable") %>
@@ -170,14 +183,16 @@ function leaderboard_edit() {return {
                         <table class="data-table data-table-slim data-table-nohead table table-icon-col-last" id="difftables">
                             <thead><tr> <th></th> <th></th> </tr></thead>
                             <tbody>
-                                <tr>
-                                    <td><a href="?a=difftables_difftable1_index">Table1</a></td>
+                                <template x-for="difftable in leaderboard.difftables">
+                                    <tr>
+                                    <td><a :href="'<%= url_for("difftable", {difftable_id = "difftable.id"}) %>'" x-text="difftable.name"></a></td>
                                     <td class="table-icon-cell">
-                                        <a href="#!" class="table-icon table-icon-l red red-h" title="Remove table" data-bs-toggle="modal" data-bs-target="#delete-modal">
+                                        <a href="#!" class="table-icon table-icon-l red red-h" title="Remove table" data-bs-toggle="modal" data-bs-target="#delete-difftable-modal" @click="selected_difftable = difftable">
                                             <i class="fas fa-times"></i>
                                         </a>
                                     </td>
-                                </tr>
+                                    </tr>
+                                </template>
                             </tbody>
                         </table>
                     </div>

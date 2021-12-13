@@ -1,4 +1,23 @@
-<div class="modal" id="add-difftable-modal">
+<script>
+function addDifftableModal() {return {
+    search: '',
+    difftables: [],
+    async getDifftables() {
+		let response_json = await _get('<%= api_url %>/difftables', {search: this.search})
+        if (!response_json) return
+		if (!response_json.difftables) return console.log(response_json)
+        if (Array.isArray(response_json.difftables)) {
+    		this.difftables = response_json.difftables
+        }
+    },
+    _add() {
+        var difftables = this.difftables.filter(i => i.name == this.search)
+        if (difftables.length != 1) return
+        this.addDifftable(difftables[0])
+    }
+}}
+</script>
+<div class="modal" id="add-difftable-modal" x-data="addDifftableModal">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -7,16 +26,16 @@
             </div>
             <div class="modal-body">
                 <form class="modal-form">
-                    <input class="form-control" list="difftable-options" id="add-difftable-difftable" name="difftable" title="The table to add" placeholder="Search for a table...">
+                    <input class="form-control" list="difftable-options" id="add-difftable-difftable" name="difftable" title="The table to add" placeholder="Search for a table..." x-model="search" @input.debounce="getDifftables">
                     <datalist id="difftable-options">
-                        <option value="Table1">
-                        <option value="Table2">
-                        <option value="Table3">
+                        <template x-for="difftable in difftables">
+                            <option :value="difftable.name">
+                        </template>
                     </datalist>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn bg-teal bg-teal-h" data-bs-dismiss="modal">Add</button>
+                <button type="button" class="btn bg-teal bg-teal-h" data-bs-dismiss="modal" @click="_add">Add</button>
                 <button type="button" class="btn bg-gray bg-gray-h" data-bs-dismiss="modal">Cancel</button>
             </div>
         </div>

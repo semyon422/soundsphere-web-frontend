@@ -7,9 +7,8 @@ function leaderboards_create() {return {
         inputmodes: [],
         difftables: [],
     },
-    difftables: [],
-    difftables_search: '',
     selected_inputmode: '',
+    selected_difftable: {},
 	async post() {
         if (!this.$refs.form.checkValidity()) return
 		let response_json = await _post('<%= api_url %>/leaderboards', {
@@ -20,21 +19,21 @@ function leaderboards_create() {return {
 		if (!response_json.leaderboard) return console.log(response_json)
 		document.location.href = '/communities/<%= params.community_id %>'
 	},
-    async get_difftables() {
-		let response_json = await _get('<%= api_url %>/difftables', {search: this.difftables_search})
-        if (!response_json) return
-		if (!response_json.difftables) return console.log(response_json)
-		this.difftables = response_json.difftables
-    },
-    async add_input_mode(inputmode) {
+    async addInputmode(inputmode) {
         this.leaderboard.inputmodes.push(inputmode)
     },
-    async remove_input_mode(inputmode) {
+    async removeInputmode(inputmode) {
         this.leaderboard.inputmodes = this.leaderboard.inputmodes.filter(item => item !== inputmode)
+    },
+    async addDifftable(difftable) {
+        this.leaderboard.difftables.push(difftable)
+    },
+    async removeDifftable(difftable) {
+        this.leaderboard.difftables = this.leaderboard.difftables.filter(item => item.id !== difftable.id)
     },
 }}
 </script>
-<div id="leaderboards-create" x-data="leaderboards_create" x-init="get_difftables()">
+<div id="leaderboards-create" x-data="leaderboards_create">
     <main class="container-lg">
         <div id="main-box">
             <nav class="navbar-expand page-icons page-icons-left page-icons-never-collapsed">
@@ -50,7 +49,8 @@ function leaderboards_create() {return {
             <h1>Make a leaderboard</h1>
 
 
-            <% render("views.components.modals.delete", {id = "delete-inputmode-modal", delete = "remove_input_mode(selected_inputmode)"}) %>
+            <% render("views.components.modals.delete", {id = "delete-inputmode-modal", delete = "removeInputmode(selected_inputmode)"}) %>
+            <% render("views.components.modals.delete", {id = "delete-difftable-modal", delete = "removeDifftable(selected_difftable)"}) %>
             <% render("views.components.modals.delete") %>
             <% render("views.components.modals.add-modifier") %>
             <% render("views.components.modals.add-difftable") %>
@@ -165,7 +165,18 @@ function leaderboards_create() {return {
                         </label>
                         <table class="data-table data-table-slim data-table-nohead table table-icon-col-last" id="difftables">
                             <thead><tr> <th></th> <th></th> </tr></thead>
-                            <tbody></tbody>
+                            <tbody>
+                                <template x-for="difftable in leaderboard.difftables">
+                                    <tr>
+                                    <td><a :href="'<%= url_for("difftable", {difftable_id = "difftable.id"}) %>'" x-text="difftable.name"></a></td>
+                                    <td class="table-icon-cell">
+                                        <a href="#!" class="table-icon table-icon-l red red-h" title="Remove table" data-bs-toggle="modal" data-bs-target="#delete-difftable-modal" @click="selected_difftable = difftable">
+                                            <i class="fas fa-times"></i>
+                                        </a>
+                                    </td>
+                                    </tr>
+                                </template>
+                            </tbody>
                         </table>
                     </div>
 
