@@ -1,0 +1,27 @@
+<div class="modal" id="edit-modifier-modal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit modifier</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form class="modal-form">
+                    <div class="form-item">
+                        <label for="edit-modifier-value" class="form-label" title="Modifier value">Value</label>
+                        <input type="text" class="form-control" id="edit-modifier-value" name="value" x-model="<%= modifier %>.value">
+                    </div>
+
+                    <div class="form-item">
+                        <label for="edit-modifier-rule" class="form-label form-required" title="No rule: modifier not allowed. Allowed: modifier doesn't matter. Required: modifier needed.">Rule</label>
+                        <select class="form-select" id="edit-modifier-rule" name="rule" required x-model="<%= modifier %>.rule">
+                            <option selected hidden>Select a rule</option>
+                            <option value="required">Required</option>
+                            <option value="allowed">Allowed</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

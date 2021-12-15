@@ -3,10 +3,12 @@ function leaderboard_edit() {return {
     leaderboard: {},
     selected_inputmode: '',
     selected_difftable: {},
+    selected_modifier: {},
     async get() {
 		let response_json = await _get('<%= api_url %>/leaderboards/<%= params.leaderboard_id %>', {
             inputmodes: -1,
             difftables: -1,
+            modifiers: -1,
         })
         if (!response_json) return
 		if (!response_json.leaderboard) return console.log(response_json)
@@ -31,7 +33,15 @@ function leaderboard_edit() {return {
     },
     async removeDifftable(difftable) {
         if (!Array.isArray(this.leaderboard.difftables)) this.leaderboard.difftables = []
-        this.leaderboard.difftables = this.leaderboard.difftables.filter(item => item.id !== difftable.id)
+        this.leaderboard.difftables = this.leaderboard.difftables.filter(item => item !== difftable)
+    },
+    async addModifier(modifier) {
+        if (!Array.isArray(this.leaderboard.modifiers)) this.leaderboard.modifiers = []
+        this.leaderboard.modifiers.push(modifier)
+    },
+    async removeModifier(modifier) {
+        if (!Array.isArray(this.leaderboard.modifiers)) this.leaderboard.modifiers = []
+        this.leaderboard.modifiers = this.leaderboard.modifiers.filter(item => item !== modifier)
     },
 }}
 </script>
@@ -53,8 +63,10 @@ function leaderboard_edit() {return {
 
             <% render("views.components.modals.delete", {id = "delete-inputmode-modal", delete = "removeInputmode(selected_inputmode)"}) %>
             <% render("views.components.modals.delete", {id = "delete-difftable-modal", delete = "removeDifftable(selected_difftable)"}) %>
+            <% render("views.components.modals.delete", {id = "delete-modifier-modal", delete = "removeModifier(selected_modifier)"}) %>
             <% render("views.components.modals.delete") %>
             <% render("views.components.modals.add-modifier") %>
+            <% render("views.components.modals.edit-modifier", {modifier = "selected_modifier"}) %>
             <% render("views.components.modals.add-difftable") %>
             <% render("views.components.modals.confirm-delete") %>
             <% render("views.components.modals.add-input-mode") %>
@@ -148,27 +160,27 @@ function leaderboard_edit() {return {
                             <thead>
                                 <tr>
                                     <th title="Modifier name">Name</th>
-                                    <th title="Modifier minumal value">Min value</th>
-                                    <th title="Modifier maximal value">Max value</th>
+                                    <th title="Modifier value">Value</th>
                                     <th title="No rule: modifier not allowed. Allowed: modifier doesn't matter. Required: modifier needed.">Rule</th>
                                     <th class="table-icon-th"></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>SpeedMode</td>
-                                    <td>Avg</td>
-                                    <td></td>
-                                    <td>Required</td>
-                                    <td class="table-icon-cell">
-                                        <a href="#!" class="table-icon table-icon-s orange orange-h" title="Edit modifier" data-bs-toggle="modal" data-bs-target="#add-modifier-modal">
-                                            <i class="fas fa-pen"></i>
-                                        </a>
-                                        <a href="#!" class="table-icon table-icon-l red red-h" title="Remove modifier" data-bs-toggle="modal" data-bs-target="#delete-modal">
-                                            <i class="fas fa-times"></i>
-                                        </a>
-                                    </td>
-                                </tr>
+                                <template x-for="modifier in leaderboard.modifiers">
+                                    <tr>
+                                        <td x-text="modifier.name"></td>
+                                        <td x-text="modifier.value"></td>
+                                        <td x-text="modifier.rule"></td>
+                                        <td class="table-icon-cell">
+                                            <a href="#!" class="table-icon table-icon-s orange orange-h" title="Edit modifier" data-bs-toggle="modal" data-bs-target="#edit-modifier-modal" @click="selected_modifier = modifier">
+                                                <i class="fas fa-pen"></i>
+                                            </a>
+                                            <a href="#!" class="table-icon table-icon-l red red-h" title="Remove modifier" data-bs-toggle="modal" data-bs-target="#delete-modifier-modal" @click="selected_modifier = modifier">
+                                                <i class="fas fa-times"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </template>
                             </tbody>
                         </table>
                     </div>

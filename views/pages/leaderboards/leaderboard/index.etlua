@@ -6,7 +6,8 @@ function leaderboard() {return {
             users: 0,
             inputmodes: -1,
             communities: 0,
-            difftables: 0
+            difftables: 0,
+            modifiers: -1,
         })
         if (!response_json) return
 		if (!response_json.leaderboard) return console.log(response_json)
@@ -146,18 +147,18 @@ function leaderboard() {return {
                     <thead>
                         <tr>
                             <th title="Modifier name">Name</th>
-                            <th title="Modifier minumal value">Min value</th>
-                            <th title="Modifier maximal value">Max value</th>
+                            <th title="Modifier value">Value</th>
                             <th title="No rule: modifier not allowed. Allowed: modifier doesn't matter. Required: modifier needed.">Rule</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>SpeedMode</td>
-                            <td>Avg</td>
-                            <td></td>
-                            <td>Required</td>
-                        </tr>
+                        <template x-for="modifier in leaderboard.modifiers">
+                            <tr>
+                                <td x-text="modifier.name"></td>
+                                <td x-text="modifier.value"></td>
+                                <td x-text="modifier.rule"></td>
+                            </tr>
+                        </template>
                     </tbody>
                 </table>
             </section>
