@@ -9,7 +9,7 @@ function createLeaderboardsModal() {return {
 		this.communities = response_json.communities
     },
     _create() {
-        this.createAtCommunity(selected_community_id)
+        this.createAtCommunity(this.selected_community_id)
     }
 }}
 </script>
