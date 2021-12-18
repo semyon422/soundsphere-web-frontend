@@ -1,11 +1,25 @@
 <script>
 function community_edit() {return {
-    community: {},
+    community: {
+        leaderboards: []
+    },
+    staff: [],
+    admins: [],
+    moderators: [],
     async get() {
-		let response_json = await _get('<%= api_url %>/communities/<%= params.community_id %>')
+		let response_json = await _get('<%= api_url %>/communities/<%= params.community_id %>', {leaderboards: -1})
         if (!response_json) return
 		if (!response_json.community) return console.log(response_json)
 		this.community = response_json.community
+        this.getStaff()
+    },
+    async getStaff() {
+		let response_json = await _get('<%= api_url %>/communities/<%= params.community_id %>/users?staff')
+        if (!response_json) return
+		if (!response_json.users) return console.log(response_json)
+		this.staff = toArray(response_json.users)
+        this.admins = this.staff.filter(i => i.community_user.role == "admin")
+        this.moderators = this.staff.filter(i => i.community_user.role == "moderator")
     },
     async patch() {
         if (!this.$refs.form.checkValidity()) return
@@ -31,8 +45,15 @@ function community_edit() {return {
             <h1>Community settings</h1>
 
 
+            <% render("views.components.modals.add-user", {
+                id = "add-admin-modal",
+                role = "admin",
+            }) %>
+            <% render("views.components.modals.add-user", {
+                id = "add-moderator-modal",
+                role = "moderator",
+            }) %>
             <% render("views.components.modals.delete") %>
-            <% render("views.components.modals.add-admin") %>
             <% render("views.components.modals.confirm-delete") %>
             <% render("views.components.modals.transfer-ownership") %>
             <section id="form-section">
@@ -70,10 +91,10 @@ function community_edit() {return {
 
                     <div class="form-item">
                         <label for="default-ranking-leaderboard" class="form-label" title="Leaderboard selected at the member table">Default member ranking leaderboard</label>
-                        <select class="form-select" id="default-ranking-leaderboard" name="default-ranking-leaderboard">
-                            <option value="Leaderboard1" selected>Leaderboard1</option>
-                            <option value="Leaderboard2">Leaderboard2</option>
-                            <option value="Leaderboard3">Leaderboard3</option>
+                        <select class="form-select" id="default-ranking-leaderboard" name="default-ranking-leaderboard" x-model="community.default_leaderboard_id">
+                            <template x-for="leaderboard in community.leaderboards">
+                                <option :selected="community.default_leaderboard_id == leaderboard.id" :value="leaderboard.id" x-text="leaderboard.name"></option>
+                            </template>
                         </select>
                     </div>
 
@@ -97,14 +118,16 @@ function community_edit() {return {
                         <table class="data-table data-table-slim data-table-nohead table table-icon-col-last">
                             <thead><tr> <th></th> <th></th> </tr></thead>
                             <tbody>
-                                <tr>
-                                    <td><a href="?a=players_player1_index">Player1</a></td>
-                                    <td class="table-icon-cell">
-                                        <a href="#!" class="table-icon table-icon-l red red-h" title="Remove admin" data-bs-toggle="modal" data-bs-target="#delete-modal">
-                                            <i class="fas fa-times"></i>
-                                        </a>
-                                    </td>
-                                </tr>
+                                <template x-for="user in admins">
+                                    <tr>
+                                        <td><a :href="`<%= url_for("user", {user_id = "${user.id}"}) %>`" x-text="user.name"></a></td>
+                                        <td class="table-icon-cell">
+                                            <a href="#!" class="table-icon table-icon-l red red-h" title="Remove admin" data-bs-toggle="modal" data-bs-target="#delete-modal">
+                                                <i class="fas fa-times"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </template>
                             </tbody>
                         </table>
                     </div>
@@ -112,21 +135,23 @@ function community_edit() {return {
                     <div class="form-item">
                         <label for="moderators" class="form-label w-100" title="Players that can kick members">
                             Moderators
-                            <a href="#!" class="title-icon label-icon teal teal-h" title="Add moderator" data-bs-toggle="modal" data-bs-target="#add-admin-modal">
+                            <a href="#!" class="title-icon label-icon teal teal-h" title="Add moderator" data-bs-toggle="modal" data-bs-target="#add-moderator-modal">
                                 <i class="fas fa-plus"></i>
                             </a>
                         </label>
                         <table class="data-table data-table-slim data-table-nohead table table-icon-col-last">
                             <thead><tr> <th></th> <th></th> </tr></thead>
                             <tbody>
-                                <tr>
-                                    <td><a href="?a=players_player1_index">Player1</a></td>
-                                    <td class="table-icon-cell">
-                                        <a href="#!" class="table-icon table-icon-l red red-h" title="Remove moderator" data-bs-toggle="modal" data-bs-target="#delete-modal">
-                                            <i class="fas fa-times"></i>
-                                        </a>
-                                    </td>
-                                </tr>
+                                <template x-for="user in moderators">
+                                    <tr>
+                                        <td><a :href="`<%= url_for("user", {user_id = "${user.id}"}) %>`" x-text="user.name"></a></td>
+                                        <td class="table-icon-cell">
+                                            <a href="#!" class="table-icon table-icon-l red red-h" title="Remove moderator" data-bs-toggle="modal" data-bs-target="#delete-modal">
+                                                <i class="fas fa-times"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </template>
                             </tbody>
                         </table>
                     </div>

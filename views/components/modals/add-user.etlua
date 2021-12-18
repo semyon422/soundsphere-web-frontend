@@ -1,0 +1,41 @@
+<script>
+function addUserModal() {return {
+    name: '',
+    search: '',
+    users: [],
+    async getUsers() {
+		let response_json = await _get('<%= api_url %>/communities/<%= params.community_id %>/users', {search: this.search})
+        if (!response_json) return
+		if (!response_json.users) return console.log(response_json)
+        if (Array.isArray(response_json.users)) {
+    		this.users = response_json.users
+        }
+    },
+    async send() {
+    }
+}}
+</script>
+<div class="modal" id="<%= id or "add-admin-modal" %>" x-data="addUserModal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add <%= role or "user" %></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form class="modal-form">
+                    <input class="form-control" list="player-options" id="add-admin-player" name="player" title="The member to make an admin" placeholder="Search for a member..." x-model="search" @input.debounce="getUsers">
+                    <datalist id="player-options">
+                        <template x-for="user in users">
+                            <option :value="user.name">
+                        </template>
+                    </datalist>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn bg-teal bg-teal-h" data-bs-dismiss="modal" @click="<%= send or "send" %>">Add</button>
+                <button type="button" class="btn bg-gray bg-gray-h" data-bs-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>

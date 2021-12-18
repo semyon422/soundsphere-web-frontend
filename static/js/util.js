@@ -84,6 +84,10 @@ function inputmodesToString(inputmodes) {
 	return Array.isArray(inputmodes) ? inputmodes.map((i) => inputmodesMap[i]).join(', ') : ''
 }
 
+function toArray(a) {
+	return Array.isArray(a) ? a : []
+}
+
 function formatDate(time) {
 	// return new Date(time * 1e3).toUTCString()
 	return new Date(time * 1e3).toLocaleString()
