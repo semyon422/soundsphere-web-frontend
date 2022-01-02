@@ -81,7 +81,7 @@ function difftable() {return {
             </section>
 
 
-            <section id="charts-section">
+            <section id="notecharts-section">
                 <h2>Charts</h2>
 
                 <table id="difftable-notecharts-table" class="data-table table table-icon-col-first" data-orders="6a 3a 1a">

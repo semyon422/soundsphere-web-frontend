@@ -294,7 +294,7 @@ function dtInitLeaderboard() {
             {render(data, type, row, meta) {
                 return inputmodesToString(row.inputmodes)
             }},
-            {data: "name"}, //charts
+            {data: "name"}, //notecharts
             {data: "name"}, //plays
         ]
     })

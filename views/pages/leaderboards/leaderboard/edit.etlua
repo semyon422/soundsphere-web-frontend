@@ -83,8 +83,8 @@ function leaderboard_edit() {return {
                     </div>
 
                     <div class="form-item">
-                        <label for="chart-diff-calc" class="form-label form-required" title="Decides the difficulty of the charts. The difficulty changes how much performance rating players get.">Chart difficulty calculator</label>
-                        <select class="form-select" id="chart-diff-calc" name="chart-diff-calc" required>
+                        <label for="notechart-diff-calc" class="form-label form-required" title="Decides the difficulty of the charts. The difficulty changes how much performance rating players get.">Chart difficulty calculator</label>
+                        <select class="form-select" id="notechart-diff-calc" name="notechart-diff-calc" required>
                             <option value="table-level" selected>Table level</option>
                             <option value="soundsphere">soundsphere</option>
                             <option value="osu">osu!</option>

@@ -1,10 +1,10 @@
-<div id="charts">
+<div id="notecharts">
     <main class="container-lg">
         <div id="main-box">
             <h1>Charts</h1>
 
 
-            <section id="charts-section">
+            <section id="notecharts-section">
                 <table id="notecharts-table" class="data-table table table-icon-col-first" data-orders="3a 1a 2a">
                     <thead>
                         <tr>
@@ -22,7 +22,7 @@
                         <tr>
                             <td></td>
                             <td>Chart1</td>
-                            <td><a href="?a=charts_chart1_index">Difficulty1</a></td>
+                            <td><a href="?a=notecharts_notechart1_index">Difficulty1</a></td>
                             <td>12</td>
                             <td>A charter</td>
                             <td>An artist</td>
@@ -32,7 +32,7 @@
                         <tr>
                             <td></td>
                             <td>Chart1</td>
-                            <td><a href="?a=charts_chart1_index">Difficulty1</a></td>
+                            <td><a href="?a=notecharts_notechart1_index">Difficulty1</a></td>
                             <td>12</td>
                             <td>A charter</td>
                             <td>An artist</td>
@@ -46,7 +46,7 @@
                                 </span>
                             </td>
                             <td>Chart1</td>
-                            <td><a href="?a=charts_chart1_index">Difficulty1</a></td>
+                            <td><a href="?a=notecharts_notechart1_index">Difficulty1</a></td>
                             <td>12</td>
                             <td>A charter</td>
                             <td>An artist</td>
@@ -60,7 +60,7 @@
                                 </span>
                             </td>
                             <td>Chart1</td>
-                            <td><a href="?a=charts_chart1_index">Difficulty1</a></td>
+                            <td><a href="?a=notecharts_notechart1_index">Difficulty1</a></td>
                             <td>12</td>
                             <td>A charter</td>
                             <td>An artist</td>
