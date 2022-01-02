@@ -154,7 +154,7 @@ function leaderboards_create() {return {
                                 <i class="fas fa-plus"></i>
                             </a>
                         </label>
-                        <table class="data-table data-table-slim table table-icon-col-last" data-orders="3a 0a">
+                        <table class="data-table data-table-slim table table-icon-col-last" data-orders="2a 0a">
                             <thead>
                                 <tr>
                                     <th title="Modifier name">Name</th>

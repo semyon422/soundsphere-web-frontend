@@ -145,7 +145,7 @@ function leaderboard() {return {
             <section id="modifiers-section">
                 <h2>Modifiers</h2>
 
-                <table class="data-table data-table-slim table" data-orders="3a 0a">
+                <table class="data-table data-table-slim table" data-orders="2a 0a">
                     <thead>
                         <tr>
                             <th title="Modifier name">Name</th>
