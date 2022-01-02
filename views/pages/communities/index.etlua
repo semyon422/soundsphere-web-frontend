@@ -40,7 +40,7 @@ function communities() {return {
             <h1>Communities</h1>
 
             <% render("views.components.modals.delete", {delete = "leave_community(selected_community_id)"}) %>
-            <% render("views.components.modals.create-player-request-2", {community_name = "selected_community_name"}) %>
+            <% render("views.components.modals.create-user-request-2", {community_name = "selected_community_name"}) %>
             <section id="communities-section">
                 <div id="communities-insert-top" hidden>
                     <div class="col">
@@ -161,7 +161,7 @@ function dtInitCommunities() {
                         `
                     }
                     return `
-                        <a href="#!" class="table-icon teal teal-h" title="Join community" data-bs-toggle="modal" data-bs-target="#create-player-request-2-modal" @click="selected_community_id = ${row.id}; selected_community_name = '${row.name}';">
+                        <a href="#!" class="table-icon teal teal-h" title="Join community" data-bs-toggle="modal" data-bs-target="#create-user-request-2-modal" @click="selected_community_id = ${row.id}; selected_community_name = '${row.name}';">
                             <i class="fas fa-sign-in-alt"></i>
                         </a>
                     `

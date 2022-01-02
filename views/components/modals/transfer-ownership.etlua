@@ -14,9 +14,9 @@
                     </div>
 
                     <div class="form-item">
-                        <label for="transfer-ownership-player" class="form-label form-required" title="The member to make the new owner">Member</label>
-                        <input class="form-control" list="player-options" id="transfer-ownership-player" name="player" placeholder="Search for a member..." required>
-                        <datalist id="player-options">
+                        <label for="transfer-ownership-user" class="form-label form-required" title="The member to make the new owner">Member</label>
+                        <input class="form-control" list="user-options" id="transfer-ownership-user" name="user" placeholder="Search for a member..." required>
+                        <datalist id="user-options">
                             <option value="Player1">
                             <option value="Player2">
                             <option value="Player3">

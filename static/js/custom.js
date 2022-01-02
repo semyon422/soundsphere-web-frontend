@@ -301,12 +301,12 @@ ready(() => {
 
 
     
-    if (document.getElementById("player-edit") != null) {
-        document.getElementById("username-color-l").addEventListener("change", showPlayerName);
-        document.getElementById("username-color-r").addEventListener("change", showPlayerName);
-        document.getElementById("username").addEventListener("change", showPlayerName);
+    if (document.getElementById("user-edit") != null) {
+        document.getElementById("username-color-l").addEventListener("change", showUserName);
+        document.getElementById("username-color-r").addEventListener("change", showUserName);
+        document.getElementById("username").addEventListener("change", showUserName);
 
-        function showPlayerName() {
+        function showUserName() {
             const colorL = document.getElementById("username-color-l").value;
             const colorR = document.getElementById("username-color-r").value;
             const name = document.getElementById("username").value;

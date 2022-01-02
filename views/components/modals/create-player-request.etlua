@@ -1,4 +1,4 @@
-<div class="modal" id="create-player-request-modal">
+<div class="modal" id="create-user-request-modal">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -8,8 +8,8 @@
             <div class="modal-body">
                 <form class="modal-form">
                     <div class="form-item">
-                        <label for="create-player-request-community" class="form-label form-required" title="The community to send the request to">Community</label>
-                        <input class="form-control" list="community-options" id="create-player-request-community" name="community" placeholder="Search for a community..." required>
+                        <label for="create-user-request-community" class="form-label form-required" title="The community to send the request to">Community</label>
+                        <input class="form-control" list="community-options" id="create-user-request-community" name="community" placeholder="Search for a community..." required>
                         <datalist id="community-options">
                             <option value="Community1">
                             <option value="Community2">
@@ -18,8 +18,8 @@
                     </div>
 
                     <div class="form-item">
-                        <label for="create-player-request-message" class="form-label" title="You can add the reason that you want to join, or an identifier like a username from a different game etc.">Message</label>
-                        <input type="text" class="form-control" id="create-player-request-message" name="message" maxlength="100">
+                        <label for="create-user-request-message" class="form-label" title="You can add the reason that you want to join, or an identifier like a username from a different game etc.">Message</label>
+                        <input type="text" class="form-control" id="create-user-request-message" name="message" maxlength="100">
                     </div>
                 </form>
             </div>

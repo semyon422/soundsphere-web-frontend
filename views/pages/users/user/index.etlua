@@ -1,5 +1,5 @@
 <script>
-function player() {return {
+function user() {return {
     user: {},
     async get() {
 		let response_json = await _get('<%= api_url %>/users/<%= params.user_id %>')
@@ -10,7 +10,7 @@ function player() {return {
     },
 }}
 </script>
-<div id="player" x-data="player" x-init="get()">
+<div id="user" x-data="user" x-init="get()">
     <% render("views.components.modals.properties") %>
 
     <nav id="secondary-navbar">

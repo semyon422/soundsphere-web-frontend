@@ -1,5 +1,5 @@
 <script>
-function player_edit() {return {
+function user_edit() {return {
     user: {},
     async get() {
 		let response_json = await _get('<%= api_url %>/users/<%= params.user_id %>')
@@ -14,7 +14,7 @@ function player_edit() {return {
     },
 }}
 </script>
-<div id="player-edit" x-data="player_edit" x-init="get()">
+<div id="user-edit" x-data="user_edit" x-init="get()">
     <main class="container-lg">
         <div id="main-box">
             <nav class="navbar-expand page-icons page-icons-left page-icons-never-collapsed">

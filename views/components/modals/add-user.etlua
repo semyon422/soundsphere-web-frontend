@@ -24,8 +24,8 @@ function addUserModal() {return {
             </div>
             <div class="modal-body">
                 <form class="modal-form">
-                    <input class="form-control" list="player-options" id="add-admin-player" name="player" title="The member to make an admin" placeholder="Search for a member..." x-model="search" @input.debounce="getUsers">
-                    <datalist id="player-options">
+                    <input class="form-control" list="user-options" id="add-admin-user" name="user" title="The member to make an admin" placeholder="Search for a member..." x-model="search" @input.debounce="getUsers">
+                    <datalist id="user-options">
                         <template x-for="user in users">
                             <option :value="user.name">
                         </template>
