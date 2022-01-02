@@ -58,12 +58,12 @@ function communities_create() {return {
 
                     <div class="form-item">
                         <label for="short-description" class="form-label" title="Description shown in tables">Short description</label>
-                        <input type="text" id="short-description" class="form-control" name="short-description" x-model="community.short_description">
+                        <input type="text" id="short-description" class="form-control" name="short-description" minlength="5" maxlength="75" x-model="community.short_description">
                     </div>
 
                     <div class="form-item">
                         <label for="description" class="form-label" title="Page description">Description</label>
-                        <textarea class="form-control" id="description" name="description" x-model="community.description"></textarea>
+                        <textarea class="form-control" id="description" name="description" minlength="5" maxlength="1000" x-model="community.description"></textarea>
                     </div>
 
                     <div class="form-item">
