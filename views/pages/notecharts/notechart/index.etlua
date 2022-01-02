@@ -55,7 +55,7 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td><a href="?a=difftables_difftable1_index">Table1</a></td>
+                            <td><a href="?a=difftables_difftable_index">Table1</a></td>
                             <td>15</td>
                             <td>7K</td>
                             <td>20</td>
@@ -120,7 +120,7 @@
                     <tbody>
                         <tr>
                             <td>#1</td>
-                            <td><a href="?a=users_user1_index">Player1</a></td>
+                            <td><a href="?a=users_user_index">Player1</a></td>
                             <td>1000</td>
                             <td>1000</td>
                             <td>20</td>
@@ -136,7 +136,7 @@
                         </tr>
                         <tr class="highlight-row">
                             <td>#2</td>
-                            <td><a href="?a=users_user1_index">Player1</a></td>
+                            <td><a href="?a=users_user_index">Player1</a></td>
                             <td>1000</td>
                             <td>1000</td>
                             <td>20</td>
@@ -155,7 +155,7 @@
                         </tr>
                         <tr>
                             <td>#3</td>
-                            <td><a href="?a=users_user1_index">Player1</a></td>
+                            <td><a href="?a=users_user_index">Player1</a></td>
                             <td>1000</td>
                             <td>1000</td>
                             <td>20</td>
@@ -171,7 +171,7 @@
                         </tr>
                         <tr>
                             <td>#4</td>
-                            <td><a href="?a=users_user1_index">Player1</a></td>
+                            <td><a href="?a=users_user_index">Player1</a></td>
                             <td>1000</td>
                             <td>1000</td>
                             <td>20</td>
