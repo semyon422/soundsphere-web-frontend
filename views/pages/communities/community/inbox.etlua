@@ -38,6 +38,8 @@ function communityInbox() {return {
     },
 }}
 </script>
+
+
 <div id="community-inbox" x-data="communityInbox" x-init="dtInit" x-cloak>
     <nav id="secondary-navbar">
         <div class="container-lg">
@@ -160,6 +162,8 @@ function communityInbox() {return {
         </div>
     </main>
 </div>
+
+
 <script>
 function dtInitInbox() {
     dtUsersRequests = dtInit(document.querySelector("#users-requests-table"), {

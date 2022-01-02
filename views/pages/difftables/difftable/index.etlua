@@ -10,6 +10,8 @@ function difftable() {return {
     },
 }}
 </script>
+
+
 <div id="difftable" x-data="difftable" x-init="get()">
     <% render("views.components.modals.properties") %>
 
@@ -115,6 +117,8 @@ function difftable() {return {
         </div>
     </main>
 </div>
+
+
 <script>
 function dtInitDifftable() {
     dtInit(document.querySelector("#difftable-communities-table"), {

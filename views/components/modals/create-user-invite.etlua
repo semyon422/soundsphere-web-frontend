@@ -21,6 +21,8 @@ function createUserInviteModal() {return {
     }
 }}
 </script>
+
+
 <div class="modal" id="create-user-invite-modal" x-data="createUserInviteModal">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">

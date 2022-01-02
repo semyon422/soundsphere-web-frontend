@@ -32,6 +32,8 @@ function addModifierModal() {return {
     }
 }}
 </script>
+
+
 <div class="modal" id="add-modifier-modal" x-data="addModifierModal">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">

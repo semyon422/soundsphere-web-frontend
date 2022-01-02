@@ -24,6 +24,8 @@ function communities() {return {
     },
 }}
 </script>
+
+
 <div id="communities" x-data="communities" x-init="get()" x-cloak>
     <main class="container-lg">
         <div id="main-box">
@@ -82,6 +84,7 @@ function communities() {return {
         </div>
     </main>
 </div>
+
 
 <script>
 function dtInitCommunities() {

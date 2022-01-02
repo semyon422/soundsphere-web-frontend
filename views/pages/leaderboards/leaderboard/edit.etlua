@@ -45,6 +45,8 @@ function leaderboard_edit() {return {
     },
 }}
 </script>
+
+
 <div id="leaderboard-edit" x-data="leaderboard_edit" x-init="get()">
     <main class="container-lg">
         <div id="main-box">

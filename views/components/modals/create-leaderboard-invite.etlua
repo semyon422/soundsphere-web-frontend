@@ -38,6 +38,8 @@ function createLeaderboardInviteModal() {return {
     }
 }}
 </script>
+
+
 <div class="modal" id="create-leaderboard-invite-modal" x-data="createLeaderboardInviteModal">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">

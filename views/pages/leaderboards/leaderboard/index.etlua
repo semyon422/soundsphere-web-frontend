@@ -20,6 +20,8 @@ function leaderboard() {return {
     },
 }}
 </script>
+
+
 <div id="leaderboard" x-data="leaderboard" x-init="get()">
     <% render("views.components.modals.properties") %>
 
@@ -252,6 +254,8 @@ function leaderboard() {return {
         </div>
     </main>
 </div>
+
+
 <script>
 function dtInitLeaderboard() {
     dtInit(document.querySelector("#leaderboard-communities-table"), {

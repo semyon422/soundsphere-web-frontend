@@ -18,6 +18,8 @@ function communities_create() {return {
 	},
 }}
 </script>
+
+
 <div id="communities-create" x-data="communities_create">
     <main class="container-lg">
         <div id="main-box">
@@ -32,6 +34,7 @@ function communities_create() {return {
             </nav>
 
             <h1>Make a community</h1>
+
 
             <section id="form-section">
                 <form class="crud-form" x-ref="form">

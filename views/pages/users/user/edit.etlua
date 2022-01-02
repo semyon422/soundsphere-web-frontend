@@ -14,6 +14,8 @@ function user_edit() {return {
     },
 }}
 </script>
+
+
 <div id="user-edit" x-data="user_edit" x-init="get()">
     <main class="container-lg">
         <div id="main-box">

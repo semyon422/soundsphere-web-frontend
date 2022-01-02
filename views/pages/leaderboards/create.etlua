@@ -41,6 +41,8 @@ function leaderboards_create() {return {
     },
 }}
 </script>
+
+
 <div id="leaderboards-create" x-data="leaderboards_create">
     <main class="container-lg">
         <div id="main-box">

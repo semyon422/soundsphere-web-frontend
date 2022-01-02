@@ -10,8 +10,11 @@ function user() {return {
     },
 }}
 </script>
+
+
 <div id="user" x-data="user" x-init="get()">
     <% render("views.components.modals.properties") %>
+
 
     <nav id="secondary-navbar">
         <div class="container-lg">
@@ -295,6 +298,8 @@ function user() {return {
         </div>
     </main>
 </div>
+
+
 <script>
 function dtInitUser() {
     dtInit(document.querySelector("#user-communities-table"), {

@@ -205,6 +205,8 @@
         </div>
     </main>
 </div>
+
+
 <script>
 ready(() => {
     dtInit(document.querySelector("#notechart-scores-table"), {

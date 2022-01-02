@@ -31,6 +31,7 @@
         }
     </style>
 </head>
+
 <body class="d-flex flex-column">
     <% render("views.components.navbar") %>
     <% render("views." .. view) %>

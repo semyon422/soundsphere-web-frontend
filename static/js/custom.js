@@ -1,5 +1,6 @@
 var dtTables = {};
 
+
 function dtToggleCols(e) {
     let tableId = e.target.getAttribute("data-table");
     let table = document.getElementById(tableId);
@@ -18,6 +19,7 @@ function dtToggleCols(e) {
     })
 };
 
+
 const dtDefaultOptions = {
     scrollX: true,
     language: {
@@ -34,9 +36,11 @@ const dtDefaultOptions = {
     },
 }
 
+
 var dtAllOptions = {
     ...dtDefaultOptions,
 }
+
 
 var dtColOptions = {
     ...dtDefaultOptions,
@@ -47,6 +51,7 @@ var dtColOptions = {
         { orderable: false, targets: ["_all"] }
     ],
 }
+
 
 function dtInit(table, options) {
     let toggleOption = dtGetToggleOption(table);

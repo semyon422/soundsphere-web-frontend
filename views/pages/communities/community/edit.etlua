@@ -29,6 +29,8 @@ function community_edit() {return {
     },
 }}
 </script>
+
+
 <div id="community-edit" x-data="community_edit" x-init="get()">
     <main class="container-lg">
         <div id="main-box">

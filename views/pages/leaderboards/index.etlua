@@ -19,6 +19,8 @@ function leaderboards() {return {
     },
 }}
 </script>
+
+
 <div id="leaderboards" x-data="leaderboards" x-init="get()" x-cloak>
     <main class="container-lg">
         <div id="main-box">
@@ -82,6 +84,8 @@ function leaderboards() {return {
         </div>
     </main>
 </div>
+
+
 <script>
 function dtInitLeaderboards() {
     var dt

@@ -26,6 +26,8 @@ function primary_navbar() {return {
 	},
 }}
 </script>
+
+
 <nav id="primary-navbar" class="navbar navbar-expand-lg navbar-dark fixed-top bg-blue" x-data="primary_navbar" x-init="update(); get();">
     <div class="container-lg">
         <a class="primary-navbar-icon" href="/">

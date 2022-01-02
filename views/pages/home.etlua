@@ -1,10 +1,12 @@
 <div id="home">
     <div class="banner banner-solid" style="background-image: url(../resources/banner.jpg);"></div>
 
+
     <main class="container-lg">
         <div id="main-box">
             <h1>soundsphere</h1>
 
+            
             <section id="description-section">
                 <p>
                     Maecenas at orci feugiat, pharetra est quis, vulputate neque. Vestibulum elementum, orci nec laoreet pretium, lectus

@@ -29,6 +29,8 @@
         </div>
     </main>
 </div>
+
+
 <script>
 ready(() =>
     dtInit(document.querySelector("#users-table"), {
