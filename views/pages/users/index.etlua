@@ -33,7 +33,6 @@
 ready(() =>
     dtInit(document.querySelector("#users-table"), {
         ...dtAllOptions,
-        scrollX: true,
         serverSide: true,
         ajax: "/dt/users",
         columns: [

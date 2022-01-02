@@ -203,8 +203,7 @@ function community() {return {
 <script>
 function dtInitCommunity() {
     dtInit(document.querySelector("#community-leaderboards-table"), {
-        ...dtSlimOptions,
-        scrollX: true,
+        ...dtColOptions,
         serverSide: true,
         ajax: "/dt/communities/<%= params.community_id %>/leaderboards",
         columns: [

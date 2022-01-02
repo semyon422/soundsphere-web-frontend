@@ -119,7 +119,6 @@ function difftable() {return {
 function dtInitDifftable() {
     dtInit(document.querySelector("#difftable-communities-table"), {
         ...dtColOptions,
-        scrollX: true,
         serverSide: true,
         ajax: "/dt/difftables/<%= params.difftable_id %>/communities",
         columns: [
@@ -150,7 +149,6 @@ function dtInitDifftable() {
     })
     dtInit(document.querySelector("#difftable-leaderboards-table"), {
         ...dtColOptions,
-        scrollX: true,
         serverSide: true,
         ajax: "/dt/difftables/<%= params.difftable_id %>/leaderboards",
         columns: [
@@ -181,7 +179,6 @@ function dtInitDifftable() {
     })
     dtInit(document.querySelector("#difftable-notecharts-table"), {
         ...dtAllOptions,
-        scrollX: true,
         serverSide: true,
         ajax: "/dt/difftables/<%= params.difftable_id %>/notecharts",
         columns: [

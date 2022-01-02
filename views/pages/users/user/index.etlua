@@ -299,7 +299,6 @@ function player() {return {
 function dtInitUser() {
     dtInit(document.querySelector("#user-communities-table"), {
         ...dtColOptions,
-        scrollX: true,
         serverSide: true,
         ajax: "/dt/users/<%= params.user_id %>/communities",
         columns: [
@@ -347,7 +346,6 @@ function dtInitUser() {
     })
     dtInit(document.querySelector("#user-leaderboards-table"), {
         ...dtColOptions,
-        scrollX: true,
         serverSide: true,
         ajax: "/dt/users/<%= params.user_id %>/leaderboards",
         columns: [
@@ -395,7 +393,6 @@ function dtInitUser() {
     })
     dtInit(document.querySelector("#user-best-scores-table"), {
         ...dtAllOptions,
-        scrollX: true,
         serverSide: true,
         ajax: "/dt/users/<%= params.user_id %>/scores",
         columns: [
@@ -445,7 +442,6 @@ function dtInitUser() {
     })
     dtInit(document.querySelector("#user-all-scores-table"), {
         ...dtAllOptions,
-        scrollX: true,
         serverSide: true,
         ajax: "/dt/users/<%= params.user_id %>/scores",
         columns: [

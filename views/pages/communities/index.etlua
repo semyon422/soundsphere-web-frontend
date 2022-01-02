@@ -88,7 +88,6 @@ function dtInitCommunities() {
     var dt
     dt = dtInit(document.querySelector("#communities-table"), {
         ...dtAllOptions,
-        scrollX: true,
         serverSide: true,
         ajax: {
             url: "/dt/communities",

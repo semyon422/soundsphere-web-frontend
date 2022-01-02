@@ -19,6 +19,7 @@ function dtToggleCols(e) {
 };
 
 const dtDefaultOptions = {
+    scrollX: true,
     language: {
         lengthMenu: "Rows: _MENU_",
         info: "_START_ to _END_ of _TOTAL_ rows",
@@ -35,7 +36,6 @@ const dtDefaultOptions = {
 
 var dtAllOptions = {
     ...dtDefaultOptions,
-    scrollX: true,
 }
 
 var dtColOptions = {
@@ -46,11 +46,6 @@ var dtColOptions = {
     columnDefs: [
         { orderable: false, targets: ["_all"] }
     ],
-}
-
-var dtSlimOptions = {
-    ...dtColOptions,
-    scrollX: true,
 }
 
 function dtInit(table, options) {

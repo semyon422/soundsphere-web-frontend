@@ -163,8 +163,7 @@ function communityInbox() {return {
 <script>
 function dtInitInbox() {
     dtUsersRequests = dtInit(document.querySelector("#users-requests-table"), {
-        ...dtSlimOptions,
-        scrollX: true,
+        ...dtColOptions,
         serverSide: true,
         ajax: "/dt/communities/<%= params.community_id %>/users?requests",
         columns: [
@@ -207,8 +206,7 @@ function dtInitInbox() {
         ]
     })
     dtUsersInvites = dtInit(document.querySelector("#users-invitations-table"), {
-        ...dtSlimOptions,
-        scrollX: true,
+        ...dtColOptions,
         serverSide: true,
         ajax: "/dt/communities/<%= params.community_id %>/users?invitations",
         columns: [
@@ -246,8 +244,7 @@ function dtInitInbox() {
         ]
     })
     dtLeaderboardsIncoming = dtInit(document.querySelector("#leaderboards-incoming-table"), {
-        ...dtSlimOptions,
-        scrollX: true,
+        ...dtColOptions,
         serverSide: true,
         ajax: "/dt/communities/<%= params.community_id %>/leaderboards?incoming",
         columns: [
@@ -303,8 +300,7 @@ function dtInitInbox() {
         ]
     })
     dtLeaderboardsOutgoing = dtInit(document.querySelector("#leaderboards-outgoing-table"), {
-        ...dtSlimOptions,
-        scrollX: true,
+        ...dtColOptions,
         serverSide: true,
         ajax: "/dt/communities/<%= params.community_id %>/leaderboards?outgoing",
         columns: [

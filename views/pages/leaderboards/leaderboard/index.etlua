@@ -256,7 +256,6 @@ function leaderboard() {return {
 function dtInitLeaderboard() {
     dtInit(document.querySelector("#leaderboard-communities-table"), {
         ...dtColOptions,
-        scrollX: true,
         serverSide: true,
         ajax: "/dt/leaderboards/<%= params.leaderboard_id %>/communities",
         columns: [
@@ -283,7 +282,6 @@ function dtInitLeaderboard() {
     })
     dtInit(document.querySelector("#leaderboard-difftables-table"), {
         ...dtColOptions,
-        scrollX: true,
         serverSide: true,
         ajax: "/dt/leaderboards/<%= params.leaderboard_id %>/difftables",
         columns: [
@@ -302,7 +300,6 @@ function dtInitLeaderboard() {
     })
     dtInit(document.querySelector("#leaderboard-users-table"), {
         ...dtAllOptions,
-        scrollX: true,
         serverSide: true,
         ajax: "/dt/leaderboards/<%= params.leaderboard_id %>/users",
         columns: [

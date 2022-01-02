@@ -87,7 +87,6 @@ function dtInitLeaderboards() {
     var dt
     dt = dtInit(document.querySelector("#leaderboards-table"), {
         ...dtAllOptions,
-        scrollX: true,
         serverSide: true,
         ajax: "/dt/leaderboards",
         columns: [

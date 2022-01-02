@@ -64,7 +64,6 @@ function difftables() {return {
 function dtInitDifftables() {
     dtInit(document.querySelector("#difftables-table"), {
         ...dtAllOptions,
-        scrollX: true,
         serverSide: true,
         ajax: "/dt/difftables",
         columns: [

@@ -89,7 +89,6 @@
 ready(() =>
     dtInit(document.querySelector("#notecharts-table"), {
         ...dtAllOptions,
-        scrollX: true,
         serverSide: true,
         ajax: "/dt/notecharts",
         columns: [
