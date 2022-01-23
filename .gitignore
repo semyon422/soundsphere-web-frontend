@@ -1,5 +1,6 @@
 lapis/*
 temp/*
+!temp/.keep
 logs
 nginx.conf.compiled
 config.lua
