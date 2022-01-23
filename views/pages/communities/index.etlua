@@ -94,16 +94,9 @@ function dtInitCommunities() {
             url: "/dt/communities",
             type: "POST",
             data(d) {
-                d.hide_joined = $("#communities-hide-joined-communities").is(':checked') ? 1 : 0
+                d.hide_joined = $("#communities-hide-joined-communities").is(':checked') ? true : false
+                d.community_inputmodes = true
             }
-            // data(d) {
-            //     var frm_data = $('.table-form-top').serializeArray();
-            //     $.each(frm_data, function(key, val) {
-            //         if (val.name == "hide-joined-communities") d.hide_joined = true
-            //         // d[val.name] = val.value;
-            //     })
-            //     console.log(d)
-            // }
         },
         initComplete(settings, json) {
             $("#communities-hide-joined-communities").change(() => {
@@ -134,7 +127,7 @@ function dtInitCommunities() {
                 }
             },
             {
-                data: "inputmodes",
+                data: "community_inputmodes",
                 render(data, type, row, meta) {
                     return inputmodesToString(data)
                 }

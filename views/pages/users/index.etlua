@@ -38,8 +38,8 @@ ready(() =>
         ajax: "/dt/users",
         columns: [
             {data: "name"},
-            {data: "tag"},
-            {data: "tag"},
+            {data: "name"},
+            {data: "name"},
             {data: "latest_activity"},
         ]
     })

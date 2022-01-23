@@ -3,21 +3,15 @@ function login() {return {
     user: {
         email: '',
         password: '',
+        recaptcha_token: '',
     },
     async submit() {
         if (!this.$refs.form.checkValidity()) return
-        let response = await fetch('<%= api_url %>/auth/login', {
-            method: 'POST',
-            headers: {'Authorization': 'Basic ' + btoa(this.user.email + ':' + this.user.password)},
-            credentials: 'same-origin'
-        })
-        if (!response.ok && await handle_not_ok(response)) return
-        let response_json = await response.json()
-        if (response_json.message) {
-            this.$refs.form_invalid_message.innerHTML = response_json.message
-        }
+        this.user.recaptcha_token = await grecaptcha.execute('<%= recaptcha_site_key %>', {action: 'login'})
+        let response_json = await _post('<%= api_url %>/auth/login', this.user)
+        if (!response_json) return
+        set_error_message(this.$refs.form_invalid_message, response_json)
         if (!response_json.token) return console.log(response_json)
-        set_cookie('logged_in', true)
         document.location.href = '/home'
     },
 }}

@@ -19,54 +19,6 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td></td>
-                            <td>Chart1</td>
-                            <td><a href="?a=charts_chart1_index">Difficulty1</a></td>
-                            <td>12</td>
-                            <td>A charter</td>
-                            <td>An artist</td>
-                            <td>7K</td>
-                            <td>BME</td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td>Chart1</td>
-                            <td><a href="?a=charts_chart1_index">Difficulty1</a></td>
-                            <td>12</td>
-                            <td>A charter</td>
-                            <td>An artist</td>
-                            <td>7K</td>
-                            <td>BME</td>
-                        </tr>
-                        <tr>
-                            <td class="table-icon-cell">
-                                <span class="table-icon table-icon-s gray" title="You have a score on this chart">
-                                    <i class="fas fa-check"></i>
-                                </span>
-                            </td>
-                            <td>Chart1</td>
-                            <td><a href="?a=charts_chart1_index">Difficulty1</a></td>
-                            <td>12</td>
-                            <td>A charter</td>
-                            <td>An artist</td>
-                            <td>7K</td>
-                            <td>BME</td>
-                        </tr>
-                        <tr>
-                            <td class="table-icon-cell">
-                                <span class="table-icon table-icon-s gray" title="You have a score on this chart">
-                                    <i class="fas fa-check"></i>
-                                </span>
-                            </td>
-                            <td>Chart1</td>
-                            <td><a href="?a=charts_chart1_index">Difficulty1</a></td>
-                            <td>12</td>
-                            <td>A charter</td>
-                            <td>An artist</td>
-                            <td>7K</td>
-                            <td>BME</td>
-                        </tr>
                     </tbody>
                     <tfoot>
                         <tr>
@@ -91,16 +43,34 @@ ready(() =>
         ...dtAllOptions,
         scrollX: true,
         serverSide: true,
-        ajax: "/dt/notecharts",
+        ajax: {
+            url: "/dt/notecharts",
+            type: "POST",
+            data(d) {
+                d.file = true
+            }
+        },
         columns: [
-            {data: "name"},
-            {data: "name"},
-            {data: "name"},
-            {data: "name"},
-            {data: "name"},
-            {data: "name"},
-            {data: "name"},
-            {data: "name"},
+            {
+                render(data, type, row, meta) {
+                    return ""
+                }
+            },
+            {data: "song_title"},
+            {data: "difficulty_name"},
+            {data: "level"},
+            {data: "difficulty_creator"},
+            {data: "song_artist"},
+            {
+                render(data, type, row, meta) {
+                    return inputmodesMap[row.inputmode]
+                }
+            },
+            {
+                render(data, type, row, meta) {
+                    return row.file.format
+                }
+            },
         ]
     })
 )

@@ -1,7 +1,8 @@
 <script>
 function community_edit() {return {
     community: {
-        leaderboards: []
+        leaderboards: [],
+        users: [],
     },
     staff: [],
     admins: [],
@@ -17,9 +18,9 @@ function community_edit() {return {
 		let response_json = await _get('<%= api_url %>/communities/<%= params.community_id %>/users?staff')
         if (!response_json) return
 		if (!response_json.users) return console.log(response_json)
-		this.staff = toArray(response_json.users)
-        this.admins = this.staff.filter(i => i.community_user.role == "admin")
-        this.moderators = this.staff.filter(i => i.community_user.role == "moderator")
+		this.community.users = toArray(response_json.users)
+        // this.admins = this.staff.filter(i => i.community_user.role == "admin")
+        // this.moderators = this.staff.filter(i => i.community_user.role == "moderator")
     },
     async patch() {
         if (!this.$refs.form.checkValidity()) return

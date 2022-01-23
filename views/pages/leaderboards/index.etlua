@@ -89,7 +89,14 @@ function dtInitLeaderboards() {
         ...dtAllOptions,
         scrollX: true,
         serverSide: true,
-        ajax: "/dt/leaderboards",
+        ajax: {
+            url: "/dt/leaderboards",
+            type: "POST",
+            data(d) {
+                d.hide_joined = $("#leaderboards-hide-joined-leaderboards").is(':checked') ? true : false
+                d.leaderboard_inputmodes = true
+            }
+        },
         columns: [
             {
                 render(data, type, row, meta) {
@@ -98,19 +105,11 @@ function dtInitLeaderboards() {
             },
             {
                 render(data, type, row, meta) {
-                    return inputmodesToString(row.inputmodes)
+                    return inputmodesToString(row.leaderboard_inputmodes)
                 }
             },
-            {
-                render(data, type, row, meta) {
-                    return 0
-                }
-            },
-            {
-                render(data, type, row, meta) {
-                    return 0
-                }
-            },
+            {data: "difficulty_calculator"},
+            {data: "rating_calculator"},
             {data: "communities_count"},
             {data: "difftables_count"},
             {

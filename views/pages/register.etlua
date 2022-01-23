@@ -4,28 +4,15 @@ function register() {return {
         name: '',
         email: '',
         password: '',
+        recaptcha_token: '',
     },
     async post() {
         if (!this.$refs.form.checkValidity()) return
-		let response_json = await _post('<%= api_url %>/users', {user: this.user})
+        this.user.recaptcha_token = await grecaptcha.execute('<%= recaptcha_site_key %>', {action: 'register'})
+		let response_json = await _post('<%= api_url %>/auth/register', this.user)
         if (!response_json) return
-        if (response_json.message) {
-            this.$refs.form_invalid_message.innerHTML = response_json.message
-        }
+        set_error_message(this.$refs.form_invalid_message, response_json)
         if (!response_json.user) return console.log(response_json)
-        await this.login()
-        if (get_cookie('logged_in')) document.location.href = '/home'
-    },
-    async login() {
-        let response = await fetch('<%= api_url %>/auth/login', {
-            method: 'POST',
-            headers: {'Authorization': 'Basic ' + btoa(this.user.email + ':' + this.user.password)},
-            credentials: 'same-origin'
-        })
-        if (!response.ok && await handle_not_ok(response)) return
-        let response_json = await response.json()
-        if (!response_json.token) return console.log(response_json)
-        set_cookie('logged_in', true)
     },
 }}
 </script>

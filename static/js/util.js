@@ -39,8 +39,9 @@ function delete_cookie(name) {
 
 const encode_get_params = p => "?" + Object.entries(p).map(kv => kv.map(encodeURIComponent).join("=")).join("&");
 
-async function handle_500(response) {
+async function handle_not_ok(response) {
 	if (response.status != 500) return
+	alert(response.status + ' ' + response.statusText)
 	let response_json = await response.json()
 	if (response_json.trace) {
 		console.log(response_json.err)
@@ -49,9 +50,14 @@ async function handle_500(response) {
 	}
 }
 
-async function handle_not_ok(response) {
-	alert(response.status + ' ' + response.statusText)
-	return handle_500(response)
+function set_error_message(obj, response_json) {
+	if (response_json.message) {
+		obj.innerHTML = response_json.message
+	} else if (response_json.errors) {
+		obj.innerHTML = response_json.errors.join(", ")
+	} else {
+		obj.innerHTML = ""
+	}
 }
 
 var inputmodesMap = {
@@ -81,7 +87,7 @@ var inputmodesMap = {
 }
 
 function inputmodesToString(inputmodes) {
-	return Array.isArray(inputmodes) ? inputmodes.map((i) => inputmodesMap[i]).join(', ') : ''
+	return Array.isArray(inputmodes) ? inputmodes.map((i) => inputmodesMap[i.inputmode]).join(', ') : ''
 }
 
 function toArray(a) {

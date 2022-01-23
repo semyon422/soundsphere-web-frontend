@@ -66,7 +66,13 @@ function dtInitDifftables() {
         ...dtAllOptions,
         scrollX: true,
         serverSide: true,
-        ajax: "/dt/difftables",
+        ajax: {
+            url: "/dt/difftables",
+            type: "POST",
+            data(d) {
+                d.difftable_inputmodes = true
+            }
+        },
         columns: [
             {
                 render(data, type, row, meta) {
@@ -74,7 +80,7 @@ function dtInitDifftables() {
                 }
             },
             {
-                data: "inputmodes",
+                data: "difftable_inputmodes",
                 render(data, type, row, meta) {
                     return inputmodesToString(data)
                 }
