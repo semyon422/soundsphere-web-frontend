@@ -2,3 +2,4 @@ lapis/*
 temp/*
 logs
 nginx.conf.compiled
+config.lua
