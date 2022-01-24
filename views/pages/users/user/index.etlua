@@ -305,7 +305,14 @@ function dtInitUser() {
     dtInit(document.querySelector("#user-communities-table"), {
         ...dtColOptions,
         serverSide: true,
-        ajax: "/dt/users/<%= params.user_id %>/communities",
+        ajax: {
+            url: "/dt/users/<%= params.user_id %>/communities",
+            type: "POST",
+            data(d) {
+                d.community = true
+                d.community_inputmodes = true
+            }
+        },
         columns: [
             {
                 className: 'table-icon-cell',
@@ -319,19 +326,17 @@ function dtInitUser() {
             },
             {
                 render(data, type, row, meta) {
-                    return communityLink(row)
+                    return communityLink(row.community)
                 }
             },
             {
-                data: "is_public",
                 render(data, type, row, meta) {
-                    return data ? 'Yes' : 'No'
+                    return row.community.is_public ? 'Yes' : 'No'
                 }
             },
             {
-                data: "inputmodes",
                 render(data, type, row, meta) {
-                    return inputmodesToString(data)
+                    return inputmodesToString(row.community.community_inputmodes)
                 }
             },
             {
@@ -352,7 +357,14 @@ function dtInitUser() {
     dtInit(document.querySelector("#user-leaderboards-table"), {
         ...dtColOptions,
         serverSide: true,
-        ajax: "/dt/users/<%= params.user_id %>/leaderboards",
+        ajax: {
+            url: "/dt/users/<%= params.user_id %>/leaderboards",
+            type: "POST",
+            data(d) {
+                d.leaderboard = true
+                d.leaderboard_inputmodes = true
+            }
+        },
         columns: [
             {
                 className: 'table-icon-cell',
@@ -365,15 +377,13 @@ function dtInitUser() {
                 }
             },
             {
-                data: "id",
                 render(data, type, row, meta) {
-                    return '<a href="/' + data + '">' + row.name + '</a>'
+                    return leaderboardLink(row.leaderboard)
                 }
             },
             {
-                data: "inputmodes",
                 render(data, type, row, meta) {
-                    return inputmodesToString(data)
+                    return inputmodesToString(row.leaderboard.leaderboard_inputmodes)
                 }
             },
             {
@@ -399,17 +409,23 @@ function dtInitUser() {
     dtInit(document.querySelector("#user-best-scores-table"), {
         ...dtAllOptions,
         serverSide: true,
-        ajax: "/dt/users/<%= params.user_id %>/scores",
+        ajax: {
+            url: "/dt/users/<%= params.user_id %>/scores",
+            type: "POST",
+            data(d) {
+                d.notechart = true
+                d.modifierset = true
+            }
+        },
         columns: [
             {
-                data: "rank",
                 render(data, type, row, meta) {
-                    return '#' + data
+                    return '#' + row.rank
                 }
             },
             {
                 render(data, type, row, meta) {
-                    return row.notechart.title
+                    return row.notechart.song_title
                 }
             },
             {
@@ -422,12 +438,36 @@ function dtInitUser() {
                     return row.notechart.level
                 }
             },
-            {data: "rating"},
-            {data: "accuracy"},
-            {data: "miss_count"},
-            {data: "inputmode"},
-            {data: "modifiers"},
-            {data: "played_at"},
+            {
+                render(data, type, row, meta) {
+                    return row.rating
+                }
+            },
+            {
+                render(data, type, row, meta) {
+                    return row.accuracy
+                }
+            },
+            {
+                render(data, type, row, meta) {
+                    return row.miss_count || ""
+                }
+            },
+            {
+                render(data, type, row, meta) {
+                    return row.inputmode
+                }
+            },
+            {
+                render(data, type, row, meta) {
+                    return row.modifierset.displayed
+                }
+            },
+            {
+                render(data, type, row, meta) {
+                    return formatDate(row.created_at)
+                }
+            },
             {
                 className: 'table-icon-th',
                 render(data, type, row, meta) {
@@ -448,11 +488,19 @@ function dtInitUser() {
     dtInit(document.querySelector("#user-all-scores-table"), {
         ...dtAllOptions,
         serverSide: true,
-        ajax: "/dt/users/<%= params.user_id %>/scores",
+        ajax: {
+            url: "/dt/users/<%= params.user_id %>/scores",
+            type: "POST",
+            data(d) {
+                d.latest = true
+                d.notechart = true
+                d.modifierset = true
+            }
+        },
         columns: [
             {
                 render(data, type, row, meta) {
-                    return row.notechart.title
+                    return row.notechart.song_title
                 }
             },
             {
@@ -465,12 +513,36 @@ function dtInitUser() {
                     return row.notechart.level
                 }
             },
-            {data: "rating"},
-            {data: "accuracy"},
-            {data: "miss_count"},
-            {data: "inputmode"},
-            {data: "modifiers"},
-            {data: "played_at"},
+            {
+                render(data, type, row, meta) {
+                    return row.rating
+                }
+            },
+            {
+                render(data, type, row, meta) {
+                    return row.accuracy
+                }
+            },
+            {
+                render(data, type, row, meta) {
+                    return row.miss_count || ""
+                }
+            },
+            {
+                render(data, type, row, meta) {
+                    return row.inputmode
+                }
+            },
+            {
+                render(data, type, row, meta) {
+                    return row.modifierset.displayed
+                }
+            },
+            {
+                render(data, type, row, meta) {
+                    return formatDate(row.created_at)
+                }
+            },
             {
                 className: 'table-icon-th',
                 render(data, type, row, meta) {

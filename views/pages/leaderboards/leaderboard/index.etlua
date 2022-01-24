@@ -268,7 +268,13 @@ function dtInitLeaderboard() {
     dtInit(document.querySelector("#leaderboard-communities-table"), {
         ...dtColOptions,
         serverSide: true,
-        ajax: "/dt/leaderboards/<%= params.leaderboard_id %>/communities?community",
+        ajax: {
+            url: "/dt/leaderboards/<%= params.leaderboard_id %>/communities",
+            type: "POST",
+            data(d) {
+                d.community = true
+            }
+        },
         columns: [
             {render() {return '#0'}},
             {render() {return ''}},
@@ -298,7 +304,14 @@ function dtInitLeaderboard() {
     dtInit(document.querySelector("#leaderboard-difftables-table"), {
         ...dtColOptions,
         serverSide: true,
-        ajax: "/dt/leaderboards/<%= params.leaderboard_id %>/difftables?difftable&difftable_inputmodes",
+        ajax: {
+            url: "/dt/leaderboards/<%= params.leaderboard_id %>/difftables",
+            type: "POST",
+            data(d) {
+                d.difftable = true
+                d.difftable_inputmodes = true
+            }
+        },
         columns: [
             {
                 render(data, type, row, meta) {

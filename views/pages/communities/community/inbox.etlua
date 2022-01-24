@@ -169,7 +169,13 @@ function dtInitInbox() {
     dtUsersRequests = dtInit(document.querySelector("#users-requests-table"), {
         ...dtColOptions,
         serverSide: true,
-        ajax: "/dt/communities/<%= params.community_id %>/users?requests",
+        ajax: {
+            url: "/dt/communities/<%= params.community_id %>/users",
+            type: "POST",
+            data(d) {
+                d.requests = true
+            }
+        },
         columns: [
             {
                 render(data, type, row, meta) {
@@ -212,7 +218,13 @@ function dtInitInbox() {
     dtUsersInvites = dtInit(document.querySelector("#users-invitations-table"), {
         ...dtColOptions,
         serverSide: true,
-        ajax: "/dt/communities/<%= params.community_id %>/users?invitations",
+        ajax: {
+            url: "/dt/communities/<%= params.community_id %>/users",
+            type: "POST",
+            data(d) {
+                d.invitations = true
+            }
+        },
         columns: [
             {
                 render(data, type, row, meta) {
@@ -250,7 +262,13 @@ function dtInitInbox() {
     dtLeaderboardsIncoming = dtInit(document.querySelector("#leaderboards-incoming-table"), {
         ...dtColOptions,
         serverSide: true,
-        ajax: "/dt/communities/<%= params.community_id %>/leaderboards?incoming",
+        ajax: {
+            url: "/dt/communities/<%= params.community_id %>/leaderboards",
+            type: "POST",
+            data(d) {
+                d.incoming = true
+            }
+        },
         columns: [
             {
                 render(data, type, row, meta) {
@@ -306,7 +324,13 @@ function dtInitInbox() {
     dtLeaderboardsOutgoing = dtInit(document.querySelector("#leaderboards-outgoing-table"), {
         ...dtColOptions,
         serverSide: true,
-        ajax: "/dt/communities/<%= params.community_id %>/leaderboards?outgoing",
+        ajax: {
+            url: "/dt/communities/<%= params.community_id %>/leaderboards",
+            type: "POST",
+            data(d) {
+                d.outgoing = true
+            }
+        },
         columns: [
             {
                 render(data, type, row, meta) {

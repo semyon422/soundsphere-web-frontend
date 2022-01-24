@@ -2,7 +2,9 @@
 function difftable() {return {
     difftable: {},
     async get() {
-		let response_json = await _get('<%= api_url %>/difftables/<%= params.difftable_id %>')
+		let response_json = await _get('<%= api_url %>/difftables/<%= params.difftable_id %>', {
+            inputmodes: true,
+        })
         if (!response_json) return
 		if (!response_json.difftable) return console.log(response_json)
 		this.difftable = response_json.difftable
@@ -27,7 +29,7 @@ function difftable() {return {
                 <table class="meta-table">
                     <tr>
                         <th title="Input modes in the table charts">Modes:</th>
-                        <td x-text="inputmodesToString(difftable.inputmodes)"></td>
+                        <td x-text="inputmodesToString(difftable.difftable_inputmodes)"></td>
                         <th title="Chart count">Charts:</th>
                         <td x-text="difftable.notecharts_count"></td>
                     </tr>
@@ -124,21 +126,28 @@ function dtInitDifftable() {
     dtInit(document.querySelector("#difftable-communities-table"), {
         ...dtColOptions,
         serverSide: true,
-        ajax: "/dt/difftables/<%= params.difftable_id %>/communities",
+        ajax: {
+            url: "/dt/difftables/<%= params.difftable_id %>/communities",
+            type: "POST",
+            data(d) {
+                d.community = true
+                d.community_inputmodes = true
+            }
+        },
         columns: [
             {
                 render(data, type, row, meta) {
-                    return communityLink(row)
+                    return communityLink(row.community)
                 }
             },
             {render(data, type, row, meta) {return row.is_public ? 'Yes' : 'No'}},
             {
                 data: "inputmodes",
                 render(data, type, row, meta) {
-                    return inputmodesToString(data)
+                    return inputmodesToString(row.community.community_inputmodes)
                 }
             },
-            {data: "users_count"},
+            {render(data, type, row, meta) {return row.community.users_count}},
             {
                 className: 'table-icon-cell',
                 render() {
@@ -154,21 +163,28 @@ function dtInitDifftable() {
     dtInit(document.querySelector("#difftable-leaderboards-table"), {
         ...dtColOptions,
         serverSide: true,
-        ajax: "/dt/difftables/<%= params.difftable_id %>/leaderboards",
+        ajax: {
+            url: "/dt/difftables/<%= params.difftable_id %>/leaderboards",
+            type: "POST",
+            data(d) {
+                d.leaderboard = true
+                d.leaderboard_inputmodes = true
+            }
+        },
         columns: [
             {
                 render(data, type, row, meta) {
-                    return leaderboardLink(row)
+                    return leaderboardLink(row.leaderboard)
                 }
             },
             {
                 data: "inputmodes",
                 render(data, type, row, meta) {
-                    return inputmodesToString(data)
+                    return inputmodesToString(row.leaderboard.leaderboard_inputmodes)
                 }
             },
-            {data: "users_count"},
-            {data: "difftables_count"},
+            {render(data, type, row, meta) {return row.leaderboard.users_count}},
+            {render(data, type, row, meta) {return row.leaderboard.difftables_count}},
             {
                 className: 'table-icon-cell',
                 render(data, type, row, meta) {
@@ -184,24 +200,31 @@ function dtInitDifftable() {
     dtInit(document.querySelector("#difftable-notecharts-table"), {
         ...dtAllOptions,
         serverSide: true,
-        ajax: "/dt/difftables/<%= params.difftable_id %>/notecharts",
+        ajax: {
+            url: "/dt/difftables/<%= params.difftable_id %>/notecharts",
+            type: "POST",
+            data(d) {
+                d.notechart = true
+                d.notechart_file = true
+            }
+        },
         columns: [
             {
                 render(data, type, row, meta) {
                     return ''
                 }
             },
-            {data: "title"},
+            {render(data, type, row, meta) {return row.notechart.song_title}},
             {
                 render(data, type, row, meta) {
-                    return notechartLink(row)
+                    return notechartLink(row.notechart)
                 }
             },
-            {data: "level"},
-            {data: "creator"},
-            {data: "artist"},
-            {data: "inputmode"},
-            {data: "format"},
+            {render(data, type, row, meta) {return row.notechart.level}},
+            {render(data, type, row, meta) {return row.notechart.difficulty_creator}},
+            {render(data, type, row, meta) {return row.notechart.song_artist}},
+            {render(data, type, row, meta) {return row.notechart.inputmode}},
+            {render(data, type, row, meta) {return row.notechart.file.format}},
         ]
     })
 }

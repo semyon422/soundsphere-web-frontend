@@ -176,7 +176,7 @@ function difftableLink(difftable) {
 
 function notechartLink(notechart) {
 	if (notechart) {
-		return '<a href="/notecharts/' + notechart.id + '">' + notechart.name + '</a>'
+		return '<a href="/notecharts/' + notechart.id + '">' + notechart.difficulty_name + '</a>'
 	}
 	return ''
 }
