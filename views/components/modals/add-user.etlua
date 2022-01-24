@@ -15,17 +15,19 @@ function addUserModal() {return {
     }
 }}
 </script>
+
+
 <div class="modal" id="<%= id or "add-admin-modal" %>" x-data="addUserModal">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Add <%= role or "user" %></h5>
+                <h5 class="modal-title">Add <%= role or "player" %></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
                 <form class="modal-form">
-                    <input class="form-control" list="player-options" id="add-admin-player" name="player" title="The member to make an admin" placeholder="Search for a member..." x-model="search" @input.debounce="getUsers">
-                    <datalist id="player-options">
+                    <input class="form-control" list="user-options" id="add-admin-user" name="user" title="The member to make an admin" placeholder="Search for a member..." x-model="search" @input.debounce="getUsers">
+                    <datalist id="user-options">
                         <template x-for="user in users">
                             <option :value="user.name">
                         </template>

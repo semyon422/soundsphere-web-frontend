@@ -18,6 +18,8 @@ function difftables() {return {
     },
 }}
 </script>
+
+
 <div id="difftables" x-data="difftables" x-init="get()" x-cloak>
     <main class="container-lg">
         <div id="main-box">
@@ -60,11 +62,12 @@ function difftables() {return {
         </div>
     </main>
 </div>
+
+
 <script>
 function dtInitDifftables() {
     dtInit(document.querySelector("#difftables-table"), {
         ...dtAllOptions,
-        scrollX: true,
         serverSide: true,
         ajax: {
             url: "/dt/difftables",

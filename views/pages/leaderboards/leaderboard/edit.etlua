@@ -45,6 +45,8 @@ function leaderboard_edit() {return {
     },
 }}
 </script>
+
+
 <div id="leaderboard-edit" x-data="leaderboard_edit" x-init="get()">
     <main class="container-lg">
         <div id="main-box">
@@ -83,8 +85,8 @@ function leaderboard_edit() {return {
                     </div>
 
                     <div class="form-item">
-                        <label for="chart-diff-calc" class="form-label form-required" title="Decides the difficulty of the charts. The difficulty changes how much performance rating players get.">Chart difficulty calculator</label>
-                        <select class="form-select" id="chart-diff-calc" name="chart-diff-calc" required>
+                        <label for="notechart-diff-calc" class="form-label form-required" title="Decides the difficulty of the charts. The difficulty changes how much performance rating players get.">Chart difficulty calculator</label>
+                        <select class="form-select" id="notechart-diff-calc" name="notechart-diff-calc" required>
                             <option value="table-level" selected>Table level</option>
                             <option value="soundsphere">soundsphere</option>
                             <option value="osu">osu!</option>
@@ -132,7 +134,7 @@ function leaderboard_edit() {return {
                                 <i class="fas fa-plus"></i>
                             </a>
                         </label>
-                        <table class="data-table data-table-slim data-table-nohead table table-icon-col-last">
+                        <table class="data-table data-table-col data-table-nohead table table-icon-col-last">
                             <thead><tr> <th></th> <th></th> </tr></thead>
                             <tbody>
                                 <template x-for="inputmode in leaderboard.inputmodes">
@@ -156,7 +158,7 @@ function leaderboard_edit() {return {
                                 <i class="fas fa-plus"></i>
                             </a>
                         </label>
-                        <table class="data-table data-table-slim table table-icon-col-last" data-orders="3a 0a">
+                        <table class="data-table data-table-col table table-icon-col-last" data-orders="2a 0a">
                             <thead>
                                 <tr>
                                     <th title="Modifier name">Name</th>
@@ -192,7 +194,7 @@ function leaderboard_edit() {return {
                                 <i class="fas fa-plus"></i>
                             </a>
                         </label>
-                        <table class="data-table data-table-slim data-table-nohead table table-icon-col-last" id="difftables">
+                        <table class="data-table data-table-col data-table-nohead table table-icon-col-last" id="difftables">
                             <thead><tr> <th></th> <th></th> </tr></thead>
                             <tbody>
                                 <template x-for="difftable in leaderboard.difftables">

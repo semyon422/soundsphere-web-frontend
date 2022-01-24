@@ -16,11 +16,15 @@ function login() {return {
     },
 }}
 </script>
+
+
 <div id="login" x-data="login">
     <main class="container-lg">
         <div id="main-box">
             <img src="resources/logo.png" alt="Logo">
+
             <h1>Please login</h1>
+
 
             <section id="form-section">
                 <form class="login-form" x-ref="form">

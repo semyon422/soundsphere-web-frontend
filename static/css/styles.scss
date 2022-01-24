@@ -627,8 +627,8 @@ tr:hover .table-icon-hide {
     margin-bottom: 1rem;
 }
 
-/* Player edit */
-#player-edit #username-preview {
+/* User edit */
+#user-edit #username-preview {
     display: block;
     text-align: center;
     margin-bottom: 1rem;
@@ -640,12 +640,12 @@ tr:hover .table-icon-hide {
 	-webkit-background-clip: text;
 }
 
-#player-edit #username-color-l,
-#player-edit #username-color-r {
+#user-edit #username-color-l,
+#user-edit #username-color-r {
     max-width: 2.5rem;
 }
 
-#player-edit #discord-tag {
+#user-edit #discord-tag {
     max-width: 4.0625rem;
 }
 

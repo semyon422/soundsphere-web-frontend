@@ -6,6 +6,8 @@ function addInputModeModal() {return {
     }
 }}
 </script>
+
+
 <div class="modal" id="add-input-mode-modal" x-data="addInputModeModal">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">

@@ -13,6 +13,8 @@ function createLeaderboardsModal() {return {
     }
 }}
 </script>
+
+
 <div class="modal" id="create-leaderboard-modal" x-data="createLeaderboardsModal" x-init="getCommunities">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">

@@ -1,5 +1,5 @@
 <script>
-function player() {return {
+function user() {return {
     user: {},
     async get() {
 		let response_json = await _get('<%= api_url %>/users/<%= params.user_id %>')
@@ -10,8 +10,11 @@ function player() {return {
     },
 }}
 </script>
-<div id="player" x-data="player" x-init="get()">
+
+
+<div id="user" x-data="user" x-init="get()">
     <% render("views.components.modals.properties") %>
+
 
     <nav id="secondary-navbar">
         <div class="container-lg">
@@ -295,11 +298,12 @@ function player() {return {
         </div>
     </main>
 </div>
+
+
 <script>
 function dtInitUser() {
     dtInit(document.querySelector("#user-communities-table"), {
         ...dtColOptions,
-        scrollX: true,
         serverSide: true,
         ajax: "/dt/users/<%= params.user_id %>/communities",
         columns: [
@@ -347,7 +351,6 @@ function dtInitUser() {
     })
     dtInit(document.querySelector("#user-leaderboards-table"), {
         ...dtColOptions,
-        scrollX: true,
         serverSide: true,
         ajax: "/dt/users/<%= params.user_id %>/leaderboards",
         columns: [
@@ -395,7 +398,6 @@ function dtInitUser() {
     })
     dtInit(document.querySelector("#user-best-scores-table"), {
         ...dtAllOptions,
-        scrollX: true,
         serverSide: true,
         ajax: "/dt/users/<%= params.user_id %>/scores",
         columns: [
@@ -445,7 +447,6 @@ function dtInitUser() {
     })
     dtInit(document.querySelector("#user-all-scores-table"), {
         ...dtAllOptions,
-        scrollX: true,
         serverSide: true,
         ajax: "/dt/users/<%= params.user_id %>/scores",
         columns: [

@@ -16,11 +16,16 @@ function register() {return {
     },
 }}
 </script>
+
+
 <div id="register" x-data="register">
     <main class="container-lg">
         <div id="main-box">
             <img src="resources/logo.png" alt="Logo">
+
             <h1>Make an account</h1>
+
+
             <section id="form-section">
                 <form class="login-form" x-ref="form">
                     <div class="form-item form-floating">

@@ -24,6 +24,8 @@
     <script src="https://www.google.com/recaptcha/api.js?render=<%= recaptcha_site_key %>"></script>
     <script src="/js/custom.js?v=1.0" defer></script>
     <script src="//unpkg.com/alpinejs" defer></script>
+    
+    <script src="/js/custom.js?v=1.0" defer></script>
 
     <style>
         [x-cloak] {
@@ -31,6 +33,7 @@
         }
     </style>
 </head>
+
 <body class="d-flex flex-column">
     <% render("views.components.navbar") %>
     <% render("views." .. view) %>

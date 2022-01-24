@@ -1,5 +1,6 @@
 var dtTables = {};
 
+
 function dtToggleCols(e) {
     let tableId = e.target.getAttribute("data-table");
     let table = document.getElementById(tableId);
@@ -18,7 +19,9 @@ function dtToggleCols(e) {
     })
 };
 
+
 const dtDefaultOptions = {
+    scrollX: true,
     language: {
         lengthMenu: "Rows: _MENU_",
         info: "_START_ to _END_ of _TOTAL_ rows",
@@ -33,10 +36,11 @@ const dtDefaultOptions = {
     },
 }
 
+
 var dtAllOptions = {
     ...dtDefaultOptions,
-    scrollX: true,
 }
+
 
 var dtColOptions = {
     ...dtDefaultOptions,
@@ -48,10 +52,6 @@ var dtColOptions = {
     ],
 }
 
-var dtSlimOptions = {
-    ...dtColOptions,
-    scrollX: true,
-}
 
 function dtInit(table, options) {
     let toggleOption = dtGetToggleOption(table);
@@ -306,12 +306,12 @@ ready(() => {
 
 
     
-    if (document.getElementById("player-edit") != null) {
-        document.getElementById("username-color-l").addEventListener("change", showPlayerName);
-        document.getElementById("username-color-r").addEventListener("change", showPlayerName);
-        document.getElementById("username").addEventListener("change", showPlayerName);
+    if (document.getElementById("user-edit") != null) {
+        document.getElementById("username-color-l").addEventListener("change", showUserName);
+        document.getElementById("username-color-r").addEventListener("change", showUserName);
+        document.getElementById("username").addEventListener("change", showUserName);
 
-        function showPlayerName() {
+        function showUserName() {
             const colorL = document.getElementById("username-color-l").value;
             const colorR = document.getElementById("username-color-r").value;
             const name = document.getElementById("username").value;

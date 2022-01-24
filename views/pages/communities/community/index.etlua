@@ -36,8 +36,11 @@ function community() {return {
     },
 }}
 </script>
+
+
 <div id="community" x-data="community" x-init="get(); getLeave();" x-show="community.id" x-cloak>
     <% render("views.components.modals.properties") %>
+
 
     <nav id="secondary-navbar">
         <div class="container-lg">
@@ -51,13 +54,14 @@ function community() {return {
     </nav>
     <div id="secondary-navbar-box"></div>
 
+
     <div class="banner" style="background-image: url(/resources/banner.jpg);"></div>
+    
 
     <main class="container-lg">
         <div id="main-box">
             <% render("views.components.modals.delete") %>
             <% render("views.components.modals.add-leaderboard") %>
-
             <nav class="page-icons page-icons-right page-icons-always-collapsed">
                 <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#page-icons-right">
                     <i class="fas fa-ellipsis-v"></i>
@@ -122,8 +126,10 @@ function community() {return {
 
             <section id="description-section">
                 <h2>Description</h2>
+                
                 <p x-text="community.description"></p>
             </section>
+
 
             <section id="leaderboards-section">
                 <h2>
@@ -147,7 +153,6 @@ function community() {return {
                     </thead>
                 </table>
             </section>
-
 
 
             <section id="members-section">
@@ -215,11 +220,12 @@ function community() {return {
         </div>
     </main>
 </div>
+
+
 <script>
 function dtInitCommunity() {
     dtInit(document.querySelector("#community-leaderboards-table"), {
-        ...dtSlimOptions,
-        scrollX: true,
+        ...dtColOptions,
         serverSide: true,
         ajax: {
             url: "/dt/communities/<%= params.community_id %>/leaderboards",

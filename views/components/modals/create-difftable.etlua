@@ -13,6 +13,8 @@ function createDIfftableModal() {return {
     }
 }}
 </script>
+
+
 <div class="modal" id="create-difftable-modal" x-data="createDIfftableModal", x-init="getCommunities">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">

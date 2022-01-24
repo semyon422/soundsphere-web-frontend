@@ -17,6 +17,8 @@ function difftables_create() {return {
 	},
 }}
 </script>
+
+
 <div id="difftables-create" x-data="difftables_create">
     <main class="container-lg">
         <div id="main-box">

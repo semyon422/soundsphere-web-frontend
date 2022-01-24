@@ -29,6 +29,8 @@ function leaderboard() {return {
     },
 }}
 </script>
+
+
 <div id="leaderboard" x-data="leaderboard" x-init="get()">
     <% render("views.components.modals.properties") %>
 
@@ -152,7 +154,7 @@ function leaderboard() {return {
             <section id="modifiers-section">
                 <h2>Modifiers</h2>
 
-                <table class="data-table data-table-slim table" data-orders="3a 0a">
+                <table class="data-table data-table-col table" data-orders="2a 0a">
                     <thead>
                         <tr>
                             <th title="Modifier name">Name</th>
@@ -259,11 +261,12 @@ function leaderboard() {return {
         </div>
     </main>
 </div>
+
+
 <script>
 function dtInitLeaderboard() {
     dtInit(document.querySelector("#leaderboard-communities-table"), {
         ...dtColOptions,
-        scrollX: true,
         serverSide: true,
         ajax: "/dt/leaderboards/<%= params.leaderboard_id %>/communities?community",
         columns: [
@@ -294,7 +297,6 @@ function dtInitLeaderboard() {
     })
     dtInit(document.querySelector("#leaderboard-difftables-table"), {
         ...dtColOptions,
-        scrollX: true,
         serverSide: true,
         ajax: "/dt/leaderboards/<%= params.leaderboard_id %>/difftables?difftable&difftable_inputmodes",
         columns: [
@@ -317,7 +319,6 @@ function dtInitLeaderboard() {
     var dtUsersTable
     dtUsersTable = dtInit(document.querySelector("#leaderboard-users-table"), {
         ...dtAllOptions,
-        scrollX: true,
         serverSide: true,
         ajax: {
             url: "/dt/leaderboards/<%= params.leaderboard_id %>/users",

@@ -10,6 +10,8 @@ function difftable() {return {
     },
 }}
 </script>
+
+
 <div id="difftable" x-data="difftable" x-init="get()">
     <% render("views.components.modals.properties") %>
 
@@ -81,7 +83,7 @@ function difftable() {return {
             </section>
 
 
-            <section id="charts-section">
+            <section id="notecharts-section">
                 <h2>Charts</h2>
 
                 <table id="difftable-notecharts-table" class="data-table table table-icon-col-first" data-orders="6a 3a 1a">
@@ -115,11 +117,12 @@ function difftable() {return {
         </div>
     </main>
 </div>
+
+
 <script>
 function dtInitDifftable() {
     dtInit(document.querySelector("#difftable-communities-table"), {
         ...dtColOptions,
-        scrollX: true,
         serverSide: true,
         ajax: "/dt/difftables/<%= params.difftable_id %>/communities",
         columns: [
@@ -150,7 +153,6 @@ function dtInitDifftable() {
     })
     dtInit(document.querySelector("#difftable-leaderboards-table"), {
         ...dtColOptions,
-        scrollX: true,
         serverSide: true,
         ajax: "/dt/difftables/<%= params.difftable_id %>/leaderboards",
         columns: [
@@ -181,7 +183,6 @@ function dtInitDifftable() {
     })
     dtInit(document.querySelector("#difftable-notecharts-table"), {
         ...dtAllOptions,
-        scrollX: true,
         serverSide: true,
         ajax: "/dt/difftables/<%= params.difftable_id %>/notecharts",
         columns: [

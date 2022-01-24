@@ -17,6 +17,8 @@ function addDifftableModal() {return {
     }
 }}
 </script>
+
+
 <div class="modal" id="add-difftable-modal" x-data="addDifftableModal">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
