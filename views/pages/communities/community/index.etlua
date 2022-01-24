@@ -251,31 +251,11 @@ function dtInitCommunity() {
                     return ''
                 }
             },
-            {
-                render(data, type, row, meta) {
-                    return leaderboardLink(row.leaderboard)
-                }
-            },
-            {
-                render(data, type, row, meta) {
-                    return inputmodesToString(row.leaderboard.leaderboard_inputmodes)
-                }
-            },
-            {
-                render(data, type, row, meta) {
-                    return userLink(row.leaderboard.top_user)
-                }
-            },
-            {
-                render(data, type, row, meta) {
-                    return row.leaderboard.users_count
-                }
-            },
-            {
-                render(data, type, row, meta) {
-                    return row.leaderboard.difftables_count
-                }
-            },
+            {render(d, t, row) {return leaderboardLink(row.leaderboard)}},
+            {render(d, t, row) {return inputmodesToString(row.leaderboard.leaderboard_inputmodes)}},
+            {render(d, t, row) {return userLink(row.leaderboard.top_user)}},
+            {render(d, t, row) {return row.leaderboard.users_count}},
+            {render(d, t, row) {return row.leaderboard.difftables_count}},
             {
                 className: 'table-icon-row',
                 render(data, type, row, meta) {
@@ -319,38 +299,13 @@ function dtInitCommunity() {
             dtUsersTable.ajax.reload(null, false)
         },
         columns: [
-            {
-                data: "rank",
-                render(data, type, row, meta) {
-                    return '#' + data;
-                }
-            },
+            {render(d, t, row) {return '#' + row.rank}},
             {data: "id"},
-            {
-                render(data, type, row, meta) {
-                    return userLink(row.user)
-                }
-            },
-            {
-                render(data, type, row, meta) {
-                    return row.total_rating || 0
-                }
-            },
-            {
-                render(data, type, row, meta) {
-                    return ""
-                }
-            },
-            {
-                render(data, type, row, meta) {
-                    return row.scores_count || 0
-                }
-            },
-            {
-                render(data, type, row, meta) {
-                    return formatDate(row.latest_activity)
-                }
-            },
+            {render(d, t, row) {return userLink(row.user)}},
+            {render(d, t, row) {return row.total_rating || 0}},
+            {render(d, t, row) {return ""}},
+            {render(d, t, row) {return row.scores_count || 0}},
+            {render(d, t, row) {return formatDate(row.latest_activity)}},
             {
                 render(data, type, row, meta) {
                     return `

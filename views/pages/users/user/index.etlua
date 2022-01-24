@@ -324,21 +324,9 @@ function dtInitUser() {
                     `
                 }
             },
-            {
-                render(data, type, row, meta) {
-                    return communityLink(row.community)
-                }
-            },
-            {
-                render(data, type, row, meta) {
-                    return row.community.is_public ? 'Yes' : 'No'
-                }
-            },
-            {
-                render(data, type, row, meta) {
-                    return inputmodesToString(row.community.community_inputmodes)
-                }
-            },
+            {render(d, t, row) {return communityLink(row.community)}},
+            {render(d, t, row) {return row.community.is_public ? 'Yes' : 'No'}},
+            {render(d, t, row) {return inputmodesToString(row.community.community_inputmodes)}},
             {
                 className: 'table-icon-row',
                 render(data, type, row, meta) {
@@ -376,21 +364,9 @@ function dtInitUser() {
                     `
                 }
             },
-            {
-                render(data, type, row, meta) {
-                    return leaderboardLink(row.leaderboard)
-                }
-            },
-            {
-                render(data, type, row, meta) {
-                    return inputmodesToString(row.leaderboard.leaderboard_inputmodes)
-                }
-            },
-            {
-                render(data, type, row, meta) {
-                    return '#0'
-                }
-            },
+            {render(d, t, row) {return leaderboardLink(row.leaderboard)}},
+            {render(d, t, row) {return inputmodesToString(row.leaderboard.leaderboard_inputmodes)}},
+            {render(d, t, row) {return '#0'}},
             {
                 className: 'table-icon-row',
                 render(data, type, row, meta) {
@@ -418,56 +394,16 @@ function dtInitUser() {
             }
         },
         columns: [
-            {
-                render(data, type, row, meta) {
-                    return '#' + row.rank
-                }
-            },
-            {
-                render(data, type, row, meta) {
-                    return row.notechart.song_title
-                }
-            },
-            {
-                render(data, type, row, meta) {
-                    return notechartLink(row.notechart)
-                }
-            },
-            {
-                render(data, type, row, meta) {
-                    return row.notechart.level
-                }
-            },
-            {
-                render(data, type, row, meta) {
-                    return row.rating
-                }
-            },
-            {
-                render(data, type, row, meta) {
-                    return row.accuracy
-                }
-            },
-            {
-                render(data, type, row, meta) {
-                    return row.miss_count || ""
-                }
-            },
-            {
-                render(data, type, row, meta) {
-                    return row.inputmode
-                }
-            },
-            {
-                render(data, type, row, meta) {
-                    return row.modifierset.displayed
-                }
-            },
-            {
-                render(data, type, row, meta) {
-                    return formatDate(row.created_at)
-                }
-            },
+            {render(d, t, row) {return '#' + row.rank}},
+            {render(d, t, row) {return row.notechart.song_title}},
+            {render(d, t, row) {return notechartLink(row.notechart)}},
+            {render(d, t, row) {return row.notechart.level}},
+            {render(d, t, row) {return row.rating}},
+            {render(d, t, row) {return row.accuracy}},
+            {render(d, t, row) {return row.miss_count || ""}},
+            {render(d, t, row) {return row.inputmode}},
+            {render(d, t, row) {return row.modifierset.displayed}},
+            {render(d, t, row) {return formatDate(row.created_at)}},
             {
                 className: 'table-icon-th',
                 render(data, type, row, meta) {
@@ -498,51 +434,15 @@ function dtInitUser() {
             }
         },
         columns: [
-            {
-                render(data, type, row, meta) {
-                    return row.notechart.song_title
-                }
-            },
-            {
-                render(data, type, row, meta) {
-                    return notechartLink(row.notechart)
-                }
-            },
-            {
-                render(data, type, row, meta) {
-                    return row.notechart.level
-                }
-            },
-            {
-                render(data, type, row, meta) {
-                    return row.rating
-                }
-            },
-            {
-                render(data, type, row, meta) {
-                    return row.accuracy
-                }
-            },
-            {
-                render(data, type, row, meta) {
-                    return row.miss_count || ""
-                }
-            },
-            {
-                render(data, type, row, meta) {
-                    return row.inputmode
-                }
-            },
-            {
-                render(data, type, row, meta) {
-                    return row.modifierset.displayed
-                }
-            },
-            {
-                render(data, type, row, meta) {
-                    return formatDate(row.created_at)
-                }
-            },
+            {render(d, t, row) {return row.notechart.song_title}},
+            {render(d, t, row) {return notechartLink(row.notechart)}},
+            {render(d, t, row) {return row.notechart.level}},
+            {render(d, t, row) {return row.rating}},
+            {render(d, t, row) {return row.accuracy}},
+            {render(d, t, row) {return row.miss_count || ""}},
+            {render(d, t, row) {return row.inputmode}},
+            {render(d, t, row) {return row.modifierset.displayed}},
+            {render(d, t, row) {return formatDate(row.created_at)}},
             {
                 className: 'table-icon-th',
                 render(data, type, row, meta) {

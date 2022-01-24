@@ -135,18 +135,10 @@ function dtInitDifftable() {
             }
         },
         columns: [
-            {
-                render(data, type, row, meta) {
-                    return communityLink(row.community)
-                }
-            },
-            {render(data, type, row, meta) {return row.is_public ? 'Yes' : 'No'}},
-            {
-                render(data, type, row, meta) {
-                    return inputmodesToString(row.community.community_inputmodes)
-                }
-            },
-            {render(data, type, row, meta) {return row.community.users_count}},
+            {render(d, t, row) {return communityLink(row.community)}},
+            {render(d, t, row) {return row.is_public ? 'Yes' : 'No'}},
+            {render(d, t, row) {return inputmodesToString(row.community.community_inputmodes)}},
+            {render(d, t, row) {return row.community.users_count}},
             {
                 className: 'table-icon-cell',
                 render() {
@@ -171,18 +163,10 @@ function dtInitDifftable() {
             }
         },
         columns: [
-            {
-                render(data, type, row, meta) {
-                    return leaderboardLink(row.leaderboard)
-                }
-            },
-            {
-                render(data, type, row, meta) {
-                    return inputmodesToString(row.leaderboard.leaderboard_inputmodes)
-                }
-            },
-            {render(data, type, row, meta) {return row.leaderboard.users_count}},
-            {render(data, type, row, meta) {return row.leaderboard.difftables_count}},
+            {render(d, t, row) {return leaderboardLink(row.leaderboard)}},
+            {render(d, t, row) {return inputmodesToString(row.leaderboard.leaderboard_inputmodes)}},
+            {render(d, t, row) {return row.leaderboard.users_count}},
+            {render(d, t, row) {return row.leaderboard.difftables_count}},
             {
                 className: 'table-icon-cell',
                 render(data, type, row, meta) {
@@ -207,22 +191,14 @@ function dtInitDifftable() {
             }
         },
         columns: [
-            {
-                render(data, type, row, meta) {
-                    return ''
-                }
-            },
-            {render(data, type, row, meta) {return row.notechart.song_title}},
-            {
-                render(data, type, row, meta) {
-                    return notechartLink(row.notechart)
-                }
-            },
-            {render(data, type, row, meta) {return row.notechart.level}},
-            {render(data, type, row, meta) {return row.notechart.difficulty_creator}},
-            {render(data, type, row, meta) {return row.notechart.song_artist}},
-            {render(data, type, row, meta) {return row.notechart.inputmode}},
-            {render(data, type, row, meta) {return row.notechart.file.format}},
+            {render(d, t, row) {return ''}},
+            {render(d, t, row) {return row.notechart.song_title}},
+            {render(d, t, row) {return notechartLink(row.notechart)}},
+            {render(d, t, row) {return row.notechart.level}},
+            {render(d, t, row) {return row.notechart.difficulty_creator}},
+            {render(d, t, row) {return row.notechart.song_artist}},
+            {render(d, t, row) {return row.notechart.inputmode}},
+            {render(d, t, row) {return row.notechart.file.format}},
         ]
     })
 }

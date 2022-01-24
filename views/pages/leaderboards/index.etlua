@@ -101,16 +101,8 @@ function dtInitLeaderboards() {
             }
         },
         columns: [
-            {
-                render(data, type, row, meta) {
-                    return leaderboardLink(row)
-                }
-            },
-            {
-                render(data, type, row, meta) {
-                    return inputmodesToString(row.leaderboard_inputmodes)
-                }
-            },
+            {render(d, t, row) {return leaderboardLink(row)}},
+            {render(d, t, row) {return inputmodesToString(row.leaderboard_inputmodes)}},
             {data: "difficulty_calculator"},
             {data: "rating_calculator"},
             {data: "communities_count"},

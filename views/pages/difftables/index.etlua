@@ -77,16 +77,8 @@ function dtInitDifftables() {
             }
         },
         columns: [
-            {
-                render(data, type, row, meta) {
-                    return difftableLink(row)
-                }
-            },
-            {
-                render(data, type, row, meta) {
-                    return inputmodesToString(row.difftable_inputmodes)
-                }
-            },
+            {render(d, t, row) {return difftableLink(row)}},
+            {render(d, t, row) {return inputmodesToString(row.difftable_inputmodes)}},
             {data: "notecharts_count"},
             {data: "scores_count"},
         ]

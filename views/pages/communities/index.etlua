@@ -117,22 +117,10 @@ function dtInitCommunities() {
             }
         },
         columns: [
-            {
-                render(data, type, row, meta) {
-                    return communityLink(row)
-                }
-            },
+            {render(d, t, row) {return communityLink(row)}},
             {data: "alias"},
-            {
-                render(data, type, row, meta) {
-                    return row.is_public ? 'Yes' : 'No'
-                }
-            },
-            {
-                render(data, type, row, meta) {
-                    return inputmodesToString(row.community_inputmodes)
-                }
-            },
+            {render(d, t, row) {return row.is_public ? 'Yes' : 'No'}},
+            {render(d, t, row) {return inputmodesToString(row.community_inputmodes)}},
             {data: "users_count"},
             {data: "short_description"},
             {

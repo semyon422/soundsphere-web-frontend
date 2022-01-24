@@ -278,17 +278,9 @@ function dtInitLeaderboard() {
         columns: [
             {render() {return '#0'}},
             {render() {return ''}},
-            {
-                render(data, type, row, meta) {
-                    return communityLink(row.community)
-                }
-            },
-            {
-                render(data, type, row, meta) {
-                    return row.total_rating
-                }
-            },
-            {render(data, type, row, meta) {return row.is_public ? 'Yes' : 'No'}},
+            {render(d, t, row) {return communityLink(row.community)}},
+            {render(d, t, row) {return row.total_rating}},
+            {render(d, t, row) {return row.is_public ? 'Yes' : 'No'}},
             {
                 className: 'table-icon-cell',
                 render() {
@@ -313,20 +305,10 @@ function dtInitLeaderboard() {
             }
         },
         columns: [
-            {
-                render(data, type, row, meta) {
-                    return difftableLink(row.difftable)
-                }
-            },
-            {render(data, type, row, meta) {
-                return inputmodesToString(row.difftable.difftable_inputmodes)
-            }},
-            {render(data, type, row, meta) {
-                return row.difftable.notecharts_count
-            }},
-            {render(data, type, row, meta) {
-                return row.difftable.scores_count
-            }},
+            {render(d, t, row) {return difftableLink(row.difftable)}},
+            {render(d, t, row) {return inputmodesToString(row.difftable.difftable_inputmodes)}},
+            {render(d, t, row) {return row.difftable.notecharts_count}},
+            {render(d, t, row) {return row.difftable.scores_count}},
         ]
     })
     var dtUsersTable
@@ -347,18 +329,10 @@ function dtInitLeaderboard() {
             })
         },
         columns: [
-            {data: "rank"}, //rank
-            {
-                render(data, type, row, meta) {
-                    return userLink(row.user)
-                }
-            },
+            {data: "rank"},
+            {render(d, t, row) {return userLink(row.user)}},
             {data: "total_rating"},
-            {
-                render(data, type, row, meta) {
-                    return formatDate(row.latest_activity)
-                }
-            },
+            {render(d, t, row) {return formatDate(row.latest_activity)}},
         ]
     })
 }

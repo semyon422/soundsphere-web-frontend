@@ -177,17 +177,9 @@ function dtInitInbox() {
             }
         },
         columns: [
-            {
-                render(data, type, row, meta) {
-                    return userLink(row)
-                }
-            },
+            {render(d, t, row) {return userLink(row)}},
             {data: "message"},
-            {
-                render(data, type, row, meta) {
-                    return formatDate(row.created_at)
-                }
-            },
+            {render(d, t, row) {return formatDate(row.created_at)}},
             {
                 className: 'table-icon-cell',
                 render(data, type, row, meta) {
@@ -226,22 +218,10 @@ function dtInitInbox() {
             }
         },
         columns: [
-            {
-                render(data, type, row, meta) {
-                    return userLink(row)
-                }
-            },
-            {
-                render(data, type, row, meta) {
-                    return userLink(row.sender)
-                }
-            },
+            {render(d, t, row) {return userLink(row)}},
+            {render(d, t, row) {return userLink(row.sender)}},
             {data: "message"},
-            {
-                render(data, type, row, meta) {
-                    return formatDate(row.created_at)
-                }
-            },
+            {render(d, t, row) {return formatDate(row.created_at)}},
             {
                 className: 'table-icon-cell',
                 render(data, type, row, meta) {
@@ -270,31 +250,11 @@ function dtInitInbox() {
             }
         },
         columns: [
-            {
-                render(data, type, row, meta) {
-                    return communityLink(row.community_leaderboard.community)
-                }
-            },
-            {
-                render(data, type, row, meta) {
-                    return userLink(row.community_leaderboard.sender)
-                }
-            },
-            {
-                render(data, type, row, meta) {
-                    return leaderboardLink(row)
-                }
-            },
-            {
-                render(data, type, row, meta) {
-                    return row.community_leaderboard.message
-                }
-            },
-            {
-                render(data, type, row, meta) {
-                    return formatDate(row.community_leaderboard.created_at)
-                }
-            },
+            {render(d, t, row) {return communityLink(row.community_leaderboard.community)}},
+            {render(d, t, row) {return userLink(row.community_leaderboard.sender)}},
+            {render(d, t, row) {return leaderboardLink(row)}},
+            {render(d, t, row) {return row.community_leaderboard.message}},
+            {render(d, t, row) {return formatDate(row.community_leaderboard.created_at)}},
             {
                 className: 'table-icon-cell',
                 render(data, type, row, meta) {
@@ -332,31 +292,11 @@ function dtInitInbox() {
             }
         },
         columns: [
-            {
-                render(data, type, row, meta) {
-                    return communityLink(row.community_leaderboard.community)
-                }
-            },
-            {
-                render(data, type, row, meta) {
-                    return userLink(row.community_leaderboard.sender)
-                }
-            },
-            {
-                render(data, type, row, meta) {
-                    return leaderboardLink(row)
-                }
-            },
-            {
-                render(data, type, row, meta) {
-                    return row.community_leaderboard.message
-                }
-            },
-            {
-                render(data, type, row, meta) {
-                    return formatDate(row.community_leaderboard.created_at)
-                }
-            },
+            {render(d, t, row) {return communityLink(row.community_leaderboard.community)}},
+            {render(d, t, row) {return userLink(row.community_leaderboard.sender)}},
+            {render(d, t, row) {return leaderboardLink(row)}},
+            {render(d, t, row) {return row.community_leaderboard.message}},
+            {render(d, t, row) {return formatDate(row.community_leaderboard.created_at)}},
             {
                 className: 'table-icon-cell',
                 render(data, type, row, meta) {

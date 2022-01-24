@@ -52,26 +52,14 @@ ready(() =>
             }
         },
         columns: [
-            {
-                render(data, type, row, meta) {
-                    return ""
-                }
-            },
+            {render(d, t, row) {return ""}},
             {data: "song_title"},
             {data: "difficulty_name"},
             {data: "level"},
             {data: "difficulty_creator"},
             {data: "song_artist"},
-            {
-                render(data, type, row, meta) {
-                    return inputmodesMap[row.inputmode]
-                }
-            },
-            {
-                render(data, type, row, meta) {
-                    return row.file.format
-                }
-            },
+            {render(d, t, row) {return inputmodesMap[row.inputmode]}},
+            {render(d, t, row) {return row.file.format}},
         ]
     })
 )
