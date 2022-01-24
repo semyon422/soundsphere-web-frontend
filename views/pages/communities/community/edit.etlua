@@ -1,32 +1,53 @@
 <script>
 function community_edit() {return {
-    community: {
-        leaderboards: [],
-        users: [],
-    },
-    staff: [],
+    community: {},
+    community_leaderboards: [],
+    community_users: [],
     admins: [],
     moderators: [],
+    selected_user: {},
     async get() {
-		let response_json = await _get('<%= api_url %>/communities/<%= params.community_id %>', {leaderboards: -1})
+		let response_json = await _get('<%= api_url %>/communities/<%= params.community_id %>')
         if (!response_json) return
 		if (!response_json.community) return console.log(response_json)
 		this.community = response_json.community
-        this.getStaff()
-    },
-    async getStaff() {
-		let response_json = await _get('<%= api_url %>/communities/<%= params.community_id %>/users?staff')
+
+		response_json = await _get('<%= api_url %>/communities/<%= params.community_id %>/leaderboards', {
+            leaderboard: true,
+        })
         if (!response_json) return
-		if (!response_json.users) return console.log(response_json)
-		this.community.users = toArray(response_json.users)
-        // this.admins = this.staff.filter(i => i.community_user.role == "admin")
-        // this.moderators = this.staff.filter(i => i.community_user.role == "moderator")
+		if (!response_json.community_leaderboards) return console.log(response_json)
+		this.community_leaderboards = response_json.community_leaderboards
+
+		response_json = await _get('<%= api_url %>/communities/<%= params.community_id %>/users', {
+            staff: true,
+            user: true,
+        })
+        if (!response_json) return
+		if (!response_json.community_users) return console.log(response_json)
+		this.community_users = response_json.community_users
+
+        this.admins = this.community_users.filter(i => i.role == "admin")
+        this.moderators = this.community_users.filter(i => i.role == "moderator")
     },
     async patch() {
         if (!this.$refs.form.checkValidity()) return
+        this.community.community_leaderboards = this.community_leaderboards
+        this.community.community_users = this.community_users
 		let response_json = await _patch('<%= api_url %>/communities/<%= params.community_id %>', {community: this.community})
         if (!response_json) return
 		document.location.href = '/communities/<%= params.community_id %>'
+    },
+    addUser(user) {
+        this.community_users = this.community_users.filter(i => i.user_id !== user.user_id)
+        this.community_users.push(user)
+        this.admins = this.community_users.filter(i => i.role == "admin")
+        this.moderators = this.community_users.filter(i => i.role == "moderator")
+    },
+    removeUser(user) {
+        user.role = "user"
+        this.admins = this.community_users.filter(i => i.role == "admin")
+        this.moderators = this.community_users.filter(i => i.role == "moderator")
     },
 }}
 </script>
@@ -56,7 +77,10 @@ function community_edit() {return {
                 id = "add-moderator-modal",
                 role = "moderator",
             }) %>
-            <% render("views.components.modals.delete") %>
+            <% render("views.components.modals.delete", {
+                id = "delete-user-modal",
+                delete = "removeUser(selected_user)",
+            }) %>
             <% render("views.components.modals.confirm-delete") %>
             <% render("views.components.modals.transfer-ownership") %>
             <section id="form-section">
@@ -95,8 +119,9 @@ function community_edit() {return {
                     <div class="form-item">
                         <label for="default-ranking-leaderboard" class="form-label" title="Leaderboard selected at the member table">Default member ranking leaderboard</label>
                         <select class="form-select" id="default-ranking-leaderboard" name="default-ranking-leaderboard" x-model="community.default_leaderboard_id">
-                            <template x-for="leaderboard in community.leaderboards">
-                                <option :selected="community.default_leaderboard_id == leaderboard.id" :value="leaderboard.id" x-text="leaderboard.name"></option>
+                            <option :selected="community.default_leaderboard_id == 0" :value="0">Select default leaderboard</option>
+                            <template x-for="community_leaderboard in community_leaderboards">
+                                <option :selected="community.default_leaderboard_id == community_leaderboard.leaderboard_id" :value="community_leaderboard.leaderboard_id" x-text="community_leaderboard.leaderboard.name"></option>
                             </template>
                         </select>
                     </div>
@@ -121,11 +146,11 @@ function community_edit() {return {
                         <table class="data-table data-table-col data-table-nohead table table-icon-col-last">
                             <thead><tr> <th></th> <th></th> </tr></thead>
                             <tbody>
-                                <template x-for="user in admins">
+                                <template x-for="community_user in admins">
                                     <tr>
-                                        <td><a :href="`<%= url_for("user", {user_id = "${user.id}"}) %>`" x-text="user.name"></a></td>
+                                        <td><a :href="`<%= url_for("user", {user_id = "${community_user.user_id}"}) %>`" x-text="community_user.user.name"></a></td>
                                         <td class="table-icon-cell">
-                                            <a href="#!" class="table-icon table-icon-l red red-h" title="Remove admin" data-bs-toggle="modal" data-bs-target="#delete-modal">
+                                            <a href="#!" class="table-icon table-icon-l red red-h" title="Remove admin" data-bs-toggle="modal" data-bs-target="#delete-user-modal" @click="selected_user = community_user">
                                                 <i class="fas fa-times"></i>
                                             </a>
                                         </td>
@@ -145,11 +170,11 @@ function community_edit() {return {
                         <table class="data-table data-table-col data-table-nohead table table-icon-col-last">
                             <thead><tr> <th></th> <th></th> </tr></thead>
                             <tbody>
-                                <template x-for="user in moderators">
+                                <template x-for="community_user in moderators">
                                     <tr>
-                                        <td><a :href="`<%= url_for("user", {user_id = "${user.id}"}) %>`" x-text="user.name"></a></td>
+                                        <td><a :href="`<%= url_for("user", {user_id = "${community_user.user_id}"}) %>`" x-text="community_user.user.name"></a></td>
                                         <td class="table-icon-cell">
-                                            <a href="#!" class="table-icon table-icon-l red red-h" title="Remove moderator" data-bs-toggle="modal" data-bs-target="#delete-modal">
+                                            <a href="#!" class="table-icon table-icon-l red red-h" title="Remove moderator" data-bs-toggle="modal" data-bs-target="#delete-user-modal" @click="selected_user = community_user">
                                                 <i class="fas fa-times"></i>
                                             </a>
                                         </td>
