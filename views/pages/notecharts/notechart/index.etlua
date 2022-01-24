@@ -1,4 +1,20 @@
-<div id="notechart">
+<script>
+function notechart() {return {
+    notechart: {file: {}},
+    async get() {
+		let response_json = await _get('<%= api_url %>/notecharts/<%= params.notechart_id %>', {
+            file: true,
+        })
+        if (!response_json) return
+		if (!response_json.notechart) return console.log(response_json)
+		this.notechart = response_json.notechart
+
+        dtInitNotechart()
+    },
+}}
+</script>
+
+<div id="notechart" x-data="notechart" x-init="get()">
     <% render("views.components.modals.properties") %>
 
 
@@ -7,7 +23,7 @@
 
     <main class="container-lg">
         <div id="main-box">
-            <h1>Chart1 - Difficulty1</h1>
+            <h1 x-text="notechart.song_title + ' - ' + notechart.difficulty_name"></h1>
 
 
             <section id="info-section">
@@ -16,25 +32,25 @@
                 <table class="meta-table">
                     <tr>
                         <th title="Creator name">Charter:</th>
-                        <td>A charter</td>
+                        <td x-text="notechart.difficulty_creator"></td>
                         <th title="Chart input mode">Mode:</th>
-                        <td>7K</td>
+                        <td x-text="notechart.inputmode"></td>
                     </tr>
                     <tr>
                         <th title="Artist name">Artist:</th>
-                        <td>An artist</td>
+                        <td x-text="notechart.song_artist"></td>
                         <th title="The level stated in the chart's file. Only applies to some file formats.">Level:</th>
-                        <td>12</td>
+                        <td x-text="notechart.level"></td>
                     </tr>
                     <tr>
                         <th title="File format">Format:</th>
-                        <td>BME</td>
+                        <td x-text="notechart.file.format"></td>
                         <th title="The duration of the chart">Length:</th>
-                        <td>2:21</td>
+                        <td x-text="notechart.length"></td>
                     </tr>
                     <tr>
                         <th title="Play count">Plays:</th>
-                        <td>15</td>
+                        <td x-text="notechart.scores_count"></td>
                     </tr>
                 </table>
             </section>
@@ -43,7 +59,7 @@
             <section id="tables-section">
                 <h2>Tables</h2>
 
-                <table class="data-table data-table-col table" data-orders="1a 0a">
+                <table id="notechart-difftables-table" class="data-table data-table-col table" data-orders="1a 0a">
                     <thead>
                         <tr>
                             <th title="Table name">Name</th>
@@ -54,13 +70,6 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td><a href="?a=difftables_difftable_index">Table1</a></td>
-                            <td>15</td>
-                            <td>7K</td>
-                            <td>20</td>
-                            <td>115</td>
-                        </tr>
                     </tbody>
                 </table>
             </section>
@@ -118,73 +127,6 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>#1</td>
-                            <td><a href="?a=users_user_index">Player1</a></td>
-                            <td>1000</td>
-                            <td>1000</td>
-                            <td>20</td>
-                            <td>8</td>
-                            <td>10K</td>
-                            <td>CMod, 1.4X</td>
-                            <td>10-10-21 15:28</td>
-                            <td class="table-icon-cell">
-                                <a href="#!" class="table-icon table-icon-hide blue blue-h" title="Download replay">
-                                    <i class="fas fa-download"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr class="highlight-row">
-                            <td>#2</td>
-                            <td><a href="?a=users_user_index">Player1</a></td>
-                            <td>1000</td>
-                            <td>1000</td>
-                            <td>20</td>
-                            <td>8</td>
-                            <td>10K</td>
-                            <td>CMod, 1.4X</td>
-                            <td>10-10-21 15:28</td>
-                            <td class="table-icon-cell">
-                                <a href="#!" class="table-icon table-icon-l table-icon-hide red red-h" title="Delete score" data-bs-toggle="modal" data-bs-target="#delete-modal">
-                                    <i class="fas fa-times"></i>
-                                </a>
-                                <a href="#!" class="table-icon table-icon-hide blue blue-h" title="Download replay">
-                                    <i class="fas fa-download"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>#3</td>
-                            <td><a href="?a=users_user_index">Player1</a></td>
-                            <td>1000</td>
-                            <td>1000</td>
-                            <td>20</td>
-                            <td>8</td>
-                            <td>10K</td>
-                            <td>CMod, 1.4X</td>
-                            <td>10-10-21 15:28</td>
-                            <td class="table-icon-cell">
-                                <a href="#!" class="table-icon table-icon-hide blue blue-h" title="Download replay">
-                                    <i class="fas fa-download"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>#4</td>
-                            <td><a href="?a=users_user_index">Player1</a></td>
-                            <td>1000</td>
-                            <td>1000</td>
-                            <td>20</td>
-                            <td>8</td>
-                            <td>10K</td>
-                            <td>CMod, 1.4X</td>
-                            <td>10-10-21 15:28</td>
-                            <td class="table-icon-cell">
-                                <a href="#!" class="table-icon table-icon-hide blue blue-h" title="Download replay">
-                                    <i class="fas fa-download"></i>
-                                </a>
-                            </td>
-                        </tr>
                     </tbody>
                     <tfoot>
                         <tr>
@@ -208,22 +150,58 @@
 
 
 <script>
-ready(() => {
+function dtInitNotechart() {
+    dtInit(document.querySelector("#notechart-difftables-table"), {
+        ...dtAllOptions,
+        serverSide: true,
+        ajax: {
+            url:  "/dt/notecharts/<%= params.notechart_id %>/difftables",
+            type: "POST",
+            data(d) {
+                d.difftable = true
+                d.difftable_inputmodes = true
+            }
+        },
+        columns: [
+            {render(d, t, row) {return difftableLink(row.difftable)}},
+            {render(d, t, row) {return row.difficulty}},
+            {render(d, t, row) {return inputmodesToString(row.difftable.difftable_inputmodes)}},
+            {render(d, t, row) {return row.difftable.notecharts_count}},
+            {render(d, t, row) {return row.difftable.scores_count}},
+        ]
+    })
     dtInit(document.querySelector("#notechart-scores-table"), {
         ...dtAllOptions,
         serverSide: true,
-        ajax: "/dt/notecharts/<%= params.notechart_id %>/scores",
+        ajax: {
+            url:  "/dt/notecharts/<%= params.notechart_id %>/scores",
+            type: "POST",
+            data(d) {
+                d.user = true
+                d.modifierset = true
+            }
+        },
         columns: [
-            {data: "name"},
-            {data: "name"},
-            {data: "name"},
-            {data: "name"},
-            {data: "name"},
-            {data: "name"},
-            {data: "name"},
-            {data: "name"},
-            {data: "name"},
+            {render(d, t, row) {return "rank"}},
+            {render(d, t, row) {return userLink(row.user)}},
+            {render(d, t, row) {return row.rating}},
+            {render(d, t, row) {return row.score}},
+            {render(d, t, row) {return row.accuracy}},
+            {render(d, t, row) {return "misses"}},
+            {render(d, t, row) {return row.inputmode}},
+            {render(d, t, row) {return row.modifierset.displayed}},
+            {render(d, t, row) {return formatDate(row.created_at)}},
+            {
+                className: 'table-icon-cell',
+                render() {
+                    return `
+                    <a href="#!" class="table-icon table-icon-hide blue blue-h" title="Download replay">
+                        <i class="fas fa-download"></i>
+                    </a>
+                    `
+                }
+            },
         ]
     })
-})
+}
 </script>
