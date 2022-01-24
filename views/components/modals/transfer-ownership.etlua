@@ -1,4 +1,37 @@
-<div class="modal" id="transfer-ownership-modal">
+<script>
+function transferOwnershipModal() {return {
+    search: '',
+    community_name: '',
+    _community_users: [],
+    user: {},
+    async getUsers() {
+		let response_json = await _get('<%= api_url %>/communities/<%= params.community_id %>/users', {
+            search: this.search,
+            user: true,
+        })
+        if (!response_json) return
+		if (!response_json.community_users) return console.log(response_json)
+        if (Array.isArray(response_json.community_users)) {
+    		this._community_users = response_json.community_users
+        }
+    },
+    async send() {
+        var community_users = this._community_users.filter(i => i.user.name == this.search)
+        if (community_users.length != 1) return
+        if (this.community_name != this.community.name) return
+        var community_user = community_users[0]
+        
+		let response_json = await _patch(`<%= api_url %>/communities/<%= params.community_id %>/users/${community_user.user_id}`, {
+            transfer_ownership: true,
+            role: "admin",
+        })
+		document.location.href = '/communities/<%= params.community_id %>/edit'
+    }
+}}
+</script>
+
+
+<div class="modal" id="transfer-ownership-modal" x-data="transferOwnershipModal">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -9,28 +42,28 @@
                 <form class="modal-form">
                     <div class="form-item">
                         <p>
-                            The selected member will become the new owner of Community1 and you will become an admin.
+                            The selected member will become the new owner of <span x-text="community.name"></span> and you will become an admin.
                         </p>
                     </div>
 
                     <div class="form-item">
                         <label for="transfer-ownership-user" class="form-label form-required" title="The member to make the new owner">Member</label>
-                        <input class="form-control" list="user-options" id="transfer-ownership-user" name="user" placeholder="Search for a member..." required>
+                        <input class="form-control" list="user-options" id="transfer-ownership-user" name="user" placeholder="Search for a member..." required x-model="search" @input.debounce="getUsers">
                         <datalist id="user-options">
-                            <option value="Player1">
-                            <option value="Player2">
-                            <option value="Player3">
+                            <template x-for="community_user in community_users">
+                                <option :value="community_user.user.name">
+                            </template>
                         </datalist>
                     </div>
 
                     <div class="form-item">
                         <label for="transfer-ownership-community-name" class="form-label form-required" title="Type in the name of the community to confirm the transfer">Community name</label>
-                        <input type="text" class="form-control" id="transfer-ownership-community-name" name="community-name" required>
+                        <input type="text" class="form-control" id="transfer-ownership-community-name" name="community-name" required x-model="community_name">
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <a href="?a=communities_community_index" class="btn bg-orange bg-orange-h">Transfer</a>
+                <button type="button" class="btn bg-orange bg-orange-h" @click="<%= send or "send" %>">Transfer</a>
                 <button type="button" class="btn bg-gray bg-gray-h" data-bs-dismiss="modal">Cancel</button>
             </div>
         </div>
