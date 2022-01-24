@@ -22,7 +22,6 @@
     <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js" defer></script>
     <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.min.js" defer></script>
     <script src="https://www.google.com/recaptcha/api.js?render=<%= recaptcha_site_key %>"></script>
-    <script src="/js/custom.js?v=1.0" defer></script>
     <script src="//unpkg.com/alpinejs" defer></script>
     
     <script src="/js/custom.js?v=1.0" defer></script>
