@@ -1,15 +1,27 @@
 <script>
 function community() {return {
     community: {},
+    community_leaderboards: [],
     methods: [],
     user_methods: [],
     selected_leaderboard_id: 0,
     async get() {
-		let response_json = await _get('<%= api_url %>/communities/<%= params.community_id %>', {users: 0, inputmodes: -1, leaderboards: 0})
+		let response_json = await _get('<%= api_url %>/communities/<%= params.community_id %>', {
+            methods: true,
+            users: false, inputmodes: true, leaderboards: false,
+        })
         if (!response_json) return
 		if (!response_json.community) return console.log(response_json)
 		this.community = response_json.community
 		this.methods = response_json.methods
+
+		response_json = await _get('<%= api_url %>/communities/<%= params.community_id %>/leaderboards', {
+            leaderboard: true,
+        })
+        if (!response_json) return
+		if (!response_json.community_leaderboards) return console.log(response_json)
+		this.community_leaderboards = response_json.community_leaderboards
+
         dtInitCommunity()
     },
     async getLeave() {
@@ -96,7 +108,7 @@ function community() {return {
                         <th title="Member count">Members:</th>
                         <td x-text="community.users_count"></td>
                         <th title="Input modes in community leaderboards">Modes:</th>
-                        <td x-text="inputmodesToString(community.inputmodes)"></td>
+                        <td x-text="inputmodesToString(community.community_inputmodes)"></td>
                     </tr>
                     <tr>
                         <th title="To join private communities, you have to send a request">Public:</th>
@@ -145,7 +157,10 @@ function community() {return {
                     <div class="col">
                         <form class="table-form table-form-top">
                             <select class="form-select form-select-sm" id="members-leaderboard" name="leaderboard" title="Leaderboard used for member ranks and plays">
-                                <option value="1" selected>Leaderboard1</option>
+                                    <option value="">No leaderboard</option>
+                                <template x-for="community_leaderboard in community_leaderboards">
+                                    <option :value="community_leaderboard.leaderboard_id" x-text="community_leaderboard.leaderboard.name"></option>
+                                </template>
                             </select>
                         </form>
                     </div>
@@ -206,11 +221,19 @@ function dtInitCommunity() {
         ...dtSlimOptions,
         scrollX: true,
         serverSide: true,
-        ajax: "/dt/communities/<%= params.community_id %>/leaderboards",
+        ajax: {
+            url: "/dt/communities/<%= params.community_id %>/leaderboards",
+            type: "POST",
+            data(d) {
+                d.leaderboard = true
+                d.leaderboard_inputmodes = true
+                d.leaderboard_top_user = true
+            }
+        },
         columns: [
             {
                 render(data, type, row, meta) {
-                    if (row.community_leaderboard.is_owner) {
+                    if (row.community_id == row.leaderboard.owner_community_id) {
                         return `
                             <td class="table-icon-cell">
                                 <span class="table-icon table-icon-s orange" title="This community owns this leaderboard">
@@ -224,27 +247,34 @@ function dtInitCommunity() {
             },
             {
                 render(data, type, row, meta) {
-                    return leaderboardLink(row)
-                }
-            },
-            {
-                data: "inputmodes",
-                render(data, type, row, meta) {
-                    return inputmodesToString(data)
+                    return leaderboardLink(row.leaderboard)
                 }
             },
             {
                 render(data, type, row, meta) {
-                    return userLink(row.top_user)
+                    return inputmodesToString(row.leaderboard.leaderboard_inputmodes)
                 }
             },
-            {data: "users_count"},
-            {data: "difftables_count"},
+            {
+                render(data, type, row, meta) {
+                    return userLink(row.leaderboard.top_user)
+                }
+            },
+            {
+                render(data, type, row, meta) {
+                    return row.leaderboard.users_count
+                }
+            },
+            {
+                render(data, type, row, meta) {
+                    return row.leaderboard.difftables_count
+                }
+            },
             {
                 className: 'table-icon-row',
                 render(data, type, row, meta) {
                     var out = ''
-                    if (row.community_leaderboard.is_owner) {
+                    if (row.community_id == row.leaderboard.owner_community_id) {
                         out = out + `
                             <a href="<%= url_for("leaderboard.edit", {leaderboard_id = "${row.id}"}) %>" class="table-icon table-icon-s orange orange-h" title="Edit leaderboard">
                                 <i class="fas fa-pen"></i>
@@ -260,21 +290,27 @@ function dtInitCommunity() {
             },
         ]
     })
-    dtInit(document.querySelector("#community-users-table"), {
+    var dtUsersTable
+    dtUsersTable = dtInit(document.querySelector("#community-users-table"), {
         ...dtAllOptions,
         serverSide: true,
         ajax: {
-            url: "/dt/communities/<%= params.community_id %>/leaderboards/" + $("#members-leaderboard").val() + "/users",
+            url: "/dt/communities/<%= params.community_id %>/users",
             type: "POST",
             data(d) {
-                d.admins_only = $("#members-only-show-admins").is(':checked') ? 1 : 0
+                d.staff = $("#members-only-show-admins").is(':checked') ? true : false
+                d.user = true
                 d.leaderboard_id = parseInt($("#members-leaderboard").val())
             }
         },
         initComplete(settings, json) {
-            $("#communities-hide-joined-communities").change(() => {
-                dt.ajax.reload(null, false)
+            $("#members-only-show-admins").change(() => {
+                dtUsersTable.ajax.reload(null, false)
             })
+            $("#members-leaderboard").change(() => {
+                dtUsersTable.ajax.reload(null, false)
+            })
+            dtUsersTable.ajax.reload(null, false)
         },
         columns: [
             {
@@ -286,13 +322,29 @@ function dtInitCommunity() {
             {data: "id"},
             {
                 render(data, type, row, meta) {
-                    return userLink(row)
+                    return userLink(row.user)
                 }
             },
-            {data: "total_performance"},
-            {data: "name"},
-            {data: "name"},
-            {data: "latest_activity"},
+            {
+                render(data, type, row, meta) {
+                    return row.total_rating || 0
+                }
+            },
+            {
+                render(data, type, row, meta) {
+                    return ""
+                }
+            },
+            {
+                render(data, type, row, meta) {
+                    return row.scores_count || 0
+                }
+            },
+            {
+                render(data, type, row, meta) {
+                    return formatDate(row.latest_activity)
+                }
+            },
             {
                 render(data, type, row, meta) {
                     return `

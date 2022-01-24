@@ -1,17 +1,26 @@
 <script>
 function leaderboard() {return {
     leaderboard: {},
+    leaderboard_communities: [],
     async get() {
 		let response_json = await _get('<%= api_url %>/leaderboards/<%= params.leaderboard_id %>', {
-            users: 0,
-            inputmodes: -1,
-            communities: 0,
-            difftables: 0,
-            modifiers: -1,
+            users: false,
+            inputmodes: true,
+            communities: false,
+            difftables: false,
+            modifiers: true,
         })
         if (!response_json) return
 		if (!response_json.leaderboard) return console.log(response_json)
 		this.leaderboard = response_json.leaderboard
+
+		response_json = await _get('<%= api_url %>/leaderboards/<%= params.leaderboard_id %>/communities', {
+            community: true,
+        })
+        if (!response_json) return
+		if (!response_json.leaderboard_communities) return console.log(response_json)
+		this.leaderboard_communities = response_json.leaderboard_communities
+
         dtInitLeaderboard()
     },
     async addToCommunity(community_id) {
@@ -50,8 +59,8 @@ function leaderboard() {return {
                             <span class="input-group-text">Mode:</span>
                             <select class="form-select" id="input-mode" name="input-mode">
                                 <option selected>All</option>
-                                <template x-for="inputmode in leaderboard.inputmodes">
-                                    <option :value="inputmode" x-text="inputmode"></option>
+                                <template x-for="leaderboard_inputmode in leaderboard.leaderboard_inputmodes">
+                                    <option :value="leaderboard_inputmode.inputmode" x-text="leaderboard_inputmode.inputmode"></option>
                                 </template>
                             </select>
                         </div>
@@ -103,21 +112,21 @@ function leaderboard() {return {
                         <table class="meta-table">
                             <tr>
                                 <th title="Leaderboard input modes">Modes:</th>
-                                <td x-text="inputmodesToString(leaderboard.inputmodes)"></td>
+                                <td x-text="inputmodesToString(leaderboard.leaderboard_inputmodes)"></td>
                                 <th title="Player count">Players:</th>
                                 <td x-text="leaderboard.users_count"></td>
                             </tr>
                             <tr>
                                 <th title="Decides how the member prs are combined to get the total performance rating of a community">Community comb:</th>
-                                <td>Logarithmic</td>
+                                <td x-text="leaderboard.communities_combiner"></td>
                                 <th title="Decides how good a score is. The impressiveness changes how much performance rating a player gets.">PR calc:</th>
-                                <td>soundsphere</td>
+                                <td x-text="leaderboard.rating_calculator"></td>
                             </tr>
                             <tr>
                                 <th title="Decides how the performance rating of scores are combined to get the total performance rating of a player. It changes the order of the leaderboard.">Score comb:</th>
-                                <td>Logarithmic</td>
+                                <td x-text="leaderboard.scores_combiner"></td>
                                 <th title="Decides the difficulty of the charts. The difficulty changes how much performance rating players get.">Diff calc:</th>
-                                <td>Table level</td>
+                                <td x-text="leaderboard.difficulty_calculator"></td>
                             </tr>
                         </table>
                     </div>
@@ -211,9 +220,9 @@ function leaderboard() {return {
                         <form class="table-form table-form-top">
                             <select class="form-select form-select-sm" id="ranking-community" name="community" title="Filter the players shown by community">
                                 <option selected>All communities</option>
-                                <option value="Community1">Community1</option>
-                                <option value="Community2">Community2</option>
-                                <option value="Community3">Community3</option>
+                                <template x-for="leaderboard_community in leaderboard_communities">
+                                    <option :value="leaderboard_community.community_id" x-text="leaderboard_community.community.name"></option>
+                                </template>
                             </select>
                         </form>
                     </div>
@@ -232,7 +241,6 @@ function leaderboard() {return {
                         <tr>
                             <th class="table-col-minwidth" title="Player rank in leaderboard">Rank</th>
                             <th title="Player name">Player</th>
-                            <th title="Community abbreviation">Communities</th>
                             <th title="The player's leaderboard performance rating">PR</th>
                             <th title="The last time the player submitted a score to the leaderboard">Last played</th>
                         </tr>
@@ -242,7 +250,6 @@ function leaderboard() {return {
                         <tr>
                             <th title="Player rank in leaderboard">Rank</th>
                             <th title="Player name">Player</th>
-                            <th title="Community abbreviation">Communities</th>
                             <th title="The player's leaderboard performance rating">PR</th>
                             <th title="The last time the player submitted a score to the leaderboard">Last played</th>
                         </tr>
@@ -258,16 +265,20 @@ function dtInitLeaderboard() {
         ...dtColOptions,
         scrollX: true,
         serverSide: true,
-        ajax: "/dt/leaderboards/<%= params.leaderboard_id %>/communities",
+        ajax: "/dt/leaderboards/<%= params.leaderboard_id %>/communities?community",
         columns: [
             {render() {return '#0'}},
             {render() {return ''}},
             {
                 render(data, type, row, meta) {
-                    return communityLink(row)
+                    return communityLink(row.community)
                 }
             },
-            {data: "id"}, //total_performance
+            {
+                render(data, type, row, meta) {
+                    return row.total_rating
+                }
+            },
             {render(data, type, row, meta) {return row.is_public ? 'Yes' : 'No'}},
             {
                 className: 'table-icon-cell',
@@ -285,36 +296,55 @@ function dtInitLeaderboard() {
         ...dtColOptions,
         scrollX: true,
         serverSide: true,
-        ajax: "/dt/leaderboards/<%= params.leaderboard_id %>/difftables",
+        ajax: "/dt/leaderboards/<%= params.leaderboard_id %>/difftables?difftable&difftable_inputmodes",
         columns: [
             {
-                data: "name",
                 render(data, type, row, meta) {
-                    return difftableLink(row)
+                    return difftableLink(row.difftable)
                 }
             },
             {render(data, type, row, meta) {
-                return inputmodesToString(row.inputmodes)
+                return inputmodesToString(row.difftable.difftable_inputmodes)
             }},
-            {data: "name"}, //charts
-            {data: "name"}, //plays
+            {render(data, type, row, meta) {
+                return row.difftable.notecharts_count
+            }},
+            {render(data, type, row, meta) {
+                return row.difftable.scores_count
+            }},
         ]
     })
-    dtInit(document.querySelector("#leaderboard-users-table"), {
+    var dtUsersTable
+    dtUsersTable = dtInit(document.querySelector("#leaderboard-users-table"), {
         ...dtAllOptions,
         scrollX: true,
         serverSide: true,
-        ajax: "/dt/leaderboards/<%= params.leaderboard_id %>/users",
+        ajax: {
+            url: "/dt/leaderboards/<%= params.leaderboard_id %>/users",
+            type: "POST",
+            data(d) {
+                d.user = true
+                d.community_id = parseInt($("#ranking-community").val())
+            }
+        },
+        initComplete(settings, json) {
+            $("#ranking-community").change(() => {
+                dtUsersTable.ajax.reload(null, false)
+            })
+        },
         columns: [
-            {data: "id"}, //rank
+            {data: "rank"}, //rank
             {
                 render(data, type, row, meta) {
-                    return userLink(row)
+                    return userLink(row.user)
                 }
             },
-            {data: "name"}, //link to community
-            {data: "name"}, //plays
-            {data: "name"}, //last acivity
+            {data: "total_rating"},
+            {
+                render(data, type, row, meta) {
+                    return formatDate(row.latest_activity)
+                }
+            },
         ]
     })
 }
