@@ -124,15 +124,13 @@ function dtInitCommunities() {
             },
             {data: "alias"},
             {
-                data: "is_public",
                 render(data, type, row, meta) {
                     return row.is_public ? 'Yes' : 'No'
                 }
             },
             {
-                data: "community_inputmodes",
                 render(data, type, row, meta) {
-                    return inputmodesToString(data)
+                    return inputmodesToString(row.community_inputmodes)
                 }
             },
             {data: "users_count"},

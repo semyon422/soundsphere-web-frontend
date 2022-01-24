@@ -142,7 +142,6 @@ function dtInitDifftable() {
             },
             {render(data, type, row, meta) {return row.is_public ? 'Yes' : 'No'}},
             {
-                data: "inputmodes",
                 render(data, type, row, meta) {
                     return inputmodesToString(row.community.community_inputmodes)
                 }
@@ -178,7 +177,6 @@ function dtInitDifftable() {
                 }
             },
             {
-                data: "inputmodes",
                 render(data, type, row, meta) {
                     return inputmodesToString(row.leaderboard.leaderboard_inputmodes)
                 }

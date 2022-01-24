@@ -83,9 +83,8 @@ function dtInitDifftables() {
                 }
             },
             {
-                data: "difftable_inputmodes",
                 render(data, type, row, meta) {
-                    return inputmodesToString(data)
+                    return inputmodesToString(row.difftable_inputmodes)
                 }
             },
             {data: "notecharts_count"},
