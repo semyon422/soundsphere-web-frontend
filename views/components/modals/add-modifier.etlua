@@ -25,10 +25,18 @@ function addModifierModal() {return {
         "ToOsu",
         "Alternate2",
     ],
-    modifier: {},
+    modifier: {
+        name: "modifier",
+        key: "",
+        value: "",
+    },
     _add() {
         this.addModifier(this.modifier)
-        this.modifier = {}
+            this.modifier = {
+            name: "modifier",
+            key: "",
+            value: "",
+        }
     }
 }}
 </script>
@@ -45,7 +53,7 @@ function addModifierModal() {return {
                 <form class="modal-form">
                     <div class="form-item">
                         <label for="add-modifier-modifier" class="form-label form-required" title="Modifier name">Modifier</label>
-                        <select class="form-select" id="add-modifier-modifier" name="modifier" required x-model="modifier.name">
+                        <select class="form-select" id="add-modifier-modifier" name="modifier" required x-model="modifier.key">
                             <option selected hidden>Select a modifier</option>
                             <template x-for="modifier in modifiers">
                                 <option :value="modifier" x-text="modifier"></option>

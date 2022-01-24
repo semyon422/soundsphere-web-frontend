@@ -8,7 +8,7 @@ function leaderboard() {return {
             inputmodes: true,
             communities: false,
             difftables: false,
-            modifiers: true,
+            requirements: true,
         })
         if (!response_json) return
 		if (!response_json.leaderboard) return console.log(response_json)
@@ -163,11 +163,11 @@ function leaderboard() {return {
                         </tr>
                     </thead>
                     <tbody>
-                        <template x-for="modifier in leaderboard.modifiers">
+                        <template x-for="requirement in leaderboard.leaderboard_requirements">
                             <tr>
-                                <td x-text="modifier.name"></td>
-                                <td x-text="modifier.value"></td>
-                                <td x-text="modifier.rule"></td>
+                                <td x-text="requirement.key"></td>
+                                <td x-text="requirement.value"></td>
+                                <td x-text="requirement.rule"></td>
                             </tr>
                         </template>
                     </tbody>

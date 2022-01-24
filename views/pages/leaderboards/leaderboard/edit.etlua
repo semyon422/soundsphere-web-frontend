@@ -1,47 +1,56 @@
 <script>
 function leaderboard_edit() {return {
     leaderboard: {},
-    selected_inputmode: '',
+    leaderboard_difftables: [],
+    selected_inputmode: {},
     selected_difftable: {},
-    selected_modifier: {},
+    selected_requirement: {},
     async get() {
 		let response_json = await _get('<%= api_url %>/leaderboards/<%= params.leaderboard_id %>', {
-            inputmodes: -1,
-            difftables: -1,
-            modifiers: -1,
+            inputmodes: true,
+            requirements: true,
         })
         if (!response_json) return
 		if (!response_json.leaderboard) return console.log(response_json)
 		this.leaderboard = response_json.leaderboard
+
+		response_json = await _get('<%= api_url %>/leaderboards/<%= params.leaderboard_id %>/difftables', {
+            difftable: true,
+        })
+        if (!response_json) return
+		if (!response_json.leaderboard_difftables) return console.log(response_json)
+		this.leaderboard_difftables = response_json.leaderboard_difftables
     },
     async patch() {
+        this.leaderboard.leaderboard_difftables = this.leaderboard_difftables
 		let response_json = await _patch('<%= api_url %>/leaderboards/<%= params.leaderboard_id %>', {leaderboard: this.leaderboard})
         if (!response_json) return
+
 		document.location.href = '/leaderboards/<%= params.leaderboard_id %>'
     },
     async addInputmode(inputmode) {
-        if (!Array.isArray(this.leaderboard.inputmodes)) this.leaderboard.inputmodes = []
-        this.leaderboard.inputmodes.push(inputmode)
+        if (!Array.isArray(this.leaderboard.leaderboard_inputmodes)) this.leaderboard.leaderboard_inputmodes = []
+        this.leaderboard.leaderboard_inputmodes.push(inputmode)
     },
     async removeInputmode(inputmode) {
-        if (!Array.isArray(this.leaderboard.inputmodes)) this.leaderboard.inputmodes = []
-        this.leaderboard.inputmodes = this.leaderboard.inputmodes.filter(item => item !== inputmode)
+        if (!Array.isArray(this.leaderboard.leaderboard_inputmodes)) this.leaderboard.leaderboard_inputmodes = []
+        this.leaderboard.leaderboard_inputmodes = this.leaderboard.leaderboard_inputmodes.filter(item => item !== inputmode)
     },
     async addDifftable(difftable) {
-        if (!Array.isArray(this.leaderboard.difftables)) this.leaderboard.difftables = []
-        this.leaderboard.difftables.push(difftable)
+        if (!Array.isArray(this.leaderboard_difftables)) this.leaderboard_difftables = []
+        this.leaderboard_difftables.push(difftable)
     },
     async removeDifftable(difftable) {
-        if (!Array.isArray(this.leaderboard.difftables)) this.leaderboard.difftables = []
-        this.leaderboard.difftables = this.leaderboard.difftables.filter(item => item !== difftable)
+        if (!Array.isArray(this.leaderboard_difftables)) this.leaderboard_difftables = []
+        this.leaderboard_difftables = this.leaderboard_difftables.filter(item => item !== difftable)
     },
-    async addModifier(modifier) {
-        if (!Array.isArray(this.leaderboard.modifiers)) this.leaderboard.modifiers = []
-        this.leaderboard.modifiers.push(modifier)
+    async addModifier(requirement) {
+        if (!Array.isArray(this.leaderboard.leaderboard_requirements)) this.leaderboard.leaderboard_requirements = []
+        this.leaderboard.leaderboard_requirements.push(requirement)
     },
-    async removeModifier(modifier) {
-        if (!Array.isArray(this.leaderboard.modifiers)) this.leaderboard.modifiers = []
-        this.leaderboard.modifiers = this.leaderboard.modifiers.filter(item => item !== modifier)
+    async removeModifier(requirement) {
+        if (!Array.isArray(this.leaderboard.leaderboard_requirements)) this.leaderboard.leaderboard_requirements = []
+        this.leaderboard.leaderboard_requirements = this.leaderboard.leaderboard_requirements.filter(item => item !== requirement)
     },
 }}
 </script>
@@ -65,10 +74,10 @@ function leaderboard_edit() {return {
 
             <% render("views.components.modals.delete", {id = "delete-inputmode-modal", delete = "removeInputmode(selected_inputmode)"}) %>
             <% render("views.components.modals.delete", {id = "delete-difftable-modal", delete = "removeDifftable(selected_difftable)"}) %>
-            <% render("views.components.modals.delete", {id = "delete-modifier-modal", delete = "removeModifier(selected_modifier)"}) %>
+            <% render("views.components.modals.delete", {id = "delete-modifier-modal", delete = "removeModifier(selected_requirement)"}) %>
             <% render("views.components.modals.delete") %>
             <% render("views.components.modals.add-modifier") %>
-            <% render("views.components.modals.edit-modifier", {modifier = "selected_modifier"}) %>
+            <% render("views.components.modals.edit-modifier", {modifier = "selected_requirement"}) %>
             <% render("views.components.modals.add-difftable") %>
             <% render("views.components.modals.confirm-delete") %>
             <% render("views.components.modals.add-input-mode") %>
@@ -137,11 +146,11 @@ function leaderboard_edit() {return {
                         <table class="data-table data-table-col data-table-nohead table table-icon-col-last">
                             <thead><tr> <th></th> <th></th> </tr></thead>
                             <tbody>
-                                <template x-for="inputmode in leaderboard.inputmodes">
+                                <template x-for="leaderboard_inputmode in leaderboard.leaderboard_inputmodes">
                                     <tr>
-                                        <td x-text="inputmode"></td>
+                                        <td x-text="leaderboard_inputmode.inputmode"></td>
                                         <td class="table-icon-cell">
-                                            <a href="#!" class="table-icon table-icon-l red red-h" title="Remove input mode" data-bs-toggle="modal" data-bs-target="#delete-inputmode-modal" @click="selected_inputmode = inputmode">
+                                            <a href="#!" class="table-icon table-icon-l red red-h" title="Remove input mode" data-bs-toggle="modal" data-bs-target="#delete-inputmode-modal" @click="selected_inputmode = leaderboard_inputmode">
                                                 <i class="fas fa-times"></i>
                                             </a>
                                         </td>
@@ -168,16 +177,16 @@ function leaderboard_edit() {return {
                                 </tr>
                             </thead>
                             <tbody>
-                                <template x-for="modifier in leaderboard.modifiers">
+                                <template x-for="leaderboard_requirement in leaderboard.leaderboard_requirements">
                                     <tr>
-                                        <td x-text="modifier.name"></td>
-                                        <td x-text="modifier.value"></td>
-                                        <td x-text="modifier.rule"></td>
+                                        <td x-text="leaderboard_requirement.key"></td>
+                                        <td x-text="leaderboard_requirement.value"></td>
+                                        <td x-text="leaderboard_requirement.rule"></td>
                                         <td class="table-icon-cell">
-                                            <a href="#!" class="table-icon table-icon-s orange orange-h" title="Edit modifier" data-bs-toggle="modal" data-bs-target="#edit-modifier-modal" @click="selected_modifier = modifier">
+                                            <a href="#!" class="table-icon table-icon-s orange orange-h" title="Edit modifier" data-bs-toggle="modal" data-bs-target="#edit-modifier-modal" @click="selected_requirement = leaderboard_requirement">
                                                 <i class="fas fa-pen"></i>
                                             </a>
-                                            <a href="#!" class="table-icon table-icon-l red red-h" title="Remove modifier" data-bs-toggle="modal" data-bs-target="#delete-modifier-modal" @click="selected_modifier = modifier">
+                                            <a href="#!" class="table-icon table-icon-l red red-h" title="Remove modifier" data-bs-toggle="modal" data-bs-target="#delete-modifier-modal" @click="selected_requirement = leaderboard_requirement">
                                                 <i class="fas fa-times"></i>
                                             </a>
                                         </td>
@@ -197,11 +206,11 @@ function leaderboard_edit() {return {
                         <table class="data-table data-table-col data-table-nohead table table-icon-col-last" id="difftables">
                             <thead><tr> <th></th> <th></th> </tr></thead>
                             <tbody>
-                                <template x-for="difftable in leaderboard.difftables">
+                                <template x-for="leaderboard_difftable in leaderboard_difftables">
                                     <tr>
-                                    <td><a :href="'<%= url_for("difftable", {difftable_id = "difftable.id"}) %>'" x-text="difftable.name"></a></td>
+                                    <td><a :href="`<%= url_for("difftable", {difftable_id = "${leaderboard_difftable.difftable_id}"}) %>`" x-text="leaderboard_difftable.difftable.name"></a></td>
                                     <td class="table-icon-cell">
-                                        <a href="#!" class="table-icon table-icon-l red red-h" title="Remove table" data-bs-toggle="modal" data-bs-target="#delete-difftable-modal" @click="selected_difftable = difftable">
+                                        <a href="#!" class="table-icon table-icon-l red red-h" title="Remove table" data-bs-toggle="modal" data-bs-target="#delete-difftable-modal" @click="selected_difftable = leaderboard_difftable">
                                             <i class="fas fa-times"></i>
                                         </a>
                                     </td>

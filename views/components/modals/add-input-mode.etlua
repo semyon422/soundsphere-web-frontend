@@ -2,7 +2,9 @@
 function addInputModeModal() {return {
     inputmode: undefined,
     _add() {
-        this.addInputmode(this.inputmode)
+        if (this.inputmode) {
+            this.addInputmode({inputmode: this.inputmode})
+        }
     }
 }}
 </script>

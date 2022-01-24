@@ -13,7 +13,10 @@ function addDifftableModal() {return {
     _add() {
         var difftables = this.difftables.filter(i => i.name == this.search)
         if (difftables.length != 1) return
-        this.addDifftable(difftables[0])
+        this.addDifftable({
+            difftable_id: difftables[0].id,
+            difftable: difftables[0],
+        })
     }
 }}
 </script>
