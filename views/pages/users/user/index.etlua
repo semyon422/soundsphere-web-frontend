@@ -1,6 +1,7 @@
 <script>
 function user() {return {
     user: {},
+    pending_count: 0,
     async get() {
 		let response_json = await _get('<%= api_url %>/users/<%= params.user_id %>', {
             inputmodes: true,
@@ -9,6 +10,15 @@ function user() {return {
         if (!response_json) return
 		if (!response_json.user) return console.log(response_json)
 		this.user = response_json.user
+
+		response_json = await _get('<%= api_url %>/users/<%= params.user_id %>/communities', {
+            no_data: true,
+            invitations: true,
+            requests: true,
+        })
+        if (!response_json) return
+		this.pending_count = response_json.total
+
         dtInitUser()
     },
 }}
@@ -50,7 +60,9 @@ function user() {return {
                             <span class="page-icon-text">Inbox</span>
                             <div class="page-icon-box">
                                 <i class="fas fa-inbox"></i>
-                                <div class="new-message-circle">3</div>
+                                <template x-if="pending_count > 0">
+                                    <div class="new-message-circle" x-text="pending_count"></div>
+                                </template>
                             </div>
                         </a>
 
