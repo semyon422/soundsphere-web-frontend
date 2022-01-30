@@ -61,7 +61,7 @@ function user() {return {
                 </div>
             </nav>
 
-            <h1 x-text="user.name"></h1>
+            <h1 x-html="userLink(user)"></h1>
 
 
             <section id="info-section">
@@ -82,13 +82,13 @@ function user() {return {
                     </tr>
                     <tr>
                         <th title="The player's Discord tag">Discord:</th>
-                        <td>Player#1234</td>
+                        <td x-text="user.discord"></td>
                         <th title="A link to the player's Twitter">Twitter:</th>
-                        <td><a href="https://www.twitter.com/1234">twitter.com/1234</a></td>
+                        <td x-text="user.twitter"></td>
                     </tr>
                     <tr>
                         <th title="A link to something related to the player">Custom link:</th>
-                        <td><a href="https://www.vk.ru/1234">vk.ru/1234</a></td>
+                        <td x-text="user.custom_link"></td>
                         <th title="Player roles">Roles:</th>
                         <td>
                             <span class="badge role-badge bg-teal" title="Donator">DNR</span>

@@ -146,9 +146,27 @@ async function _delete(url, obj) {
 	return await _fetch(url, obj, "DELETE")
 }
 
+// https://stackoverflow.com/questions/11866781/how-do-i-convert-an-integer-to-a-javascript-color/11866980
+function toColor(num) {
+	num >>>= 0;
+	var b = num & 0xFF,
+		g = (num & 0xFF00) >>> 8,
+		r = (num & 0xFF0000) >>> 16,
+		a = 1;
+		// a = ((num & 0xFF000000) >>> 24) / 255;
+	return "rgba(" + [r, g, b, a].join(",") + ")";
+}
+
 function userLink(user) {
 	if (user) {
-		return '<a href="/users/' + user.id + '">' + user.name + '</a>'
+		return `
+			<a href="/users/${user.id}"
+			style="
+			background: linear-gradient(45deg, ${toColor(user.color_left)}, ${toColor(user.color_right)});
+			-webkit-background-clip: text;
+			-webkit-text-fill-color: transparent;
+			">${user.name}</a>
+			`
 	}
 	return ''
 }
