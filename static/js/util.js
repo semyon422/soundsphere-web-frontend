@@ -90,6 +90,22 @@ function inputmodesToString(inputmodes) {
 	return Array.isArray(inputmodes) ? inputmodes.map((i) => inputmodesMap[i.inputmode]).join(', ') : ''
 }
 
+function rolesToText(roles) {
+	return Array.isArray(roles) ? roles.map((i) => i.role).join(', ') : ''
+}
+
+var rolesMap = {
+	creator: '<span class="badge role-badge bg-teal" title="Creator">CRR</span>',
+	admin: '<span class="badge role-badge bg-teal" title="Admin">ADM</span>',
+	moderator: '<span class="badge role-badge bg-teal" title="Moderator">MOD</span>',
+	donator: '<span class="badge role-badge bg-teal" title="Donator">DNR</span>',
+	contributor: '<span class="badge role-badge bg-blue" title="Contributor">CTR</span>',
+}
+
+function rolesToHtml(roles) {
+	return Array.isArray(roles) ? roles.map((i) => rolesMap[i.role]).join(', ') : ''
+}
+
 function toArray(a) {
 	return Array.isArray(a) ? a : []
 }
