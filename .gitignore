@@ -4,3 +4,6 @@ temp/*
 logs
 nginx.conf.compiled
 config.lua
+node_modules
+package-lock.json
+static/js/bundle.js

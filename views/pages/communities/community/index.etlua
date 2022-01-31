@@ -55,8 +55,8 @@ function community() {return {
     <div id="secondary-navbar-box"></div>
 
 
-    <div class="banner" style="background-image: url(/resources/banner.jpg);"></div>
-    
+    <div class="banner" :style="`background-image: url(${renderBlurhashBanner(community.banner)})`"></div>
+
 
     <main class="container-lg">
         <div id="main-box">
@@ -126,7 +126,7 @@ function community() {return {
 
             <section id="description-section">
                 <h2>Description</h2>
-                
+
                 <p x-text="community.description"></p>
             </section>
 

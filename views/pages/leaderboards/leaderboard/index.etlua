@@ -49,7 +49,7 @@ function leaderboard() {return {
     <div id="secondary-navbar-box"></div>
 
 
-    <div class="banner" style="background-image: url(../resources/banner.jpg);"></div>
+    <div class="banner" :style="`background-image: url(${renderBlurhashBanner(leaderboard.banner)})`"></div>
 
 
     <main class="container-lg">

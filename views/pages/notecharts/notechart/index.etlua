@@ -18,7 +18,7 @@ function notechart() {return {
     <% render("views.components.modals.properties") %>
 
 
-    <div class="banner" style="background-image: url(../resources/banner.jpg);"></div>
+    <div class="banner" :style="`background-image: url(${renderBlurhashBanner(notechart.banner)})`"></div>
 
 
     <main class="container-lg">

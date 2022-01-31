@@ -43,9 +43,7 @@ function user() {return {
     </nav>
     <div id="secondary-navbar-box"></div>
 
-
-    <div class="banner" style="background-image: url(../resources/banner.jpg);"></div>
-
+    <div class="banner" :style="`background-image: url(${renderBlurhashBanner(user.banner)})`"></div>
 
     <main class="container-lg">
         <div id="main-box">

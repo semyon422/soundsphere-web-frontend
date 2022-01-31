@@ -214,3 +214,27 @@ function notechartLink(notechart) {
 	}
 	return ''
 }
+
+function renderBlurhashBanner(blurhash) {
+	const validRes = isBlurhashValid(blurhash)
+	if (!validRes.result) {
+		return "/resources/banner.jpg"
+	}
+
+	const pixels = blurhashDecode(blurhash, 32, 32)
+
+	const canvas = document.createElement("canvas")
+    canvas.width = 32
+    canvas.height = 32
+	const ctx = canvas.getContext("2d")
+	const imageData = ctx.createImageData(32, 32)
+	imageData.data.set(pixels)
+	ctx.putImageData(imageData, 0, 0)
+
+	// canvas.style.background = canvas.toDataURL("image/jpeg")
+
+	return canvas.toDataURL("image/jpeg")
+	// document.body.style.background = imageData
+
+	// element.appendChild(canvas)
+}

@@ -1,0 +1,12 @@
+{
+  "dependencies": {
+    "blurhash": "^1.1.4",
+    "webpack": "^5.67.0"
+  },
+  "scripts": {
+    "build": "webpack"
+  },
+  "devDependencies": {
+    "webpack-cli": "^4.9.2"
+  }
+}
