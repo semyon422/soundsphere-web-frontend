@@ -11,13 +11,13 @@ function communities_create() {return {
     },
 	async post() {
         if (!this.$refs.form.checkValidity()) return
-		let [response_json, status, headers] = await _post('<%= api_url %>/communities', {community: this.community})
-        console.log(status)
-        if (status == 201) {
+		let response = await _post('<%= api_url %>/communities', {community: this.community})
+        if (!response.ok) return
+        let response_json = await response.json()
+        if (response.status == 201) {
             document.location.href = '/communities/' + response_json.id
             return
         }
-        if (!response_json) return
         set_error_message(this.$refs.form_invalid_message, response_json)
 	},
 }}
