@@ -2,7 +2,7 @@
 function primary_navbar() {return {
 	open: false,
 	async logout() {
-		let response_json = await _post('<%= api_url %>/auth/logout')
+		_post('<%= api_url %>/auth/logout')
         document.location.href = ''
 	},
 }}

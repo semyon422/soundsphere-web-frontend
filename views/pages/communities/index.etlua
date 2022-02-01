@@ -6,21 +6,18 @@ function communities() {return {
     selected_community_name: '',
     message: '',
     async get() {
-		let response_json = await _get('<%= access_url %>/communities')
-        if (!response_json) return
-		if (!response_json.methods) return console.log(response_json)
-		this.methods = response_json.methods
+		let response = await _get('<%= access_url %>/communities')
+        if (!response.ok) return
+		this.methods = (await response.json()).methods
         this.dtCommunities = dtInitCommunities()
     },
     async join_community(community_id) {
-		let response_json = await _put(`<%= api_url %>/communities/${community_id}/users/<%= session.user_id %>`, {message: this.message})
-        if (!response_json) return
-		this.dtCommunities.ajax.reload()
+		await _put(`<%= api_url %>/users/<%= session.user_id %>/communities/${community_id}`, {message: this.message})
+        this.dtCommunities.ajax.reload()
     },
     async leave_community(community_id) {
-		let response_json = await _delete(`<%= api_url %>/communities/${community_id}/users/<%= session.user_id %>`)
-        if (!response_json) return
-		this.dtCommunities.ajax.reload()
+		await _delete(`<%= api_url %>/communities/${community_id}/users/<%= session.user_id %>`)
+        this.dtCommunities.ajax.reload()
     },
 }}
 </script>

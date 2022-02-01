@@ -3,21 +3,20 @@ function user() {return {
     user: {},
     pending_count: 0,
     async get() {
-		let response_json = await _get('<%= api_url %>/users/<%= params.user_id %>', {
+		let response = await _get('<%= api_url %>/users/<%= params.user_id %>', {
             inputmodes: true,
             roles: true,
         })
-        if (!response_json) return
-		if (!response_json.user) return console.log(response_json)
-		this.user = response_json.user
+        if (!response.ok) return
+		this.user = (await response.json()).user
 
-		response_json = await _get('<%= api_url %>/users/<%= params.user_id %>/communities', {
+		response = await _get('<%= api_url %>/users/<%= params.user_id %>/communities', {
             no_data: true,
             invitations: true,
             requests: true,
         })
-        if (!response_json) return
-		this.pending_count = response_json.total
+        if (!response.ok) return
+		this.pending_count = (await response.json()).total
 
         dtInitUser()
     },

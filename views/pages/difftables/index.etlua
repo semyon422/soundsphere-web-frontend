@@ -3,15 +3,13 @@ function difftables() {return {
     methods: [],
     selected_difftable_id: 0,
     async get() {
-		let response_json = await _get('<%= access_url %>/difftables')
-        if (!response_json) return
-		if (!response_json.methods) return console.log(response_json)
-		this.methods = response_json.methods
+		let response = await _get('<%= access_url %>/difftables')
+        if (!response.ok) return
+		this.methods = (await response.json()).methods
         dtInitDifftables()
     },
     async addToCommunity(community_id) {
-		let response_json = await _put(`<%= api_url %>/communities/${community_id}/difftables/${this.selected_difftable_id}`)
-        if (!response_json) return
+		await _put(`<%= api_url %>/communities/${community_id}/difftables/${this.selected_difftable_id}`)
     },
     async createAtCommunity(community_id) {
         document.location.href = `/communities/${community_id}/difftables/create`

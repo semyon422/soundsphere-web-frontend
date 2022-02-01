@@ -7,25 +7,22 @@ function community_edit() {return {
     moderators: [],
     selected_user: {},
     async get() {
-		let response_json = await _get('<%= api_url %>/communities/<%= params.community_id %>')
-        if (!response_json) return
-		if (!response_json.community) return console.log(response_json)
-		this.community = response_json.community
+		let response = await _get('<%= api_url %>/communities/<%= params.community_id %>')
+        if (!response.ok) return
+		this.community = (await response.json()).community
 
-		response_json = await _get('<%= api_url %>/communities/<%= params.community_id %>/leaderboards', {
+		response = await _get('<%= api_url %>/communities/<%= params.community_id %>/leaderboards', {
             leaderboard: true,
         })
-        if (!response_json) return
-		if (!response_json.community_leaderboards) return console.log(response_json)
-		this.community_leaderboards = response_json.community_leaderboards
+        if (!response.ok) return
+		this.community_leaderboards = (await response.json()).community_leaderboards
 
-		response_json = await _get('<%= api_url %>/communities/<%= params.community_id %>/users', {
+		response = await _get('<%= api_url %>/communities/<%= params.community_id %>/users', {
             staff: true,
             user: true,
         })
-        if (!response_json) return
-		if (!response_json.community_users) return console.log(response_json)
-		this.community_users = response_json.community_users
+        if (!response.ok) return
+		this.community_users = (await response.json()).community_users
 
         this.admins = this.community_users.filter(i => i.role == "admin")
         this.moderators = this.community_users.filter(i => i.role == "moderator")
@@ -34,8 +31,8 @@ function community_edit() {return {
         if (!this.$refs.form.checkValidity()) return
         this.community.community_leaderboards = this.community_leaderboards
         this.community.community_users = this.community_users
-		let response_json = await _patch('<%= api_url %>/communities/<%= params.community_id %>', {community: this.community})
-        if (!response_json) return
+		let response = await _patch('<%= api_url %>/communities/<%= params.community_id %>', {community: this.community})
+        if (!response.ok) return
 		document.location.href = '/communities/<%= params.community_id %>'
     },
     addUser(user) {

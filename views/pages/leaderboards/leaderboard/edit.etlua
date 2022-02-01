@@ -6,25 +6,23 @@ function leaderboard_edit() {return {
     selected_difftable: {},
     selected_requirement: {},
     async get() {
-		let response_json = await _get('<%= api_url %>/leaderboards/<%= params.leaderboard_id %>', {
+		let response = await _get('<%= api_url %>/leaderboards/<%= params.leaderboard_id %>', {
             inputmodes: true,
             requirements: true,
         })
-        if (!response_json) return
-		if (!response_json.leaderboard) return console.log(response_json)
-		this.leaderboard = response_json.leaderboard
+        if (!response.ok) return
+		this.leaderboard = (await response.json()).leaderboard
 
-		response_json = await _get('<%= api_url %>/leaderboards/<%= params.leaderboard_id %>/difftables', {
+		response = await _get('<%= api_url %>/leaderboards/<%= params.leaderboard_id %>/difftables', {
             difftable: true,
         })
-        if (!response_json) return
-		if (!response_json.leaderboard_difftables) return console.log(response_json)
-		this.leaderboard_difftables = response_json.leaderboard_difftables
+        if (!response.ok) return
+		this.leaderboard_difftables = (await response.json()).leaderboard_difftables
     },
     async patch() {
         this.leaderboard.leaderboard_difftables = this.leaderboard_difftables
-		let response_json = await _patch('<%= api_url %>/leaderboards/<%= params.leaderboard_id %>', {leaderboard: this.leaderboard})
-        if (!response_json) return
+		let response = await _patch('<%= api_url %>/leaderboards/<%= params.leaderboard_id %>', {leaderboard: this.leaderboard})
+        if (!response.ok) return
 
 		document.location.href = '/leaderboards/<%= params.leaderboard_id %>'
     },

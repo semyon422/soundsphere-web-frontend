@@ -2,12 +2,11 @@
 function notechart() {return {
     notechart: {file: {}},
     async get() {
-		let response_json = await _get('<%= api_url %>/notecharts/<%= params.notechart_id %>', {
+		let response = await _get('<%= api_url %>/notecharts/<%= params.notechart_id %>', {
             file: true,
         })
-        if (!response_json) return
-		if (!response_json.notechart) return console.log(response_json)
-		this.notechart = response_json.notechart
+        if (!response.ok) return
+		this.notechart = (await response.json()).notechart
 
         dtInitNotechart()
     },

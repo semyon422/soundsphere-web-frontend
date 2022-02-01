@@ -4,14 +4,14 @@ function addUserModal_<%= role or "admin" %>() {return {
     _community_users: [],
     user: {},
     async getUsers() {
-		let response_json = await _get('<%= api_url %>/communities/<%= params.community_id %>/users', {
+		let response = await _get('<%= api_url %>/communities/<%= params.community_id %>/users', {
             search: this.search,
             user: true,
         })
-        if (!response_json) return
-		if (!response_json.community_users) return console.log(response_json)
-        if (Array.isArray(response_json.community_users)) {
-    		this._community_users = response_json.community_users
+        if (!response.ok) return
+		this._community_users = (await response.json()).community_users
+        if (!Array.isArray(this._community_users)) {
+    		this._community_users = []
         }
     },
     async send() {

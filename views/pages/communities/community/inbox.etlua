@@ -4,14 +4,14 @@ function communityInbox() {return {
         dtInitInbox()
     },
     async acceptUser(user_id) {
-		let response_json = await _put(`<%= api_url %>/communities/<%= params.community_id %>/users/${user_id}?invitation`)
-        if (!response_json) return
+		let response = await _put(`<%= api_url %>/communities/<%= params.community_id %>/users/${user_id}?invitation`)
+        if (!response.ok) return
 		dtUsersRequests.ajax.reload()
 		dtUsersInvites.ajax.reload()
     },
     async denyUser(user_id) {
-		let response_json = await _delete(`<%= api_url %>/communities/<%= params.community_id %>/users/${user_id}`)
-        if (!response_json) return
+		let response = await _delete(`<%= api_url %>/communities/<%= params.community_id %>/users/${user_id}`)
+        if (!response.ok) return
 		dtUsersRequests.ajax.reload()
 		dtUsersInvites.ajax.reload()
     },
@@ -25,14 +25,14 @@ function communityInbox() {return {
         this.denyLeaderboard(this.selectedCommunityId, this.selectedLeaderboardId)
     },
     async acceptLeaderboard(community_id, leaderboard_id) {
-		let response_json = await _patch(`<%= api_url %>/communities/${community_id}/leaderboards/${leaderboard_id}`)
-        if (!response_json) return
+		let response = await _patch(`<%= api_url %>/communities/${community_id}/leaderboards/${leaderboard_id}`)
+        if (!response.ok) return
 		dtLeaderboardsIncoming.ajax.reload()
 		dtLeaderboardsOutgoing.ajax.reload()
     },
     async denyLeaderboard(community_id, leaderboard_id) {
-		let response_json = await _delete(`<%= api_url %>/communities/${community_id}/leaderboards/${leaderboard_id}`)
-        if (!response_json) return
+		let response = await _delete(`<%= api_url %>/communities/${community_id}/leaderboards/${leaderboard_id}`)
+        if (!response.ok) return
 		dtLeaderboardsIncoming.ajax.reload()
 		dtLeaderboardsOutgoing.ajax.reload()
     },
@@ -113,7 +113,7 @@ function communityInbox() {return {
                 </table>
             </section>
 
-            
+
             <h2>Leaderboards</h2>
 
             <% render("views.components.modals.delete", {id = "deny-leaderboard-modal", delete = "denySelectedLeaderboard"}) %>

@@ -2,14 +2,13 @@
 function user_edit() {return {
     user: {},
     async get() {
-		let response_json = await _get('<%= api_url %>/users/<%= params.user_id %>')
-        if (!response_json) return
-		if (!response_json.user) return console.log(response_json)
-		this.user = response_json.user
+		let response = await _get('<%= api_url %>/users/<%= params.user_id %>')
+        if (!response.ok) return
+		this.user = (await response.json()).user
     },
     async patch() {
-		let response_json = await _patch('<%= api_url %>/users/<%= params.user_id %>', {user: this.user})
-        if (!response_json) return
+		let response = await _patch('<%= api_url %>/users/<%= params.user_id %>', {user: this.user})
+        if (!response.ok) return
 		document.location.href = '/users/<%= params.user_id %>'
     },
 }}

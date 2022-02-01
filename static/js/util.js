@@ -40,14 +40,13 @@ function delete_cookie(name) {
 const encode_get_params = p => "?" + Object.entries(p).map(kv => kv.map(encodeURIComponent).join("=")).join("&");
 
 async function handle_not_ok(response) {
-	if (response.status != 500) return
 	alert(response.status + ' ' + response.statusText)
 	let response_json = await response.json()
 	if (response_json.trace) {
 		console.log(response_json.err)
 		console.log(response_json.trace)
-		return true
 	}
+	return response
 }
 
 function set_error_message(obj, response_json) {
@@ -121,9 +120,11 @@ async function _get(url, obj) {
 		method: 'GET',
 		credentials: 'same-origin'
 	})
-	if (!response.ok && await handle_not_ok(response)) return false
-	let response_json = await response.json()
-	return response_json
+	if (!response.ok && response.status >= 500) return await handle_not_ok(response)
+	return response
+	// let response_json
+	// await response.json().then((res_json) => response_json = res_json).catch(() => (response_json = null))
+	// return [response_json, response.status, response.headers]
 }
 
 async function _fetch(url, obj, method) {
@@ -141,9 +142,10 @@ async function _fetch(url, obj, method) {
 			credentials: 'same-origin'
 		})
 	}
-	if (!response.ok && await handle_not_ok(response)) return false
-	let response_json = await response.json()
-	return response_json
+	if (!response.ok && response.status >= 500) return await handle_not_ok(response)
+	return response
+	// await response.json().then((res_json) => response_json = res_json).catch(() => (response_json = null))
+	// return [response_json, response.status, response.headers]
 }
 
 async function _post(url, obj) {

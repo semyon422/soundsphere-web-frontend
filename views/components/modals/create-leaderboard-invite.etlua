@@ -7,23 +7,21 @@ function createLeaderboardInviteModal() {return {
     communities: [],
     leaderboards: [],
     async getCommunities() {
-		let response_json = await _get('<%= api_url %>/communities', {search: this.search})
-        if (!response_json) return
-		if (!response_json.communities) return console.log(response_json)
+		let response = await _get('<%= api_url %>/communities', {search: this.search})
+        if (!response.ok) return
+		this.communities = (await response.json()).communities
 
-        if (Array.isArray(response_json.communities)) {
-    		this.communities = response_json.communities
-        } else return
+        if (!Array.isArray(this.communities)) return
         var communities = this.communities.filter(i => i.name == this.search)
         if (communities.length != 1) return
         var community = communities[0]
 
-		response_json = await _get(`<%= api_url %>/communities/${community.id}/leaderboards`)
-        if (!response_json) return
-		if (!response_json.leaderboards) return console.log(response_json)
+		response = await _get(`<%= api_url %>/communities/${community.id}/leaderboards`)
+        if (!response.ok) return
+		this.leaderboards = (await response.json()).leaderboards
 
-        if (Array.isArray(response_json.leaderboards)) {
-    		this.leaderboards = response_json.leaderboards
+        if (!Array.isArray(this.leaderboards)) {
+    		this.leaderboards = []
         }
     },
     async send() {
@@ -33,8 +31,7 @@ function createLeaderboardInviteModal() {return {
         if (leaderboards.length != 1) return
         var leaderboard = leaderboards[0]
 
-		let response_json = await _put(`<%= api_url %>/communities/<%= params.community_id %>/leaderboards/${leaderboard.id}`, {message: this.message})
-        if (!response_json) return
+		await _put(`<%= api_url %>/communities/<%= params.community_id %>/leaderboards/${leaderboard.id}`, {message: this.message})
     }
 }}
 </script>

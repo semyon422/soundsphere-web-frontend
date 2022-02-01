@@ -3,29 +3,26 @@ function leaderboard() {return {
     leaderboard: {},
     leaderboard_communities: [],
     async get() {
-		let response_json = await _get('<%= api_url %>/leaderboards/<%= params.leaderboard_id %>', {
+		let response = await _get('<%= api_url %>/leaderboards/<%= params.leaderboard_id %>', {
             users: false,
             inputmodes: true,
             communities: false,
             difftables: false,
             requirements: true,
         })
-        if (!response_json) return
-		if (!response_json.leaderboard) return console.log(response_json)
-		this.leaderboard = response_json.leaderboard
+        if (!response.ok) return
+		this.leaderboard = (await response.json()).leaderboard
 
-		response_json = await _get('<%= api_url %>/leaderboards/<%= params.leaderboard_id %>/communities', {
+		response = await _get('<%= api_url %>/leaderboards/<%= params.leaderboard_id %>/communities', {
             community: true,
         })
-        if (!response_json) return
-		if (!response_json.leaderboard_communities) return console.log(response_json)
-		this.leaderboard_communities = response_json.leaderboard_communities
+        if (!response.ok) return
+		this.leaderboard_communities = (await response.json()).leaderboard_communities
 
         dtInitLeaderboard()
     },
     async addToCommunity(community_id) {
-		let response_json = await _put(`<%= api_url %>/communities/${community_id}/leaderboards/<%= params.leaderboard_id %>`)
-        if (!response_json) return
+		await _put(`<%= api_url %>/communities/${community_id}/leaderboards/<%= params.leaderboard_id %>`)
     },
 }}
 </script>

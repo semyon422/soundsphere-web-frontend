@@ -2,12 +2,11 @@
 function difftable() {return {
     difftable: {},
     async get() {
-		let response_json = await _get('<%= api_url %>/difftables/<%= params.difftable_id %>', {
+		let response = await _get('<%= api_url %>/difftables/<%= params.difftable_id %>', {
             inputmodes: true,
         })
-        if (!response_json) return
-		if (!response_json.difftable) return console.log(response_json)
-		this.difftable = response_json.difftable
+        if (!response.ok) return
+		this.difftable = (await response.json()).difftable
         dtInitDifftable()
     },
 }}

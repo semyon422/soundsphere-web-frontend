@@ -6,33 +6,30 @@ function community() {return {
     user_methods: [],
     selected_leaderboard_id: 0,
     async get() {
-		let response_json = await _get('<%= api_url %>/communities/<%= params.community_id %>', {
+		let response = await _get('<%= api_url %>/communities/<%= params.community_id %>', {
             methods: true,
             users: false, inputmodes: true, leaderboards: false,
         })
-        if (!response_json) return
-		if (!response_json.community) return console.log(response_json)
+        if (!response.ok) return
+		let response_json = await response.json()
 		this.community = response_json.community
 		this.methods = response_json.methods
 
-		response_json = await _get('<%= api_url %>/communities/<%= params.community_id %>/leaderboards', {
+		response = await _get('<%= api_url %>/communities/<%= params.community_id %>/leaderboards', {
             leaderboard: true,
         })
-        if (!response_json) return
-		if (!response_json.community_leaderboards) return console.log(response_json)
-		this.community_leaderboards = response_json.community_leaderboards
+        if (!response.ok) return
+		this.community_leaderboards = (await response.json()).community_leaderboards
 
         dtInitCommunity()
     },
     async getLeave() {
-		let response_json = await _get('<%= access_url %>/communities/<%= params.community_id %>/users/<%= session.user_id %>')
-        if (!response_json) return
-		if (!response_json.methods) return console.log(response_json)
-		this.user_methods = response_json.methods
+		let response = await _get('<%= access_url %>/communities/<%= params.community_id %>/users/<%= session.user_id %>')
+        if (!response.ok) return
+		this.user_methods = (await response.json()).methods
     },
     async addToCommunity(community_id) {
-		let response_json = await _put(`<%= api_url %>/communities/${community_id}/leaderboards/${this.selected_leaderboard_id}`)
-        if (!response_json) return
+		await _put(`<%= api_url %>/communities/${community_id}/leaderboards/${this.selected_leaderboard_id}`)
     },
 }}
 </script>

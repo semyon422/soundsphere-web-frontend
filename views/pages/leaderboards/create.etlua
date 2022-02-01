@@ -13,12 +13,11 @@ function leaderboards_create() {return {
     selected_modifier: {},
 	async post() {
         if (!this.$refs.form.checkValidity()) return
-		let response_json = await _post('<%= api_url %>/leaderboards', {
+		let response = await _post('<%= api_url %>/leaderboards', {
             leaderboard: this.leaderboard,
             community_id: <%= params.community_id %>,
         })
-        if (!response_json) return
-		if (!response_json.leaderboard) return console.log(response_json)
+        if (!response.ok) return
 		document.location.href = '/communities/<%= params.community_id %>'
 	},
     async addInputmode(inputmode) {

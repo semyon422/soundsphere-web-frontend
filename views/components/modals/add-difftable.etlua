@@ -3,11 +3,11 @@ function addDifftableModal() {return {
     search: '',
     difftables: [],
     async getDifftables() {
-		let response_json = await _get('<%= api_url %>/difftables', {search: this.search})
-        if (!response_json) return
-		if (!response_json.difftables) return console.log(response_json)
-        if (Array.isArray(response_json.difftables)) {
-    		this.difftables = response_json.difftables
+		let response = await _get('<%= api_url %>/difftables', {search: this.search})
+        if (!response.ok) return
+		this.difftables = (await response.json()).difftables
+        if (!Array.isArray(this.difftables)) {
+    		this.difftables = []
         }
     },
     _add() {

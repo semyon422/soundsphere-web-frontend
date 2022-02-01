@@ -4,15 +4,13 @@ function leaderboards() {return {
     selected_leaderboard_id: 0,
     selected_community_id: 0,
     async get() {
-		let response_json = await _get('<%= access_url %>/leaderboards')
-        if (!response_json) return
-		if (!response_json.methods) return console.log(response_json)
-		this.methods = response_json.methods
+		let response = await _get('<%= access_url %>/leaderboards')
+        if (!response.ok) return
+		this.methods = (await response.json()).methods
         dtInitLeaderboards()
     },
     async addToCommunity(community_id) {
-		let response_json = await _put(`<%= api_url %>/communities/${community_id}/leaderboards/${this.selected_leaderboard_id}`)
-        if (!response_json) return
+		await _put(`<%= api_url %>/communities/${community_id}/leaderboards/${this.selected_leaderboard_id}`)
     },
     async createAtCommunity(community_id) {
         document.location.href = `/communities/${community_id}/leaderboards/create`

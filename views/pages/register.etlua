@@ -9,10 +9,12 @@ function register() {return {
     async post() {
         if (!this.$refs.form.checkValidity()) return
         this.user.recaptcha_token = await grecaptcha.execute('<%= recaptcha_site_key %>', {action: 'register'})
-		let response_json = await _post('<%= api_url %>/auth/register', this.user)
-        if (!response_json) return
+		let response = await _post('<%= api_url %>/auth/register', this.user)
+        if (!response.ok) return
+		let response_json = await response.json()
         set_error_message(this.$refs.form_invalid_message, response_json)
         if (!response_json.user) return console.log(response_json)
+        document.location.href = '/home'
     },
 }}
 </script>

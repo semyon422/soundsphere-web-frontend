@@ -7,13 +7,12 @@ function difftables_create() {return {
     },
 	async post() {
         if (!this.$refs.form.checkValidity()) return
-		let response_json = await _post('<%= api_url %>/difftables', {
+		let response = await _post('<%= api_url %>/difftables', {
             difftable: this.difftable,
             community_id: <%= params.community_id %>,
         })
-        if (!response_json) return
-		if (!response_json.difftable) return console.log(response_json)
-		document.location.href = `/difftables/${response_json.difftable.id}`
+        if (!response.ok) return
+		document.location.href = `/difftables/${(await response.json()).id}`
 	},
 }}
 </script>

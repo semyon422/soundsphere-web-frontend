@@ -5,19 +5,18 @@ function createUserInviteModal() {return {
     search: '',
     users: [],
     async getUsers() {
-		let response_json = await _get('<%= api_url %>/users', {search: this.search})
-        if (!response_json) return
-		if (!response_json.users) return console.log(response_json)
-        if (Array.isArray(response_json.users)) {
-    		this.users = response_json.users
+		let response = await _get('<%= api_url %>/users', {search: this.search})
+        if (!response.ok) return
+		this.users = (await response.json()).users
+        if (!Array.isArray(this.users)) {
+    		this.users = []
         }
     },
     async send() {
         var users = this.users.filter(i => i.name == this.search)
         if (users.length != 1) return
         var user = users[0]
-		let response_json = await _put(`<%= api_url %>/communities/<%= params.community_id %>/users/${user.id}?invitation`, {message: this.message})
-        if (!response_json) return
+		await _put(`<%= api_url %>/communities/<%= params.community_id %>/users/${user.id}?invitation`, {message: this.message})
     }
 }}
 </script>
