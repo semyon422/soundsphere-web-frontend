@@ -1,7 +1,11 @@
 <script>
 function user() {return {
     user: {},
+    leaderboard_users: [],
+    leaderboard_difftables: [],
     pending_count: 0,
+    selected_leaderboard_id: null,
+    selected_difftable_id: null,
     async get() {
 		let response = await _get('<%= api_url %>/users/<%= params.user_id %>', {
             inputmodes: true,
@@ -18,7 +22,36 @@ function user() {return {
         if (!response.ok) return
 		this.pending_count = (await response.json()).total
 
-        dtInitUser()
+		response = await _get('<%= api_url %>/users/<%= params.user_id %>/leaderboards', {
+            leaderboard: true,
+        })
+        if (!response.ok) return
+		this.leaderboard_users = (await response.json()).leaderboard_users
+
+        dtInitUser(this)
+
+        this.getLeaderboardDifftables()
+    },
+    async getLeaderboardDifftables() {
+        if (!this.selected_leaderboard_id) {
+            this.leaderboard_difftables = []
+            this.selected_difftable_id = null
+            this.reloadScoresDt()
+            return
+        }
+		var response = await _get(`<%= api_url %>/leaderboards/${this.selected_leaderboard_id}/difftables`, {
+            difftable: true,
+        })
+        if (!response.ok) return
+		this.leaderboard_difftables = (await response.json()).leaderboard_difftables
+
+        this.reloadScoresDt()
+    },
+    async reloadScoresDt() {
+        this.$nextTick(() => {
+            this.dtBestScores.ajax.reload(null, false)
+            this.dtAllScores.ajax.reload(null, false)
+        })
     },
 }}
 </script>
@@ -178,18 +211,22 @@ function user() {return {
                 <div id="best-scores-insert-top" hidden>
                     <div class="col">
                         <form class="table-form table-form-top">
-                            <select class="form-select form-select-sm" id="best-scores-leaderboard" name="leaderboard" title="Filter by leaderboard and use leaderboard calculators">
-                                <option selected>All leaderboards</option>
-                                <option value="Leaderboard1">Leaderboard1</option>
+                            <select @change="getLeaderboardDifftables" x-model="selected_leaderboard_id" class="form-select form-select-sm" id="best-scores-leaderboard" name="leaderboard" title="Filter by leaderboard and use leaderboard calculators">
+                                <option value="" selected>All leaderboards</option>
+                                <template x-for="leaderboard_user in leaderboard_users">
+                                    <option :value="leaderboard_user.user_id" x-text="leaderboard_user.leaderboard.name"></option>
+                                </template>
                             </select>
                         </form>
                     </div>
 
                     <div class="col">
                         <form class="table-form table-form-top">
-                            <select class="form-select form-select-sm" id="best-scores-difftable" name="table" title="Filter by table">
+                            <select @change="reloadScoresDt" x-model="selected_difftable_id" class="form-select form-select-sm" id="best-scores-difftable" name="table" title="Filter by table">
                                 <option selected>All tables</option>
-                                <option value="Table1">Table1</option>
+                                <template x-for="leaderboard_difftable in leaderboard_difftables">
+                                    <option :value="leaderboard_difftable.difftable_id" x-text="leaderboard_difftable.difftable.name"></option>
+                                </template>
                             </select>
                         </form>
                     </div>
@@ -248,18 +285,22 @@ function user() {return {
                 <div id="all-scores-insert-top" hidden>
                     <div class="col">
                         <form class="table-form table-form-top">
-                            <select class="form-select form-select-sm" id="all-scores-leaderboard" name="leaderboard" title="Filter by leaderboard and use leaderboard calculators">
-                                <option selected>All leaderboards</option>
-                                <option value="Leaderboard1">Leaderboard1</option>
+                            <select @change="getLeaderboardDifftables" x-model="selected_leaderboard_id" class="form-select form-select-sm" id="all-scores-leaderboard" name="leaderboard" title="Filter by leaderboard and use leaderboard calculators">
+                                <option value="" selected>All leaderboards</option>
+                                <template x-for="leaderboard_user in leaderboard_users">
+                                    <option :value="leaderboard_user.user_id" x-text="leaderboard_user.leaderboard.name"></option>
+                                </template>
                             </select>
                         </form>
                     </div>
 
                     <div class="col">
                         <form class="table-form table-form-top">
-                            <select class="form-select form-select-sm" id="all-scores-difftable" name="table" title="Filter by table">
+                            <select @change="reloadScoresDt" x-model="selected_difftable_id" class="form-select form-select-sm" id="all-scores-difftable" name="table" title="Filter by table">
                                 <option selected>All tables</option>
-                                <option value="Table1">Table1</option>
+                                <template x-for="leaderboard_difftable in leaderboard_difftables">
+                                    <option :value="leaderboard_difftable.difftable_id" x-text="leaderboard_difftable.difftable.name"></option>
+                                </template>
                             </select>
                         </form>
                     </div>
@@ -314,7 +355,7 @@ function user() {return {
 
 
 <script>
-function dtInitUser() {
+function dtInitUser(obj) {
     dtInit(document.querySelector("#user-communities-table"), {
         ...dtColOptions,
         serverSide: true,
@@ -395,7 +436,9 @@ function dtInitUser() {
             },
         ]
     })
-    dtInit(document.querySelector("#user-best-scores-table"), {
+    var dtBestScores
+    var dtAllScores
+    dtBestScores = dtInit(document.querySelector("#user-best-scores-table"), {
         ...dtAllOptions,
         serverSide: true,
         ajax: {
@@ -404,6 +447,8 @@ function dtInitUser() {
             data(d) {
                 d.notechart = true
                 d.modifierset = true
+                d.leaderboard_id = parseInt($("#best-scores-leaderboard").val())
+                d.difftable_id = parseInt($("#best-scores-difftable").val())
             }
         },
         columns: [
@@ -434,7 +479,7 @@ function dtInitUser() {
             },
         ]
     })
-    dtInit(document.querySelector("#user-all-scores-table"), {
+    dtAllScores = dtInit(document.querySelector("#user-all-scores-table"), {
         ...dtAllOptions,
         serverSide: true,
         ajax: {
@@ -444,6 +489,8 @@ function dtInitUser() {
                 d.latest = true
                 d.notechart = true
                 d.modifierset = true
+                d.leaderboard_id = parseInt($("#all-scores-leaderboard").val())
+                d.difftable_id = parseInt($("#all-scores-difftable").val())
             }
         },
         columns: [
@@ -473,5 +520,7 @@ function dtInitUser() {
             },
         ]
     })
+    obj.dtBestScores = dtBestScores
+    obj.dtAllScores = dtAllScores
 }
 </script>

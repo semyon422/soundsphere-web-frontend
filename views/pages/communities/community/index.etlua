@@ -159,7 +159,7 @@ function community() {return {
                     <div class="col">
                         <form class="table-form table-form-top">
                             <select class="form-select form-select-sm" id="members-leaderboard" name="leaderboard" title="Leaderboard used for member ranks and plays">
-                                    <option value="">No leaderboard</option>
+                                <option value="">No leaderboard</option>
                                 <template x-for="community_leaderboard in community_leaderboards">
                                     <option :value="community_leaderboard.leaderboard_id" x-text="community_leaderboard.leaderboard.name"></option>
                                 </template>
