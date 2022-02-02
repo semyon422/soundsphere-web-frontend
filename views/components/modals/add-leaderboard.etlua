@@ -1,6 +1,6 @@
 <script>
 function addLeaderboardsModal() {return {
-    user_communities: [],
+    community_users: [],
     selected_community_id: 0,
     async getCommunities() {
 		let response = await _get('<%= api_url %>/users/<%= session.user_id %>/communities', {
@@ -8,7 +8,7 @@ function addLeaderboardsModal() {return {
             community: true,
         })
         if (!response.ok) return
-		this.user_communities = (await response.json()).user_communities
+		this.community_users = (await response.json()).community_users
     },
     _add() {
         this.addToCommunity(selected_community_id)
@@ -28,8 +28,8 @@ function addLeaderboardsModal() {return {
                 <form class="modal-form">
                     <select class="form-select" id="add-leaderboard-community" name="community" title="The community to add the leaderboard to" x-model="selected_community_id">
                         <option selected hidden>Select a community</option>
-                        <template x-for="user_community in user_communities">
-                            <option :value="user_community.community_id" x-text="user_community.community.name"></option>
+                        <template x-for="community_user in community_users">
+                            <option :value="community_user.community_id" x-text="community_user.community.name"></option>
                         </template>
                     </select>
                 </form>

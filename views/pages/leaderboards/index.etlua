@@ -98,6 +98,21 @@ function dtInitLeaderboards() {
                 d.leaderboard_inputmodes = true
             }
         },
+        initComplete(settings, json) {
+            $("#leaderboards-hide-joined-leaderboards").change(() => {
+                dt.ajax.reload(null, false)
+            })
+        },
+        processing: true,
+        language: {
+            loadingRecords: '&nbsp;',
+            processing: 'Loading...'
+        },
+        createdRow(row, data, dataIndex) {
+            if (data.joined) {
+                $(row).addClass('highlight-row')
+            }
+        },
         columns: [
             {render(d, t, row) {return leaderboardLink(row)}},
             {render(d, t, row) {return inputmodesToString(row.leaderboard_inputmodes)}},
