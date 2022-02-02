@@ -58,22 +58,6 @@ function leaderboard() {return {
 
     <main class="container-lg">
         <div id="main-box">
-            <nav class="navbar-expand page-icons page-icons-left page-icons-never-collapsed">
-                <div class="navbar-nav">
-                    <form class="page-form">
-                        <div class="input-group input-group-sm" title="The input mode that the values and order of the page is based on">
-                            <span class="input-group-text">Mode:</span>
-                            <select class="form-select" id="input-mode" name="input-mode">
-                                <option selected>All</option>
-                                <template x-for="leaderboard_inputmode in leaderboard.leaderboard_inputmodes">
-                                    <option :value="leaderboard_inputmode.inputmode" x-text="leaderboard_inputmode.inputmode"></option>
-                                </template>
-                            </select>
-                        </div>
-                    </form>
-                </div>
-            </nav>
-
             <% render("views.components.modals.add-leaderboard") %>
             <% render("views.components.modals.leaderboard-description") %>
             <nav class="navbar-expand-xl page-icons page-icons-right">
