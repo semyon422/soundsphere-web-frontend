@@ -186,7 +186,7 @@ function dtInitNotechart() {
             {render(d, t, row) {return row.rating}},
             {render(d, t, row) {return row.score}},
             {render(d, t, row) {return row.accuracy}},
-            {render(d, t, row) {return "misses"}},
+            {render(d, t, row) {return row.misses_count}},
             {render(d, t, row) {return row.inputmode}},
             {render(d, t, row) {return row.modifierset.displayed}},
             {render(d, t, row) {return formatDate(row.created_at)}},
