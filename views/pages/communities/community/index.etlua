@@ -8,7 +8,7 @@ function community() {return {
     async get() {
 		let response = await _get('<%= api_url %>/communities/<%= params.community_id %>', {
             methods: true,
-            users: false, inputmodes: true, leaderboards: false,
+            users: false, inputmodes: true, leaderboards: false, difftables: false,
         })
         if (!response.ok) return
 		let response_json = await response.json()
