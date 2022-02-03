@@ -52,7 +52,18 @@ ready(() =>
             }
         },
         columns: [
-            {render(d, t, row) {return ""}},
+            {render(d, t, row) {
+                if (row.is_played) {
+                    return `
+                        <td class="table-icon-cell">
+                            <span class="table-icon table-icon-s gray" title="You have a score on this chart">
+                                <i class="fas fa-check"></i>
+                            </span>
+                        </td>
+                    `
+                }
+                return ''
+            }},
             {data: "song_title"},
             {data: "difficulty_name"},
             {data: "level"},
