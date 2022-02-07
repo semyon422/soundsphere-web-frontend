@@ -1,8 +1,11 @@
 <script>
 function user_edit() {return {
     user: {},
+    selected_inputmode: {},
     async get() {
-		let response = await _get('<%= api_url %>/users/<%= params.user_id %>')
+		let response = await _get('<%= api_url %>/users/<%= params.user_id %>', {
+            inputmodes: true,
+        })
         if (!response.ok) return
 		this.user = (await response.json()).user
     },
@@ -10,6 +13,14 @@ function user_edit() {return {
 		let response = await _patch('<%= api_url %>/users/<%= params.user_id %>', {user: this.user})
         if (!response.ok) return
 		document.location.href = '/users/<%= params.user_id %>'
+    },
+    async addInputmode(inputmode) {
+        if (!Array.isArray(this.user.user_inputmodes)) this.user.user_inputmodes = []
+        this.user.user_inputmodes.push(inputmode)
+    },
+    async removeInputmode(inputmode) {
+        if (!Array.isArray(this.user.user_inputmodes)) this.user.user_inputmodes = []
+        this.user.user_inputmodes = this.user.user_inputmodes.filter(item => item !== inputmode)
     },
 }}
 </script>
@@ -31,7 +42,7 @@ function user_edit() {return {
             <h1>Settings</h1>
 
 
-            <% render("views.components.modals.delete") %>
+            <% render("views.components.modals.delete", {id = "delete-inputmode-modal", delete = "removeInputmode(selected_inputmode)"}) %>
             <% render("views.components.modals.add-input-mode") %>
             <% render("views.components.modals.confirm-delete") %>
             <section id="form-section">
@@ -53,33 +64,21 @@ function user_edit() {return {
                         <div class="col-sm-6">
                             <div class="form-item">
                                 <label for="discord-name" class="form-label" title="Your Discord username and tag">Discord</label>
-                                <div class="input-group">
-                                    <input type="text" class="form-control" id="discord-name" name="discord-name" minlength="3" maxlength="100" value="Player">
-                                    <span class="input-group-text" id="inputGroupPrepend2">#</span>
-                                    <input type="text" class="form-control" id="discord-tag" name="discord-tag" minlength="4" maxlength="4" value="1234">
-                                    <div class="form-invalid-message"></div>
-                                </div>
+                                <input type="text" class="form-control" id="discord-name" name="discord-name" minlength="3" maxlength="100" x-model="user.discord">
                             </div>
                         </div>
 
                         <div class="col-sm-6">
                             <div class="form-item">
                                 <label for="twitter" class="form-label" title="Link to your Twitter">Twitter</label>
-                                <input type="text" class="form-control" id="twitter" name="twitter" minlength="5" maxlength="100" value="https://www.twitter.com/1234">
-                            </div>
-                        </div>
-
-                        <div class="col-sm-6">
-                            <div class="form-item">
-                                <label for="facebook" class="form-label" title="Link to your Facebook">Facebook</label>
-                                <input type="text" class="form-control" id="facebook" name="facebook" minlength="3" maxlength="100" value="">
+                                <input type="text" class="form-control" id="twitter" name="twitter" minlength="5" maxlength="100" x-model="user.twitter">
                             </div>
                         </div>
 
                         <div class="col-sm-6">
                             <div class="form-item">
                                 <label for="custom-link" class="form-label" title="Any link to something that is related to you">Custom link</label>
-                                <input type="text" class="form-control" id="custom-link" name="custom-link" minlength="3" maxlength="100" value="https://www.vk.ru/1234">
+                                <input type="text" class="form-control" id="custom-link" name="custom-link" minlength="3" maxlength="100" x-model="user.custom_link">
                             </div>
                         </div>
                     </div>
@@ -99,14 +98,16 @@ function user_edit() {return {
                         <table class="data-table data-table-col data-table-nohead table table-icon-col-last">
                             <thead><tr> <th></th> <th></th> </tr></thead>
                             <tbody>
-                                <tr>
-                                    <td>7K</td>
-                                    <td class="table-icon-cell">
-                                        <a href="#!" class="table-icon table-icon-l red red-h" title="Remove input mode" data-bs-toggle="modal" data-bs-target="#delete-modal">
-                                            <i class="fas fa-times"></i>
-                                        </a>
-                                    </td>
-                                </tr>
+                                <template x-for="user_inputmode in user.user_inputmodes">
+                                    <tr>
+                                        <td x-text="user_inputmode.inputmode"></td>
+                                        <td class="table-icon-cell">
+                                            <a href="#!" class="table-icon table-icon-l red red-h" title="Remove input mode" data-bs-toggle="modal" data-bs-target="#delete-inputmode-modal" @click="selected_inputmode = user_inputmode">
+                                                <i class="fas fa-times"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </template>
                             </tbody>
                         </table>
                     </div>
