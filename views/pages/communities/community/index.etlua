@@ -302,7 +302,7 @@ function dtInitCommunity() {
             {render(d, t, row) {return row.total_rating || 0}},
             {render(d, t, row) {return ""}},
             {render(d, t, row) {return row.scores_count || 0}},
-            {render(d, t, row) {return formatDate(row.latest_activity)}},
+            {render(d, t, row) {return formatDate(row.latest_score_submitted_at)}},
             {
                 render(data, type, row, meta) {
                     return `

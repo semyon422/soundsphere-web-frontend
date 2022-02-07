@@ -320,7 +320,7 @@ function dtInitLeaderboard() {
             {data: "rank"},
             {render(d, t, row) {return userLink(row.user)}},
             {data: "total_rating"},
-            {render(d, t, row) {return formatDate(row.latest_activity)}},
+            {render(d, t, row) {return formatDate(row.latest_score_submitted_at)}},
         ]
     })
 }
