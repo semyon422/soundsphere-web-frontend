@@ -240,3 +240,39 @@ function renderBlurhashBanner(blurhash) {
 
 	// element.appendChild(canvas)
 }
+
+const loadImage = async src => new Promise((resolve, reject) => {
+	const img = new Image()
+	img.onload = () => resolve(img)
+	img.onerror = (...args) => reject(args)
+	img.src = src
+})
+
+const getImageData = image => {
+	const canvas = document.createElement("canvas")
+	canvas.width = image.width
+	canvas.height = image.height
+	const context = canvas.getContext("2d")
+	context.drawImage(image, 0, 0)
+	return context.getImageData(0, 0, image.width, image.height)
+}
+
+const encodeImageToBlurhash = async imageUrl => {
+	const image = await loadImage(imageUrl)
+	const imageData = getImageData(image)
+	return blurhashEncode(imageData.data, imageData.width, imageData.height, 4, 3)
+}
+
+function encodeBlurhashFromInput(e, cb) {
+	var input = e.target
+	if (input.files[0].size > 102400) {
+		alert("File is too big!")
+		input.value = ""
+		return
+	}
+	var fReader = new FileReader()
+	fReader.readAsDataURL(e.target.files[0])
+	fReader.onloadend = function(event) {
+		encodeImageToBlurhash(event.target.result).then(cb)
+	}
+}

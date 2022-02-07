@@ -11,7 +11,7 @@ function user_edit() {return {
     },
     async patch() {
 		let response = await _patch('<%= api_url %>/users/<%= params.user_id %>', {user: this.user})
-        if (!response.ok) return
+        if (!response.ok) return set_error_message(this.$refs.form_invalid_message, await response.json())
 		document.location.href = '/users/<%= params.user_id %>'
     },
     async addInputmode(inputmode) {
@@ -21,6 +21,10 @@ function user_edit() {return {
     async removeInputmode(inputmode) {
         if (!Array.isArray(this.user.user_inputmodes)) this.user.user_inputmodes = []
         this.user.user_inputmodes = this.user.user_inputmodes.filter(item => item !== inputmode)
+    },
+    updateBanner(e) {
+        var user = this.user
+        encodeBlurhashFromInput(e, (res) => user.banner = res)
     },
 }}
 </script>
@@ -85,7 +89,7 @@ function user_edit() {return {
 
                     <div class="form-item">
                         <label for="banner" class="form-label" title="The uploaded image will be blurred and shown behind your profile page">Blurred banner image</label>
-                        <input type="file" class="form-control input-image" id="banner" name="banner" accept=".png, .jpg, .jpeg">
+                        <input type="file" class="form-control input-image" id="banner" name="banner" accept=".png, .jpg, .jpeg" @change="updateBanner">
                     </div>
 
                     <div class="form-item">
@@ -110,6 +114,10 @@ function user_edit() {return {
                                 </template>
                             </tbody>
                         </table>
+                    </div>
+
+                    <div class="form-item">
+                        <div class="form-invalid-message" x-ref="form_invalid_message"></div>
                     </div>
 
                     <button type="submit" class="btn bg-blue bg-blue-h" @click="patch">Save</button>

@@ -22,7 +22,7 @@ function leaderboard_edit() {return {
     async patch() {
         this.leaderboard.leaderboard_difftables = this.leaderboard_difftables
 		let response = await _patch('<%= api_url %>/leaderboards/<%= params.leaderboard_id %>', {leaderboard: this.leaderboard})
-        if (!response.ok) return
+        if (!response.ok) return set_error_message(this.$refs.form_invalid_message, await response.json())
 
 		document.location.href = '/leaderboards/<%= params.leaderboard_id %>'
     },
@@ -49,6 +49,10 @@ function leaderboard_edit() {return {
     async removeModifier(requirement) {
         if (!Array.isArray(this.leaderboard.leaderboard_requirements)) this.leaderboard.leaderboard_requirements = []
         this.leaderboard.leaderboard_requirements = this.leaderboard.leaderboard_requirements.filter(item => item !== requirement)
+    },
+    updateBanner(e) {
+        var leaderboard = this.leaderboard
+        encodeBlurhashFromInput(e, (res) => leaderboard.banner = res)
     },
 }}
 </script>
@@ -131,7 +135,7 @@ function leaderboard_edit() {return {
 
                     <div class="form-item">
                         <label for="banner" class="form-label" title="The uploaded image will be blurred and shown behind your leaderboard page">Blurred banner image</label>
-                        <input type="file" class="form-control input-image" id="banner" name="banner" accept=".png, .jpg, .jpeg">
+                        <input type="file" class="form-control input-image" id="banner" name="banner" accept=".png, .jpg, .jpeg" @change="updateBanner">
                     </div>
 
                     <div class="form-item">
@@ -216,6 +220,10 @@ function leaderboard_edit() {return {
                                 </template>
                             </tbody>
                         </table>
+                    </div>
+
+                    <div class="form-item">
+                        <div class="form-invalid-message" x-ref="form_invalid_message"></div>
                     </div>
 
                     <button type="submit" class="btn bg-blue bg-blue-h" @click="patch">Save</button>

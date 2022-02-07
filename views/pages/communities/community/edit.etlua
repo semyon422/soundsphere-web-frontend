@@ -29,10 +29,9 @@ function community_edit() {return {
     },
     async patch() {
         if (!this.$refs.form.checkValidity()) return
-        this.community.community_leaderboards = this.community_leaderboards
         this.community.community_users = this.community_users
 		let response = await _patch('<%= api_url %>/communities/<%= params.community_id %>', {community: this.community})
-        if (!response.ok) return
+        if (!response.ok) return set_error_message(this.$refs.form_invalid_message, await response.json())
 		document.location.href = '/communities/<%= params.community_id %>'
     },
     addUser(user) {
@@ -45,6 +44,10 @@ function community_edit() {return {
         user.role = "user"
         this.admins = this.community_users.filter(i => i.role == "admin")
         this.moderators = this.community_users.filter(i => i.role == "moderator")
+    },
+    updateBanner(e) {
+        var community = this.community
+        encodeBlurhashFromInput(e, (res) => community.banner = res)
     },
 }}
 </script>
@@ -125,7 +128,7 @@ function community_edit() {return {
 
                     <div class="form-item">
                         <label for="banner" class="form-label" title="The uploaded image will be blurred and shown behind your community page">Blurred banner image</label>
-                        <input type="file" class="form-control input-image" id="banner" name="banner" accept=".png, .jpg, .jpeg" x-model="community.banner">
+                        <input type="file" class="form-control input-image" id="banner" name="banner" accept=".png, .jpg, .jpeg" @change="updateBanner">
                     </div>
 
                     <div class="form-item form-check">
@@ -179,6 +182,10 @@ function community_edit() {return {
                                 </template>
                             </tbody>
                         </table>
+                    </div>
+
+                    <div class="form-item">
+                        <div class="form-invalid-message" x-ref="form_invalid_message"></div>
                     </div>
 
                     <button type="submit" class="btn bg-blue bg-blue-h" @click="patch">Save</button>
