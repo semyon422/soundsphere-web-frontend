@@ -5,6 +5,7 @@ function community() {return {
     methods: [],
     user_methods: [],
     selected_leaderboard_id: 0,
+    user_id: null,
     async get() {
 		let response = await _get('<%= api_url %>/communities/<%= params.community_id %>', {
             methods: true,
@@ -21,7 +22,7 @@ function community() {return {
         if (!response.ok) return
 		this.community_leaderboards = (await response.json()).community_leaderboards
 
-        dtInitCommunity()
+        dtInitCommunity(this)
     },
     async getLeave() {
 		let response = await _get('<%= access_url %>/communities/<%= params.community_id %>/users/<%= session.user_id %>')
@@ -30,6 +31,14 @@ function community() {return {
     },
     async addToCommunity(community_id) {
 		await _put(`<%= api_url %>/communities/${community_id}/leaderboards/${this.selected_leaderboard_id}`)
+    },
+    yourRow() {
+        if (this.user_id) {
+            this.user_id = null
+        } else {
+            this.user_id = <%= session.user_id or "null" %>
+        }
+        this.dtUsersTable.ajax.reload()
     },
 }}
 </script>
@@ -182,7 +191,7 @@ function community() {return {
                 <div id="members-insert-bottom" hidden>
                     <div class="col">
                         <form class="table-form table-form-bottom" action="javascript:void(0);">
-                            <button type="submit" class="btn bg-blue bg-blue-h">Your row</button>
+                            <button type="submit" class="btn bg-blue bg-blue-h" @click="yourRow">Your row</button>
                         </form>
                     </div>
                 </div>
@@ -220,7 +229,7 @@ function community() {return {
 
 
 <script>
-function dtInitCommunity() {
+function dtInitCommunity(obj) {
     dtInit(document.querySelector("#community-leaderboards-table"), {
         ...dtColOptions,
         serverSide: true,
@@ -284,6 +293,7 @@ function dtInitCommunity() {
                 d.staff = $("#members-only-show-admins").is(':checked') ? true : false
                 d.user = true
                 d.leaderboard_id = parseInt($("#members-leaderboard").val())
+                d.user_id = obj.user_id
             }
         },
         initComplete(settings, json) {
@@ -316,5 +326,6 @@ function dtInitCommunity() {
             },
         ]
     })
+    obj.dtUsersTable = dtUsersTable
 }
 </script>

@@ -1,6 +1,7 @@
 <script>
 function notechart() {return {
     notechart: {file: {}},
+    user_id: null,
     async get() {
 		let response = await _get('<%= api_url %>/notecharts/<%= params.notechart_id %>', {
             file: true,
@@ -8,10 +9,15 @@ function notechart() {return {
         if (!response.ok) return
 		this.notechart = (await response.json()).notechart
 
-        dtInitNotechart()
+        dtInitNotechart(this)
     },
     yourRow() {
-        table.row(0).scrollTo(false);
+        if (this.user_id) {
+            this.user_id = null
+        } else {
+            this.user_id = <%= session.user_id or "null" %>
+        }
+        this.dtScores.ajax.reload()
     },
 }}
 </script>
@@ -108,7 +114,7 @@ function notechart() {return {
                 <div id="scores-insert-bottom" hidden>
                     <div class="col">
                         <form class="table-form table-form-bottom" action="javascript:void(0);">
-                            <button type="submit" class="btn bg-blue bg-blue-h">Your row</button>
+                            <button class="btn bg-blue bg-blue-h" @click="yourRow">Your row</button>
                         </form>
                     </div>
                 </div>
@@ -152,7 +158,7 @@ function notechart() {return {
 
 
 <script>
-function dtInitNotechart() {
+function dtInitNotechart(obj) {
     dtInit(document.querySelector("#notechart-difftables-table"), {
         ...dtAllOptions,
         serverSide: true,
@@ -172,7 +178,7 @@ function dtInitNotechart() {
             {render(d, t, row) {return row.difftable.scores_count}},
         ]
     })
-    dtInit(document.querySelector("#notechart-scores-table"), {
+    obj.dtScores = dtInit(document.querySelector("#notechart-scores-table"), {
         ...dtAllOptions,
         serverSide: true,
         ajax: {
@@ -181,10 +187,11 @@ function dtInitNotechart() {
             data(d) {
                 d.user = true
                 d.modifierset = true
+                d.user_id = obj.user_id
             }
         },
         columns: [
-            {render(d, t, row) {return "rank"}},
+            {render(d, t, row) {return row.rank}},
             {render(d, t, row) {return userLink(row.user)}},
             {render(d, t, row) {return row.rating}},
             {render(d, t, row) {return row.score}},

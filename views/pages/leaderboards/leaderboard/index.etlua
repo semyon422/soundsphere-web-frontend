@@ -4,6 +4,7 @@ function leaderboard() {return {
     leaderboard_communities: [],
     leaderboard_communities_sum_rating: 1,
     community_colors: ["red", "teal", "blue"],
+    user_id: null,
     async get() {
 		let response = await _get('<%= api_url %>/leaderboards/<%= params.leaderboard_id %>', {
             users: false,
@@ -26,10 +27,18 @@ function leaderboard() {return {
             this.leaderboard_communities_sum_rating += leaderboard_community.total_rating
         }
 
-        dtInitLeaderboard()
+        dtInitLeaderboard(this)
     },
     async addToCommunity(community_id) {
 		await _put(`<%= api_url %>/communities/${community_id}/leaderboards/<%= params.leaderboard_id %>`)
+    },
+    yourRow() {
+        if (this.user_id) {
+            this.user_id = null
+        } else {
+            this.user_id = <%= session.user_id or "null" %>
+        }
+        this.dtUsersTable.ajax.reload()
     },
 }}
 </script>
@@ -221,7 +230,7 @@ function leaderboard() {return {
                 <div id="ranking-insert-bottom" hidden>
                     <div class="col">
                         <form class="table-form table-form-bottom" action="javascript:void(0);">
-                            <button type="submit" class="btn bg-blue bg-blue-h">Your row</button>
+                            <button type="submit" class="btn bg-blue bg-blue-h" @click="yourRow">Your row</button>
                         </form>
                     </div>
                 </div>
@@ -252,7 +261,7 @@ function leaderboard() {return {
 
 
 <script>
-function dtInitLeaderboard() {
+function dtInitLeaderboard(obj) {
     dtInit(document.querySelector("#leaderboard-communities-table"), {
         ...dtColOptions,
         serverSide: true,
@@ -309,6 +318,7 @@ function dtInitLeaderboard() {
             data(d) {
                 d.user = true
                 d.community_id = parseInt($("#ranking-community").val())
+                d.user_id = obj.user_id
             }
         },
         initComplete(settings, json) {
@@ -323,5 +333,6 @@ function dtInitLeaderboard() {
             {render(d, t, row) {return formatDate(row.latest_score_submitted_at)}},
         ]
     })
+    obj.dtUsersTable = dtUsersTable
 }
 </script>
