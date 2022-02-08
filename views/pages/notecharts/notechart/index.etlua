@@ -1,6 +1,7 @@
 <script>
 function notechart() {return {
     notechart: {file: {}},
+    leaderboard_scores: [],
     user_id: null,
     async get() {
 		let response = await _get('<%= api_url %>/notecharts/<%= params.notechart_id %>', {
@@ -8,6 +9,12 @@ function notechart() {return {
         })
         if (!response.ok) return
 		this.notechart = (await response.json()).notechart
+
+		response = await _get('<%= api_url %>/notecharts/<%= params.notechart_id %>/leaderboards', {
+            leaderboard: true,
+        })
+        if (!response.ok) return
+		this.leaderboard_scores = (await response.json()).leaderboard_scores
 
         dtInitNotechart(this)
     },
@@ -90,11 +97,11 @@ function notechart() {return {
                 <div id="scores-insert-top" hidden>
                     <div class="col">
                         <form class="table-form table-form-top">
-                            <select class="form-select form-select-sm" id="scores-leaderboard" name="leaderboard" title="Only show scores from this leaderboard">
-                                <option selected>All leaderboards</option>
-                                <option value="Leaderboard1">Leaderboard1</option>
-                                <option value="Leaderboard2">Leaderboard2</option>
-                                <option value="Leaderboard3">Leaderboard3</option>
+                            <select id="scores-leaderboard" class="form-select form-select-sm" id="scores-leaderboard" name="leaderboard" title="Only show scores from this leaderboard">
+                                <option value="" selected>All leaderboards</option>
+                                <template x-for="leaderboard_score in leaderboard_scores">
+                                    <option :value="leaderboard_score.leaderboard_id" x-text="leaderboard_score.leaderboard.name"></option>
+                                </template>
                             </select>
                         </form>
                     </div>
@@ -178,7 +185,8 @@ function dtInitNotechart(obj) {
             {render(d, t, row) {return row.difftable.scores_count}},
         ]
     })
-    obj.dtScores = dtInit(document.querySelector("#notechart-scores-table"), {
+    var dtScores
+    dtScores = dtInit(document.querySelector("#notechart-scores-table"), {
         ...dtAllOptions,
         serverSide: true,
         ajax: {
@@ -187,8 +195,14 @@ function dtInitNotechart(obj) {
             data(d) {
                 d.user = true
                 d.modifierset = true
+                d.leaderboard_id = parseInt($("#scores-leaderboard").val())
                 d.user_id = obj.user_id
             }
+        },
+        initComplete(settings, json) {
+            $("#scores-leaderboard").change(() => {
+                dtScores.ajax.reload(null, false)
+            })
         },
         columns: [
             {render(d, t, row) {return row.rank}},
@@ -212,5 +226,6 @@ function dtInitNotechart(obj) {
             },
         ]
     })
+    obj.dtScores = dtScores
 }
 </script>
