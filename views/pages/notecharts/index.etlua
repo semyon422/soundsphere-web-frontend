@@ -65,7 +65,7 @@ ready(() =>
                 return ''
             }},
             {data: "song_title"},
-            {data: "difficulty_name"},
+            {render(d, t, row) {return notechartLink(row)}},
             {data: "level"},
             {data: "difficulty_creator"},
             {data: "song_artist"},
