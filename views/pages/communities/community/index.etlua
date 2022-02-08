@@ -292,6 +292,7 @@ function dtInitCommunity(obj) {
             data(d) {
                 d.staff = $("#members-only-show-admins").is(':checked') ? true : false
                 d.user = true
+                d.user_inputmodes = true
                 d.leaderboard_id = parseInt($("#members-leaderboard").val())
                 d.user_id = obj.user_id
             }
@@ -309,8 +310,8 @@ function dtInitCommunity(obj) {
             {render(d, t, row) {return '#' + row.rank}},
             {data: "id"},
             {render(d, t, row) {return userLink(row.user)}},
-            {render(d, t, row) {return formatScore(row.total_rating) || 0}},
-            {render(d, t, row) {return ""}},
+            {render(d, t, row) {return formatScore(row.total_rating || 0, 1, 2)}},
+            {render(d, t, row) {return inputmodesToString(row.user.user_inputmodes)}},
             {render(d, t, row) {return row.scores_count || 0}},
             {render(d, t, row) {return formatDate(row.latest_score_submitted_at)}},
             {

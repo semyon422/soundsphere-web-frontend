@@ -40,8 +40,7 @@ ready(() =>
             url: "/dt/users",
             type: "POST",
             data(d) {
-                d.nputmodes = true
-                d.oles = true
+                d.user_inputmodes = true
             }
         },
         columns: [
