@@ -121,7 +121,9 @@ function user_edit() {return {
                     </div>
 
                     <button type="submit" class="btn bg-blue bg-blue-h" @click="patch">Save</button>
+                    <% --[[ %>
                     <a href="#!" class="btn bg-red bg-red-h float-end" data-bs-toggle="modal" data-bs-target="#confirm-delete-modal">Delete</a>
+                    <% ]] %>
                 </form>
             </section>
         </div>
