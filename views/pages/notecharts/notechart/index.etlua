@@ -193,9 +193,9 @@ function dtInitNotechart(obj) {
         columns: [
             {render(d, t, row) {return row.rank}},
             {render(d, t, row) {return userLink(row.user)}},
-            {render(d, t, row) {return row.rating}},
+            {render(d, t, row) {return formatScore(row.rating, 1, 2)}},
             {render(d, t, row) {return row.score}},
-            {render(d, t, row) {return row.accuracy}},
+            {render(d, t, row) {return formatScore(row.accuracy, 1000, 2)}},
             {render(d, t, row) {return row.misses_count}},
             {render(d, t, row) {return row.inputmode}},
             {render(d, t, row) {return row.modifierset.displayed}},

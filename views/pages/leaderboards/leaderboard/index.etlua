@@ -276,7 +276,7 @@ function dtInitLeaderboard(obj) {
             {render() {return '#0'}},
             {render() {return ''}},
             {render(d, t, row) {return communityLink(row.community)}},
-            {render(d, t, row) {return row.total_rating}},
+            {render(d, t, row) {return formatScore(row.total_rating, 1, 2)}},
             {render(d, t, row) {return row.is_public ? 'Yes' : 'No'}},
             {
                 className: 'table-icon-cell',
@@ -329,7 +329,7 @@ function dtInitLeaderboard(obj) {
         columns: [
             {data: "rank"},
             {render(d, t, row) {return userLink(row.user)}},
-            {data: "total_rating"},
+            {render(d, t, row) {return formatScore(row.total_rating, 1, 2)}},
             {render(d, t, row) {return formatDate(row.latest_score_submitted_at)}},
         ]
     })

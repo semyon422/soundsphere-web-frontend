@@ -114,6 +114,11 @@ function formatDate(time) {
 	return new Date(time * 1e3).toLocaleString()
 }
 
+function formatScore(score, mul, digits) {
+	if (!score) return ""
+	return (score * mul).toFixed(digits)
+}
+
 async function _get(url, obj) {
 	let params = obj ? encode_get_params(obj) : ''
 	let response = await fetch(url + params, {
