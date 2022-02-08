@@ -2,8 +2,10 @@
 function createDIfftableModal() {return {
     community_users: [],
     selected_community_id: 0,
+    user_id: <%= session.user_id or "null" %>,
     async getCommunities() {
-		let response = await _get('<%= api_url %>/users/<%= session.user_id %>/communities', {
+        if (!this.user_id) return
+		let response = await _get(`<%= api_url %>/users/${this.user_id}/communities`, {
             is_admin: true,
             community: true,
         })
