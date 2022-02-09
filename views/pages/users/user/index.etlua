@@ -420,7 +420,7 @@ function dtInitUser(obj) {
             },
             {render(d, t, row) {return leaderboardLink(row.leaderboard)}},
             {render(d, t, row) {return inputmodesToString(row.leaderboard.leaderboard_inputmodes)}},
-            {render(d, t, row) {return '#0'}},
+            {render(d, t, row) {return '#' + row.rank}},
             {
                 className: 'table-icon-row',
                 render(data, type, row, meta) {
