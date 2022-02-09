@@ -273,7 +273,7 @@ function dtInitLeaderboard(obj) {
             }
         },
         columns: [
-            {render() {return '#0'}},
+            {render(d, t, row) {return '#' + row.rank}},
             {render() {return ''}},
             {render(d, t, row) {return communityLink(row.community)}},
             {render(d, t, row) {return formatScore(row.total_rating, 1, 2)}},
