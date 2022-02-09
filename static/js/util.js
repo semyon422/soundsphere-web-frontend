@@ -105,6 +105,10 @@ function rolesToHtml(roles) {
 	return Array.isArray(roles) ? roles.map((i) => rolesMap[i.role]).join(', ') : ''
 }
 
+function userCommunitiesToHtml(user_communities) {
+	return Array.isArray(user_communities) ? user_communities.map((i) => communityAliasLink(i.community)).join(', ') : ''
+}
+
 function toArray(a) {
 	return Array.isArray(a) ? a : []
 }
@@ -197,6 +201,13 @@ function userLink(user) {
 function communityLink(community) {
 	if (community) {
 		return '<a href="/communities/' + community.id + '">' + community.name + '</a>'
+	}
+	return ''
+}
+
+function communityAliasLink(community) {
+	if (community) {
+		return '<a href="/communities/' + community.id + '">' + community.alias + '</a>'
 	}
 	return ''
 }
