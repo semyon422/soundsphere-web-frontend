@@ -9,9 +9,8 @@ function login() {return {
         if (!this.$refs.form.checkValidity()) return
         this.user.recaptcha_token = await grecaptcha.execute('<%= recaptcha_site_key %>', {action: 'login'})
         let response = await _post('<%= api_url %>/auth/login', this.user)
-        if (!response.ok) return
+        if (!response.ok) return set_error_message(this.$refs.form_invalid_message, await response.json())
 		let response_json = await response.json()
-        set_error_message(this.$refs.form_invalid_message, response_json)
         if (!response_json.token) return console.log(response_json)
         document.location.href = '/home'
     },

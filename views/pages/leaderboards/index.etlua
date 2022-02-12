@@ -6,7 +6,7 @@ function leaderboards() {return {
     async get() {
 		let response = await _get('<%= access_url %>/leaderboards')
         if (!response.ok) return
-		this.methods = (await response.json()).methods
+		this.methods = (await response.json()).__methods
         dtInitLeaderboards()
     },
     async addToCommunity(community_id) {

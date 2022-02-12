@@ -14,7 +14,7 @@ function community() {return {
         if (!response.ok) return
 		let response_json = await response.json()
 		this.community = response_json.community
-		this.methods = response_json.methods
+		this.methods = response_json.__methods
 
 		response = await _get('<%= api_url %>/communities/<%= params.community_id %>/leaderboards', {
             leaderboard: true,
@@ -27,7 +27,7 @@ function community() {return {
     async getLeave() {
 		let response = await _get('<%= access_url %>/communities/<%= params.community_id %>/users/<%= session.user_id %>')
         if (!response.ok) return
-		this.user_methods = (await response.json()).methods
+		this.user_methods = (await response.json()).__methods
     },
     async addToCommunity(community_id) {
 		await _put(`<%= api_url %>/communities/${community_id}/leaderboards/${this.selected_leaderboard_id}`)

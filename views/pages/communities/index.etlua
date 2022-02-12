@@ -8,7 +8,7 @@ function communities() {return {
     async get() {
 		let response = await _get('<%= access_url %>/communities')
         if (!response.ok) return
-		this.methods = (await response.json()).methods
+		this.methods = (await response.json()).__methods
         this.dtCommunities = dtInitCommunities()
     },
     async join_community(community_id) {

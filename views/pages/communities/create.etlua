@@ -7,24 +7,32 @@ function communities_create() {return {
         short_description: '',
         description: '',
         banner: '',
-        is_public: false,
+        is_public: true,
+    },
+    methods: {},
+    disabled: {},
+	async get() {
+		let response = await _get('<%= access_url %>/communities')
+        if (!response.ok) return
+		var response_json = await response.json()
+		this.methods = response_json.__methods
+		this.disabled = response_json.__disabled
     },
 	async post() {
         if (!this.$refs.form.checkValidity()) return
 		let response = await _post('<%= api_url %>/communities', {community: this.community})
-        if (!response.ok) return
+        if (!response.ok) return set_error_message(this.$refs.form_invalid_message, await response.json())
         let response_json = await response.json()
         if (response.status == 201) {
             document.location.href = '/communities/' + response_json.id
             return
         }
-        set_error_message(this.$refs.form_invalid_message, response_json)
 	},
 }}
 </script>
 
 
-<div id="communities-create" x-data="communities_create">
+<div id="communities-create" x-data="communities_create" x-init="get">
     <main class="container-lg">
         <div id="main-box">
             <nav class="navbar-expand page-icons page-icons-left page-icons-never-collapsed">
@@ -75,12 +83,12 @@ function communities_create() {return {
 
                     <div class="form-item">
                         <label for="banner" class="form-label" title="The uploaded image will be blurred and shown behind your community page">Blurred banner image</label>
-                        <input type="file" class="form-control input-image" id="banner" name="banner" accept=".png, .jpg, .jpeg" x-model="community.banner">
+                        <input :disabled="disabled.POST.community.banner" type="file" class="form-control input-image" id="banner" name="banner" accept=".png, .jpg, .jpeg" x-model="community.banner">
                     </div>
 
                     <div class="form-item form-check">
                         <label for="is-public" class="form-check-label" title="Anyone can join public communities. Private communities have an invite system.">The community is public.</label>
-                        <input type="checkbox" class="form-check-input" id="is-public" name="is-public" checked x-model="community.is_public">
+                        <input :disabled="disabled.POST.community.is_public" type="checkbox" class="form-check-input" id="is-public" name="is-public" x-model="community.is_public">
                     </div>
 
                     <div class="form-item">

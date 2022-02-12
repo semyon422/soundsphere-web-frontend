@@ -5,13 +5,18 @@ function leaderboard_edit() {return {
     selected_inputmode: {},
     selected_difftable: {},
     selected_requirement: {},
+    methods: {},
+    disabled: {},
     async get() {
 		let response = await _get('<%= api_url %>/leaderboards/<%= params.leaderboard_id %>', {
             inputmodes: true,
             requirements: true,
         })
         if (!response.ok) return
-		this.leaderboard = (await response.json()).leaderboard
+		var response_json = await response.json()
+		this.methods = response_json.__methods
+		this.disabled = response_json.__disabled
+		this.leaderboard = response_json.leaderboard
 
 		response = await _get('<%= api_url %>/leaderboards/<%= params.leaderboard_id %>/difftables', {
             difftable: true,
@@ -97,45 +102,40 @@ function leaderboard_edit() {return {
 
                     <div class="form-item">
                         <label for="notechart-diff-calc" class="form-label form-required" title="Decides the difficulty of the charts. The difficulty changes how much performance rating players get.">Chart difficulty calculator</label>
-                        <select class="form-select" id="notechart-diff-calc" name="notechart-diff-calc" required>
-                            <option value="table-level" selected>Table level</option>
-                            <option value="soundsphere">soundsphere</option>
-                            <option value="osu">osu!</option>
+                        <select class="form-select" id="notechart-diff-calc" name="notechart-diff-calc" required x-model="leaderboard.difficulty_calculator">
+                            <option value="enps" selected>soundsphere (enps)</option>
+                            <option value="difftable">Table level</option>
                         </select>
                     </div>
 
                     <div class="form-item">
                         <label for="score-pr-calc" class="form-label form-required" title="Decides how good a score is. The impressiveness changes how much performance rating a player gets.">Score PR calculator</label>
-                        <select class="form-select" id="score-pr-calc" name="score-pr-calc" required>
-                            <option value="soundsphere" selected>soundsphere</option>
-                            <option value="osu">osu!</option>
-                            <option value="sdvx">SOUND VOLTEX</option>
+                        <select class="form-select" id="score-pr-calc" name="score-pr-calc" required x-model="leaderboard.rating_calculator">
+                            <option value="acc_inv_erf" selected>soundsphere (acc_inv_erf 32ms)</option>
                         </select>
                     </div>
 
                     <div class="form-item">
                         <label for="score-combiner" class="form-label form-required" title="Decides how the performance rating of scores are combined to get the total performance rating of a player. It changes the order of the leaderboard.">Score combiner</label>
-                        <select class="form-select" id="score-combiner" name="score-combiner" required>
-                            <option value="logarithmic" selected>Logarithmic</option>
+                        <select class="form-select" id="score-combiner" name="score-combiner" required x-model="leaderboard.scores_combiner">
+                            <option value="average" selected>Average</option>
                             <option value="additive">Additive</option>
-                            <option value="osu">osu!</option>
-                            <option value="sdvx">SOUND VOLTEX</option>
+                            <option value="logarithmic">Logarithmic</option>
                         </select>
                     </div>
 
                     <div class="form-item">
                         <label for="community-combiner" class="form-label form-required" title="Decides how the member prs are combined to get the total performance rating of a community">Community combiner</label>
-                        <select class="form-select" id="community-combiner" name="community-combiner" required>
-                            <option value="logarithmic" selected>Logarithmic</option>
+                        <select class="form-select" id="community-combiner" name="community-combiner" required x-model="leaderboard.communities_combiner">
+                            <option value="average" selected>Average</option>
                             <option value="additive">Additive</option>
-                            <option value="osu">osu!</option>
-                            <option value="sdvx">SOUND VOLTEX</option>
+                            <option value="logarithmic">Logarithmic</option>
                         </select>
                     </div>
 
                     <div class="form-item">
                         <label for="banner" class="form-label" title="The uploaded image will be blurred and shown behind your leaderboard page">Blurred banner image</label>
-                        <input type="file" class="form-control input-image" id="banner" name="banner" accept=".png, .jpg, .jpeg" @change="updateBanner">
+                        <input :disabled="disabled.POST.leaderboard.banner" type="file" class="form-control input-image" id="banner" name="banner" accept=".png, .jpg, .jpeg" @change="updateBanner">
                     </div>
 
                     <div class="form-item">

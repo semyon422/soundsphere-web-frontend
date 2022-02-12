@@ -4,45 +4,54 @@ function leaderboards_create() {return {
         name: '',
         description: '',
         banner: '',
-        inputmodes: [],
-        difftables: [],
-        modifiers: [],
+        leaderboard_inputmodes: [],
+        leaderboard_difftables: [],
+        leaderboard_requirements: [],
+        owner_community_id: <%= params.community_id %>,
     },
-    selected_inputmode: '',
+    selected_inputmode: {},
     selected_difftable: {},
-    selected_modifier: {},
+    selected_requirement: {},
+    methods: {},
+    disabled: {},
+	async get() {
+		let response = await _get('<%= access_url %>/leaderboards')
+        if (!response.ok) return
+		var response_json = await response.json()
+		this.methods = response_json.__methods
+		this.disabled = response_json.__disabled
+    },
 	async post() {
         if (!this.$refs.form.checkValidity()) return
 		let response = await _post('<%= api_url %>/leaderboards', {
             leaderboard: this.leaderboard,
-            community_id: <%= params.community_id %>,
         })
-        if (!response.ok) return
+        if (!response.ok) return set_error_message(this.$refs.form_invalid_message, await response.json())
 		document.location.href = '/communities/<%= params.community_id %>'
 	},
     async addInputmode(inputmode) {
-        this.leaderboard.inputmodes.push(inputmode)
+        this.leaderboard.leaderboard_inputmodes.push(inputmode)
     },
     async removeInputmode(inputmode) {
-        this.leaderboard.inputmodes = this.leaderboard.inputmodes.filter(item => item !== inputmode)
+        this.leaderboard.leaderboard_inputmodes = this.leaderboard.leaderboard_inputmodes.filter(item => item !== inputmode)
     },
     async addDifftable(difftable) {
-        this.leaderboard.difftables.push(difftable)
+        this.leaderboard.leaderboard_difftables.push(difftable)
     },
     async removeDifftable(difftable) {
-        this.leaderboard.difftables = this.leaderboard.difftables.filter(item => item.id !== difftable.id)
+        this.leaderboard.leaderboard_difftables = this.leaderboard.leaderboard_difftables.filter(item => item !== difftable)
     },
-    async addModifier(modifier) {
-        this.leaderboard.modifiers.push(modifier)
+    async addModifier(requirement) {
+        this.leaderboard.leaderboard_requirements.push(requirement)
     },
-    async removeModifier(modifier) {
-        this.leaderboard.modifiers = this.leaderboard.modifiers.filter(item => item !== modifier)
+    async removeModifier(requirement) {
+        this.leaderboard.leaderboard_requirements = this.leaderboard.leaderboard_requirements.filter(item => item !== requirement)
     },
 }}
 </script>
 
 
-<div id="leaderboards-create" x-data="leaderboards_create">
+<div id="leaderboards-create" x-data="leaderboards_create" x-init="get">
     <main class="container-lg">
         <div id="main-box">
             <nav class="navbar-expand page-icons page-icons-left page-icons-never-collapsed">
@@ -63,7 +72,7 @@ function leaderboards_create() {return {
             <% render("views.components.modals.delete", {id = "delete-modifier-modal", delete = "removeModifier(selected_modifier)"}) %>
             <% render("views.components.modals.delete") %>
             <% render("views.components.modals.add-modifier") %>
-            <% render("views.components.modals.edit-modifier", {modifier = "selected_modifier"}) %>
+            <% render("views.components.modals.edit-modifier", {modifier = "selected_requirement"}) %>
             <% render("views.components.modals.add-difftable") %>
             <% render("views.components.modals.confirm-delete") %>
             <% render("views.components.modals.add-input-mode") %>
@@ -81,45 +90,40 @@ function leaderboards_create() {return {
 
                     <div class="form-item">
                         <label for="notechart-diff-calc" class="form-label form-required" title="Decides the difficulty of the charts. The difficulty changes how much performance rating players get.">Chart difficulty calculator</label>
-                        <select class="form-select" id="notechart-diff-calc" name="notechart-diff-calc" required>
-                            <option value="table-level" selected>Table level</option>
-                            <option value="soundsphere">soundsphere</option>
-                            <option value="osu">osu!</option>
+                        <select class="form-select" id="notechart-diff-calc" name="notechart-diff-calc" required x-model="leaderboard.difficulty_calculator">
+                            <option value="enps" selected>soundsphere (enps)</option>
+                            <option value="difftable">Table level</option>
                         </select>
                     </div>
 
                     <div class="form-item">
                         <label for="score-pr-calc" class="form-label form-required" title="Decides how good a score is. The impressiveness changes how much performance rating a player gets.">Score PR calculator</label>
-                        <select class="form-select" id="score-pr-calc" name="score-pr-calc" required>
-                            <option value="soundsphere" selected>soundsphere</option>
-                            <option value="osu">osu!</option>
-                            <option value="sdvx">SOUND VOLTEX</option>
+                        <select class="form-select" id="score-pr-calc" name="score-pr-calc" required x-model="leaderboard.rating_calculator">
+                            <option value="acc_inv_erf" selected>soundsphere (acc_inv_erf 32ms)</option>
                         </select>
                     </div>
 
                     <div class="form-item">
                         <label for="score-combiner" class="form-label form-required" title="Decides how the performance rating of scores are combined to get the total performance rating of a player. It changes the order of the leaderboard.">Score combiner</label>
-                        <select class="form-select" id="score-combiner" name="score-combiner" required>
-                            <option value="logarithmic" selected>Logarithmic</option>
+                        <select class="form-select" id="score-combiner" name="score-combiner" required x-model="leaderboard.scores_combiner">
+                            <option value="average" selected>Average</option>
                             <option value="additive">Additive</option>
-                            <option value="osu">osu!</option>
-                            <option value="sdvx">SOUND VOLTEX</option>
+                            <option value="logarithmic">Logarithmic</option>
                         </select>
                     </div>
 
                     <div class="form-item">
                         <label for="community-combiner" class="form-label form-required" title="Decides how the member prs are combined to get the total performance rating of a community">Community combiner</label>
-                        <select class="form-select" id="community-combiner" name="community-combiner" required>
-                            <option value="logarithmic" selected>Logarithmic</option>
+                        <select class="form-select" id="community-combiner" name="community-combiner" required x-model="leaderboard.communities_combiner">
+                            <option value="average" selected>Average</option>
                             <option value="additive">Additive</option>
-                            <option value="osu">osu!</option>
-                            <option value="sdvx">SOUND VOLTEX</option>
+                            <option value="logarithmic">Logarithmic</option>
                         </select>
                     </div>
 
                     <div class="form-item">
                         <label for="banner" class="form-label" title="The uploaded image will be blurred and shown behind your leaderboard page">Blurred banner image</label>
-                        <input type="file" class="form-control input-image" id="banner" name="banner" accept=".png, .jpg, .jpeg">
+                        <input :disabled="disabled.POST.leaderboard.banner" type="file" class="form-control input-image" id="banner" name="banner" accept=".png, .jpg, .jpeg">
                     </div>
 
                     <div class="form-item">
@@ -132,11 +136,11 @@ function leaderboards_create() {return {
                         <table class="data-table data-table-col data-table-nohead table table-icon-col-last">
                             <thead><tr> <th></th> <th></th> </tr></thead>
                             <tbody>
-                                <template x-for="inputmode in leaderboard.inputmodes">
+                                <template x-for="leaderboard_inputmode in leaderboard.leaderboard_inputmodes">
                                     <tr>
-                                        <td x-text="inputmode"></td>
+                                        <td x-text="leaderboard_inputmode.inputmode"></td>
                                         <td class="table-icon-cell">
-                                            <a href="#!" class="table-icon table-icon-l red red-h" title="Remove input mode" data-bs-toggle="modal" data-bs-target="#delete-inputmode-modal" @click="selected_inputmode = inputmode">
+                                            <a href="#!" class="table-icon table-icon-l red red-h" title="Remove input mode" data-bs-toggle="modal" data-bs-target="#delete-inputmode-modal" @click="selected_inputmode = leaderboard_inputmode">
                                                 <i class="fas fa-times"></i>
                                             </a>
                                         </td>
@@ -163,16 +167,16 @@ function leaderboards_create() {return {
                                 </tr>
                             </thead>
                             <tbody>
-                                <template x-for="modifier in leaderboard.modifiers">
+                                <template x-for="leaderboard_requirement in leaderboard.leaderboard_requirements">
                                     <tr>
-                                        <td x-text="modifier.name"></td>
-                                        <td x-text="modifier.value"></td>
-                                        <td x-text="modifier.rule"></td>
+                                        <td x-text="leaderboard_requirement.key"></td>
+                                        <td x-text="leaderboard_requirement.value"></td>
+                                        <td x-text="leaderboard_requirement.rule"></td>
                                         <td class="table-icon-cell">
-                                            <a href="#!" class="table-icon table-icon-s orange orange-h" title="Edit modifier" data-bs-toggle="modal" data-bs-target="#edit-modifier-modal" @click="selected_modifier = modifier">
+                                            <a href="#!" class="table-icon table-icon-s orange orange-h" title="Edit modifier" data-bs-toggle="modal" data-bs-target="#edit-modifier-modal" @click="selected_requirement = leaderboard_requirement">
                                                 <i class="fas fa-pen"></i>
                                             </a>
-                                            <a href="#!" class="table-icon table-icon-l red red-h" title="Remove modifier" data-bs-toggle="modal" data-bs-target="#delete-modifier-modal" @click="selected_modifier = modifier">
+                                            <a href="#!" class="table-icon table-icon-l red red-h" title="Remove modifier" data-bs-toggle="modal" data-bs-target="#delete-modifier-modal" @click="selected_requirement = leaderboard_requirement">
                                                 <i class="fas fa-times"></i>
                                             </a>
                                         </td>
@@ -192,11 +196,11 @@ function leaderboards_create() {return {
                         <table class="data-table data-table-col data-table-nohead table table-icon-col-last" id="difftables">
                             <thead><tr> <th></th> <th></th> </tr></thead>
                             <tbody>
-                                <template x-for="difftable in leaderboard.difftables">
+                                <template x-for="leaderboard_difftable in leaderboard.leaderboard_difftables">
                                     <tr>
-                                    <td><a :href="'<%= url_for("difftable", {difftable_id = "difftable.id"}) %>'" x-text="difftable.name"></a></td>
+                                    <td><a :href="`<%= url_for("difftable", {difftable_id = "${leaderboard_difftable.difftable_id}"}) %>`" x-text="leaderboard_difftable.difftable.name"></a></td>
                                     <td class="table-icon-cell">
-                                        <a href="#!" class="table-icon table-icon-l red red-h" title="Remove table" data-bs-toggle="modal" data-bs-target="#delete-difftable-modal" @click="selected_difftable = difftable">
+                                        <a href="#!" class="table-icon table-icon-l red red-h" title="Remove table" data-bs-toggle="modal" data-bs-target="#delete-difftable-modal" @click="selected_difftable = leaderboard_difftable">
                                             <i class="fas fa-times"></i>
                                         </a>
                                     </td>
@@ -204,6 +208,10 @@ function leaderboards_create() {return {
                                 </template>
                             </tbody>
                         </table>
+                    </div>
+
+                    <div class="form-item">
+                        <div class="form-invalid-message" x-ref="form_invalid_message"></div>
                     </div>
 
                     <button type="submit" class="btn bg-blue bg-blue-h" @click="post">Create</button>

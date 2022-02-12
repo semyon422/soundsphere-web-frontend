@@ -1,6 +1,8 @@
 <script>
 function user() {return {
     user: {},
+    methods: [],
+    disabled: {},
     leaderboard_users: [],
     leaderboard_difftables: [],
     pending_count: 0,
@@ -8,11 +10,15 @@ function user() {return {
     selected_difftable_id: null,
     async get() {
 		let response = await _get('<%= api_url %>/users/<%= params.user_id %>', {
+            methods: true,
             inputmodes: true,
             roles: true,
         })
         if (!response.ok) return
-		this.user = (await response.json()).user
+		var response_json = await response.json()
+		this.user = response_json.user
+		this.methods = response_json.__methods
+		this.disabled = response_json.__disabled
 
 		response = await _get('<%= api_url %>/users/<%= params.user_id %>/communities', {
             no_data: true,

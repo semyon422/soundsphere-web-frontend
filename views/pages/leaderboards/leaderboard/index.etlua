@@ -1,6 +1,7 @@
 <script>
 function leaderboard() {return {
     leaderboard: {},
+    methods: {},
     leaderboard_communities: [],
     leaderboard_communities_sum_rating: 1,
     community_colors: ["red", "teal", "blue"],
@@ -14,7 +15,9 @@ function leaderboard() {return {
             requirements: true,
         })
         if (!response.ok) return
-		this.leaderboard = (await response.json()).leaderboard
+		let response_json = await response.json()
+		this.leaderboard = response_json.leaderboard
+		this.methods = response_json.__methods
 
 		response = await _get('<%= api_url %>/leaderboards/<%= params.leaderboard_id %>/communities', {
             community: true,
@@ -90,7 +93,7 @@ function leaderboard() {return {
                             </div>
                         </a>
 
-                        <a href="<%= url_for("leaderboard.edit", params) %>" class="page-icon" title="leaderboard settings">
+                        <a x-show="methods.includes('PATCH')" href="<%= url_for("leaderboard.edit", params) %>" class="page-icon" title="leaderboard settings">
                             <span class="page-icon-text">Settings</span>
                             <div class="page-icon-box">
                                 <i class="fas fa-cog"></i>

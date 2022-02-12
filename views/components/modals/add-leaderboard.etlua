@@ -13,7 +13,7 @@ function addLeaderboardsModal() {return {
 		this.community_users = (await response.json()).community_users
     },
     _add() {
-        this.addToCommunity(selected_community_id)
+        this.addToCommunity(this.selected_community_id)
     }
 }}
 </script>

@@ -5,7 +5,7 @@ function difftables() {return {
     async get() {
 		let response = await _get('<%= access_url %>/difftables')
         if (!response.ok) return
-		this.methods = (await response.json()).methods
+		this.methods = (await response.json()).__methods
         dtInitDifftables()
     },
     async addToCommunity(community_id) {
