@@ -102,7 +102,7 @@ var rolesMap = {
 }
 
 function rolesToHtml(roles) {
-	return Array.isArray(roles) ? roles.map((i) => rolesMap[i.role]).join(', ') : ''
+	return Array.isArray(roles) ? roles.filter((i) => !i.is_expired).map((i) => rolesMap[i.role]).join(', ') : ''
 }
 
 function userCommunitiesToHtml(user_communities) {
