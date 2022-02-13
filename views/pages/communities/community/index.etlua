@@ -26,6 +26,14 @@ function community() {return {
 		this.pending_count = (await response.json()).filtered
 
 		response = await _get('<%= api_url %>/communities/<%= params.community_id %>/leaderboards', {
+            no_data: true,
+            incoming: true,
+            outgoing: true,
+        })
+        if (!response.ok) return
+		this.pending_count = this.pending_count + (await response.json()).filtered
+
+		response = await _get('<%= api_url %>/communities/<%= params.community_id %>/leaderboards', {
             leaderboard: true,
         })
         if (!response.ok) return
