@@ -8,6 +8,7 @@ function leaderboard() {return {
     user_id: null,
     async get() {
 		let response = await _get('<%= api_url %>/leaderboards/<%= params.leaderboard_id %>', {
+            methods: true,
             users: false,
             inputmodes: true,
             communities: false,
