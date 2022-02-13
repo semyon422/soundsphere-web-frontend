@@ -77,11 +77,11 @@ function dtInitCommunityChanges(obj) {
         },
         columns: [
             {render(d, t, row) {return formatDate(row.created_at)}},
-            {render(d, t, row) {return ""}},
             {
                 className: 'table-icon-cell',
-                render(d, t, row) {return userLink(row.user)}
+                render(d, t, row) {return ""}
             },
+            {render(d, t, row) {return userLink(row.user)}},
             {render(d, t, row) {
                 var link = getObjectLink(row)
                 if (row.change == "create") return "Created " + link
