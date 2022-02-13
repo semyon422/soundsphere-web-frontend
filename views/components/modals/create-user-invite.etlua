@@ -43,7 +43,7 @@ function createUserInviteModal() {return {
 
                     <div class="form-item">
                         <label for="create-user-invite-message" class="form-label" title="You can add the reason for the invite, or an identifier like a username from a different game etc.">Message</label>
-                        <input type="text" class="form-control" id="create-user-invite-message" name="message" maxlength="100">
+                        <input type="text" class="form-control" id="create-user-invite-message" name="message" maxlength="100" x-model="message">
                     </div>
                 </form>
             </div>

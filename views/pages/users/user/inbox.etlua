@@ -1,4 +1,28 @@
-<div id="user-inbox">
+<script>
+function userInbox() {return {
+    dtInit() {
+        dtInitInbox()
+    },
+    async acceptCommunity(community_id) {
+		let response = await _put(`<%= api_url %>/users/<%= params.user_id %>/communities/${community_id}`)
+        if (!response.ok) return
+		dtUsersRequests.ajax.reload()
+		dtUsersInvites.ajax.reload()
+    },
+    async denyCommunity(community_id) {
+		let response = await _delete(`<%= api_url %>/communities/${community_id}/users/<%= params.user_id %>`)
+        if (!response.ok) return
+		dtUsersRequests.ajax.reload()
+		dtUsersInvites.ajax.reload()
+    },
+    selectedCommunityId: 0,
+    denySelectedCommunity() {
+        this.denyCommunity(this.selectedCommunityId)
+    },
+}}
+</script>
+
+<div id="user-inbox" x-data="userInbox" x-init="dtInit" x-cloak>
     <main class="container-lg">
         <div id="main-box">
             <nav class="navbar-expand page-icons page-icons-left page-icons-never-collapsed">
@@ -14,11 +38,11 @@
             <h1>Inbox</h1>
 
 
-            <% render("views.components.modals.delete") %>
+            <% render("views.components.modals.delete", {id = "deny-community-modal", delete = "denySelectedCommunity"}) %>
             <section id="incoming-invites-section">
                 <h2>Incoming invites</h2>
 
-                <table class="data-table data-table-col table table-icon-col-last" data-orders="3d">
+                <table id="users-invitations-table" class="data-table data-table-col table table-icon-col-last" data-orders="3d">
                     <thead>
                         <tr>
                             <th title="Community name">Community</th>
@@ -29,25 +53,11 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td><a href="?a=communities_community_index">Community1</a></td>
-                            <td><a href="?a=users_user_index">Player1</a></td>
-                            <td>We are proud to invite you to the one and only first community!!</td>
-                            <td>20-07-21 12:16</td>
-                            <td class="table-icon-cell">
-                                <a href="#!" class="table-icon table-icon-l teal teal-h" title="Accept the invite. You will join the community.">
-                                    <i class="fas fa-check"></i>
-                                </a>
-                                <a href="#!" class="table-icon table-icon-l red red-h" title="Deny the invite. The community won't be able to send new invites." data-bs-toggle="modal" data-bs-target="#delete-modal">
-                                    <i class="fas fa-times"></i>
-                                </a>
-                            </td>
-                        </tr>
                     </tbody>
                 </table>
             </section>
 
-            <% render("views.components.modals.create-user-request") %>
+            <% render("views.components.modals.create-user-request", {send = "send().then(() => dtUsersRequests.ajax.reload())"}) %>
             <section id="outgoing-requests-section">
                 <h2>
                     Outgoing requests
@@ -56,7 +66,7 @@
                     </a>
                 </h2>
 
-                <table class="data-table data-table-col table table-icon-col-last" data-orders="2d">
+                <table id="users-requests-table" class="data-table data-table-col table table-icon-col-last" data-orders="2d">
                     <thead>
                         <tr>
                             <th title="Community name">Community</th>
@@ -66,19 +76,92 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td><a href="?a=communities_community_index">Community1</a></td>
-                            <td>Hey it's Bob from Bob's Burgers.</td>
-                            <td>20-07-21 12:16</td>
-                            <td class="table-icon-cell">
-                                <a href="#!" class="table-icon table-icon-l table-icon-hide red red-h" title="Cancel the request">
-                                    <i class="fas fa-times"></i>
-                                </a>
-                            </td>
-                        </tr>
                     </tbody>
                 </table>
             </section>
         </div>
     </main>
 </div>
+
+
+
+<script>
+function dtInitInbox() {
+    dtUsersInvites = dtInit(document.querySelector("#users-invitations-table"), {
+        ...dtColOptions,
+        serverSide: true,
+        ajax: {
+            url: "/dt/users/<%= params.user_id %>/communities",
+            type: "POST",
+            data(d) {
+                d.invitations = true
+                d.community = true
+                d.staff_user = true
+            }
+        },
+        columns: [
+            {render(d, t, row) {return communityLink(row.community)}},
+            {render(d, t, row) {return userLink(row.staff_user)}},
+            {data: "message"},
+            {render(d, t, row) {return formatDate(row.created_at)}},
+            {
+                className: 'table-icon-cell',
+                render(data, type, row, meta) {
+                    return `
+                        <a
+                            href="#!"
+                            class="table-icon table-icon-l teal teal-h"
+                            title="Accept the invite. You will join the community."
+                            @click="acceptCommunity(${row.community_id})"
+                        >
+                            <i class="fas fa-check"></i>
+                        </a>
+                        <a
+                            href="#!"
+                            class="table-icon table-icon-l red red-h"
+                            title="Deny the invite. The community won't be able to send new invites."
+                            data-bs-toggle="modal"
+                            data-bs-target="#deny-community-modal"
+                            @click="selectedCommunityId = ${row.community_id}"
+                        >
+                            <i class="fas fa-times"></i>
+                        </a>
+                    `
+                }
+            },
+        ]
+    })
+    dtUsersRequests = dtInit(document.querySelector("#users-requests-table"), {
+        ...dtColOptions,
+        serverSide: true,
+        ajax: {
+            url: "/dt/users/<%= params.user_id %>/communities",
+            type: "POST",
+            data(d) {
+                d.requests = true
+                d.community = true
+            }
+        },
+        columns: [
+            {render(d, t, row) {return communityLink(row.community)}},
+            {data: "message"},
+            {render(d, t, row) {return formatDate(row.created_at)}},
+            {
+                className: 'table-icon-cell',
+                render(data, type, row, meta) {
+                    return `
+                        <a
+                            href="#!"
+                            class="table-icon table-icon-l table-icon-hide red red-h"
+                            title="Cancel the request"
+                            @click="denyCommunity(${row.community_id})"
+                        >
+                            <i class="fas fa-times"></i>
+                        </a>
+                    `
+                }
+            },
+        ]
+    })
+}
+</script>

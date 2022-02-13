@@ -4,6 +4,7 @@ function community() {return {
     community_leaderboards: [],
     methods: [],
     user_methods: [],
+    pending_count: 0,
     selected_leaderboard_id: 0,
     user_id: null,
     async get() {
@@ -15,6 +16,14 @@ function community() {return {
 		let response_json = await response.json()
 		this.community = response_json.community
 		this.methods = response_json.__methods
+
+		response = await _get('<%= api_url %>/communities/<%= params.community_id %>/users', {
+            no_data: true,
+            invitations: true,
+            requests: true,
+        })
+        if (!response.ok) return
+		this.pending_count = (await response.json()).filtered
 
 		response = await _get('<%= api_url %>/communities/<%= params.community_id %>/leaderboards', {
             leaderboard: true,
@@ -86,7 +95,9 @@ function community() {return {
                             <span class="page-icon-text">Inbox</span>
                             <div class="page-icon-box">
                                 <i class="fas fa-inbox"></i>
-                                <div class="new-message-circle">3</div>
+                                <template x-if="pending_count > 0">
+                                    <div class="new-message-circle" x-text="pending_count"></div>
+                                </template>
                             </div>
                         </a>
 

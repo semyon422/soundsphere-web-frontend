@@ -26,7 +26,7 @@ function user() {return {
             requests: true,
         })
         if (!response.ok) return
-		this.pending_count = (await response.json()).total
+		this.pending_count = (await response.json()).filtered
 
 		response = await _get('<%= api_url %>/users/<%= params.user_id %>/leaderboards', {
             leaderboard: true,
