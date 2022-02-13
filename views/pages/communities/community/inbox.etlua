@@ -252,12 +252,12 @@ function dtInitInbox() {
                 d.incoming = true
                 d.community = true
                 d.leaderboard = true
-                d.staff_user = true
+                d.user = true
             }
         },
         columns: [
             {render(d, t, row) {return communityLink(row.community)}},
-            {render(d, t, row) {return userLink(row.staff_user)}},
+            {render(d, t, row) {return userLink(row.user)}},
             {render(d, t, row) {return leaderboardLink(row.leaderboard)}},
             {render(d, t, row) {return row.message}},
             {render(d, t, row) {return formatDate(row.created_at)}},
@@ -297,12 +297,12 @@ function dtInitInbox() {
                 d.outgoing = true
                 d.community = true
                 d.leaderboard = true
-                d.staff_user = true
+                d.user = true
             }
         },
         columns: [
             {render(d, t, row) {return communityLink(row.community)}},
-            {render(d, t, row) {return userLink(row.staff_user)}},
+            {render(d, t, row) {return userLink(row.user)}},
             {render(d, t, row) {return leaderboardLink(row.leaderboard)}},
             {render(d, t, row) {return row.message}},
             {render(d, t, row) {return formatDate(row.created_at)}},
