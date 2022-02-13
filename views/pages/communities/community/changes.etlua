@@ -63,7 +63,8 @@ function getObjectLink(row) {
     return ""
 }
 function dtInitCommunityChanges(obj) {
-    dtInit(document.querySelector("#communities-changes-table"), {
+    var dt
+    dt = dtInit(document.querySelector("#communities-changes-table"), {
         ...dtAllOptions,
         serverSide: true,
         ajax: {
@@ -73,6 +74,22 @@ function dtInitCommunityChanges(obj) {
                 d.user = true
                 d.community = true
                 d.object = true
+                d.hide_own = $("#changes-hide-own-changes").is(':checked') ? true : false
+            }
+        },
+        initComplete(settings, json) {
+            $("#changes-hide-own-changes").change(() => {
+                dt.ajax.reload(null, false)
+            })
+        },
+        processing: true,
+        language: {
+            loadingRecords: '&nbsp;',
+            processing: 'Loading...'
+        },
+        createdRow(row, data, dataIndex) {
+            if (data.is_own) {
+                $(row).addClass('highlight-row')
             }
         },
         columns: [
