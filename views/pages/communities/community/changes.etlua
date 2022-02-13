@@ -1,4 +1,4 @@
-<div id="community-changes">
+<div id="community-changes" x-data x-init="dtInitCommunityChanges">
     <main class="container-lg">
         <div id="main-box">
             <nav class="navbar-expand page-icons page-icons-left page-icons-never-collapsed">
@@ -28,7 +28,7 @@
                     </div>
                 </div>
 
-                <table class="data-table data-table-all table" data-orders="0d" data-insert-top="changes-insert-top">
+                <table id="communities-changes-table" class="data-table data-table-all table" data-orders="0d" data-insert-top="changes-insert-top">
                     <thead>
                         <tr>
                             <th title="Change date">Date</th>
@@ -38,34 +38,6 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="highlight-row">
-                            <td>23-07-21 12:16</td>
-                            <td class="table-icon-cell">
-                                <span class="table-icon table-icon-s orange" title="Community owner">
-                                    <i class="fas fa-crown"></i>
-                                </span>
-                            </td>
-                            <td><a href="?a=users_user_index">Player1</a></td>
-                            <td>Transfered ownership to <a href="?a=users_user_index">Player1</a></td>
-                        </tr>
-                        <tr>
-                            <td>22-07-21 12:16</td>
-                            <td></td>
-                            <td><a href="?a=users_user_index">Player1</a></td>
-                            <td>Kicked <a href="?a=users_user_index">Player1</a></td>
-                        </tr>
-                        <tr>
-                            <td>21-07-21 12:16</td>
-                            <td></td>
-                            <td><a href="?a=users_user_index">Player1</a></td>
-                            <td>Changed <a href="?a=leaderboards_leaderboard_index">Leaderboard1</a> Score combiner to Additive</td>
-                        </tr>
-                        <tr>
-                            <td>20-07-21 12:16</td>
-                            <td></td>
-                            <td><a href="?a=users_user_index">Player1</a></td>
-                            <td>Created <a href="?a=leaderboards_leaderboard_index">Leaderboard1</a></td>
-                        </tr>
                     </tbody>
                     <tfoot>
                         <tr>
@@ -80,3 +52,49 @@
         </div>
     </main>
 </div>
+
+
+<script>
+function getObjectLink(row) {
+    if (row.object_type == "user") return userLink(row.object)
+    if (row.object_type == "community") return communityLink(row.object)
+    if (row.object_type == "leaderboard") return leaderboardLink(row.object)
+    if (row.object_type == "difftable") return difftableLink(row.object)
+    return ""
+}
+function dtInitCommunityChanges(obj) {
+    dtInit(document.querySelector("#communities-changes-table"), {
+        ...dtAllOptions,
+        serverSide: true,
+        ajax: {
+            url: "/dt/communities/<%= params.community_id %>/changes",
+            type: "POST",
+            data(d) {
+                d.user = true
+                d.community = true
+                d.object = true
+            }
+        },
+        columns: [
+            {render(d, t, row) {return formatDate(row.created_at)}},
+            {render(d, t, row) {return ""}},
+            {
+                className: 'table-icon-cell',
+                render(d, t, row) {return userLink(row.user)}
+            },
+            {render(d, t, row) {
+                var link = getObjectLink(row)
+                if (row.change == "create") return "Created " + link
+                if (row.change == "delete") return "Deleted " + link
+                if (row.change == "update") return "Updated " + link
+                if (row.change == "invite") return "Invited " + link
+                if (row.change == "accept") return "Accepted " + link
+                if (row.change == "kick" && row.object_id == row.user_id) return "Left"
+                if (row.change == "kick" && row.object_id != row.user_id) return "Kicked " + link
+                if (row.change == "transfer_ownership") return "Transfered ownership to/of " + link
+                return link
+            }},
+        ]
+    })
+}
+</script>
