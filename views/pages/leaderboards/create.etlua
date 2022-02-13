@@ -123,7 +123,7 @@ function leaderboards_create() {return {
 
                     <div class="form-item">
                         <label for="banner" class="form-label" title="The uploaded image will be blurred and shown behind your leaderboard page">Blurred banner image</label>
-                        <input :disabled="disabled.POST.leaderboard.banner" type="file" class="form-control input-image" id="banner" name="banner" accept=".png, .jpg, .jpeg">
+                        <input :disabled="disabled.POST.leaderboard.banner === true" type="file" class="form-control input-image" id="banner" name="banner" accept=".png, .jpg, .jpeg">
                     </div>
 
                     <div class="form-item">

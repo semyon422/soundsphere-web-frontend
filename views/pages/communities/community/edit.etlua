@@ -139,12 +139,12 @@ function community_edit() {return {
 
                     <div class="form-item">
                         <label for="banner" class="form-label" title="The uploaded image will be blurred and shown behind your community page">Blurred banner image</label>
-                        <input :disabled="disabled.PATCH.community.banner" type="file" class="form-control input-image" id="banner" name="banner" accept=".png, .jpg, .jpeg" @change="updateBanner">
+                        <input :disabled="disabled.PATCH.community.banner === true" type="file" class="form-control input-image" id="banner" name="banner" accept=".png, .jpg, .jpeg" @change="updateBanner">
                     </div>
 
                     <div class="form-item form-check">
                         <label for="is-public" class="form-check-label" title="Anyone can join public communities. Private communities have an invite system.">The community is public.</label>
-                        <input :disabled="disabled.PATCH.community.is_public" type="checkbox" class="form-check-input" id="is-public" name="is-public" x-model="community.is_public">
+                        <input :disabled="disabled.PATCH.community.is_public === true" type="checkbox" class="form-check-input" id="is-public" name="is-public" x-model="community.is_public">
                     </div>
 
                     <div class="form-item">

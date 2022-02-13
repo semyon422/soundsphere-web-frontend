@@ -173,15 +173,15 @@ async function _delete(url, obj) {
 	return await _fetch(url, obj, "DELETE")
 }
 
-// https://stackoverflow.com/questions/11866781/how-do-i-convert-an-integer-to-a-javascript-color/11866980
-function toColor(num) {
-	num >>>= 0;
-	var b = num & 0xFF,
-		g = (num & 0xFF00) >>> 8,
-		r = (num & 0xFF0000) >>> 16,
-		a = 1;
-		// a = ((num & 0xFF000000) >>> 24) / 255;
-	return "rgba(" + [r, g, b, a].join(",") + ")";
+// https:/stackoverflow.com/questions/35466604/convert-hexadecimal-color-to-integer-in-javascript
+function VBColorToHEX(i) {
+    var bbggrr =  ("000000" + i.toString(16)).slice(-6);
+    var rrggbb = bbggrr.substr(4, 2) + bbggrr.substr(2, 2) + bbggrr.substr(0, 2);
+    return "#" + rrggbb;
+}
+function HEXToVBColor(rrggbb) {
+    var bbggrr = rrggbb.substr(5, 2) + rrggbb.substr(3, 2) + rrggbb.substr(1, 2);
+    return parseInt(bbggrr, 16);
 }
 
 function userLink(user) {
@@ -189,7 +189,7 @@ function userLink(user) {
 		return `
 			<a href="/users/${user.id}"
 			style="
-			background: linear-gradient(45deg, ${toColor(user.color_left)}, ${toColor(user.color_right)});
+			background: linear-gradient(45deg, ${VBColorToHEX(user.color_left)}, ${VBColorToHEX(user.color_right)});
 			-webkit-background-clip: text;
 			-webkit-text-fill-color: transparent;
 			">${user.name}</a>
