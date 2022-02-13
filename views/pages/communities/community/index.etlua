@@ -327,7 +327,31 @@ function dtInitCommunity(obj) {
         },
         columns: [
             {render(d, t, row) {return '#' + row.rank}},
-            {data: "id"},
+            {
+                className: 'table-icon-cell',
+                render(data, type, row, meta) {
+                    if (row.role == "creator") {
+                        return `
+                            <span class="table-icon table-icon-s orange" title="Community owner">
+                                <i class="fas fa-crown"></i>
+                            </span>
+                        `
+                    } else if (row.role == "admin") {
+                        return `
+                            <span class="table-icon table-icon-s orange" title="Community admin">
+                                <i class="fas fa-user-shield"></i>
+                            </span>
+                        `
+                    } else if (row.role == "moderator") {
+                        return `
+                            <span class="table-icon table-icon-s yellow" title="Community moderator">
+                                <i class="fas fa-user-shield"></i>
+                            </span>
+                        `
+                    }
+                    return ""
+                }
+            },
             {render(d, t, row) {return userLink(row.user)}},
             {render(d, t, row) {return formatScore(row.total_rating || 0, 1, 2)}},
             {render(d, t, row) {return inputmodesToString(row.user.user_inputmodes)}},

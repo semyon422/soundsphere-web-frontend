@@ -280,7 +280,16 @@ function dtInitLeaderboard(obj) {
         },
         columns: [
             {render(d, t, row) {return '#' + row.rank}},
-            {render() {return ''}},
+            {render(d, t, row) {
+                if (row.community_id == obj.leaderboard.owner_community_id) {
+                    return `
+                        <span class="table-icon table-icon-s orange" title="The leaderboard owner. Can edit and delete the leaderboard.">
+                            <i class="fas fa-crown"></i>
+                        </span>
+                    `
+                }
+                return ""
+            }},
             {render(d, t, row) {return communityLink(row.community)}},
             {render(d, t, row) {return formatScore(row.total_rating, 1, 2)}},
             {render(d, t, row) {return row.is_public ? 'Yes' : 'No'}},
