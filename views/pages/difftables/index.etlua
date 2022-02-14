@@ -8,9 +8,6 @@ function difftables() {return {
 		this.methods = (await response.json()).__methods
         dtInitDifftables()
     },
-    async addToCommunity(community_id) {
-		await _put(`<%= api_url %>/communities/${community_id}/difftables/${this.selected_difftable_id}`)
-    },
     async createAtCommunity(community_id) {
         document.location.href = `/communities/${community_id}/difftables/create`
     },
