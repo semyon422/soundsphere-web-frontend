@@ -2,8 +2,8 @@
 function leaderboard() {return {
     leaderboard: {},
     methods: {},
-    leaderboard_communities: [],
-    leaderboard_communities_sum_rating: 1,
+    community_leaderboards: [],
+    community_leaderboards_sum_rating: 1,
     community_colors: ["red", "teal", "blue"],
     user_id: null,
     async get() {
@@ -24,11 +24,11 @@ function leaderboard() {return {
             community: true,
         })
         if (!response.ok) return
-		this.leaderboard_communities = (await response.json()).leaderboard_communities
+		this.community_leaderboards = (await response.json()).community_leaderboards
 
-        this.leaderboard_communities_sum_rating = 0
-        for (leaderboard_community of this.leaderboard_communities) {
-            this.leaderboard_communities_sum_rating += leaderboard_community.total_rating
+        this.community_leaderboards_sum_rating = 0
+        for (community_leaderboard of this.community_leaderboards) {
+            this.community_leaderboards_sum_rating += community_leaderboard.total_rating
         }
 
         dtInitLeaderboard(this)
@@ -137,14 +137,14 @@ function leaderboard() {return {
 
                     <div class="col-sm-5" id="community-ranking">
                         <div class="multi-col-list">
-                            <template x-for="(leaderboard_community, index) in leaderboard_communities">
-                                <div class="list-item" :title="leaderboard_community.community.name"><span :class="'circle circle-s bg-' + (community_colors[index] || 'gray')"></span><span x-text="leaderboard_community.community.alias"></span></div>
+                            <template x-for="(community_leaderboard, index) in community_leaderboards">
+                                <div class="list-item" :title="community_leaderboard.community.name"><span :class="'circle circle-s bg-' + (community_colors[index] || 'gray')"></span><span x-text="community_leaderboard.community.alias"></span></div>
                             </template>
                         </div>
 
                         <div class="progress">
-                            <template x-for="(leaderboard_community, index) in leaderboard_communities">
-                                <div :class="'bg-' + (community_colors[index] || 'gray') + ' bg-' + (community_colors[index] || 'gray') + '-h'" :style="'width: ' + leaderboard_community.total_rating * 100 / leaderboard_communities_sum_rating + '%'" :title="leaderboard_community.community.name"></div>
+                            <template x-for="(community_leaderboard, index) in community_leaderboards">
+                                <div :class="'bg-' + (community_colors[index] || 'gray') + ' bg-' + (community_colors[index] || 'gray') + '-h'" :style="'width: ' + community_leaderboard.total_rating * 100 / community_leaderboards_sum_rating + '%'" :title="community_leaderboard.community.name"></div>
                             </template>
                         </div>
                     </div>
@@ -223,8 +223,8 @@ function leaderboard() {return {
                         <form class="table-form table-form-top">
                             <select class="form-select form-select-sm" id="ranking-community" name="community" title="Filter the players shown by community">
                                 <option selected>All communities</option>
-                                <template x-for="leaderboard_community in leaderboard_communities">
-                                    <option :value="leaderboard_community.community_id" x-text="leaderboard_community.community.name"></option>
+                                <template x-for="community_leaderboard in community_leaderboards">
+                                    <option :value="community_leaderboard.community_id" x-text="community_leaderboard.community.name"></option>
                                 </template>
                             </select>
                         </form>
