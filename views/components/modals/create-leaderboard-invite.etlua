@@ -5,7 +5,7 @@ function createLeaderboardInviteModal() {return {
     search: '',
     leaderboardId: 0,
     communities: [],
-    leaderboards: [],
+    community_leaderboards: [],
     async getCommunities() {
 		let response = await _get('<%= api_url %>/communities', {search: this.search})
         if (!response.ok) return
@@ -16,22 +16,24 @@ function createLeaderboardInviteModal() {return {
         if (communities.length != 1) return
         var community = communities[0]
 
-		response = await _get(`<%= api_url %>/communities/${community.id}/leaderboards`)
+		response = await _get(`<%= api_url %>/communities/${community.id}/leaderboards`, {
+            leaderboard: true
+        })
         if (!response.ok) return
-		this.leaderboards = (await response.json()).leaderboards
+		this.community_leaderboards = (await response.json()).community_leaderboards
 
-        if (!Array.isArray(this.leaderboards)) {
-    		this.leaderboards = []
+        if (!Array.isArray(this.community_leaderboards)) {
+    		this.community_leaderboards = []
         }
     },
     async send() {
         var communities = this.communities.filter(i => i.name == this.search)
-        var leaderboards = this.leaderboards.filter(i => i.id == this.leaderboardId)
+        var community_leaderboards = this.community_leaderboards.filter(i => i.leaderboard_id == this.leaderboardId)
         if (communities.length != 1) return
-        if (leaderboards.length != 1) return
-        var leaderboard = leaderboards[0]
+        if (community_leaderboards.length != 1) return
+        var community_leaderboard = community_leaderboards[0]
 
-		await _put(`<%= api_url %>/communities/<%= params.community_id %>/leaderboards/${leaderboard.id}`, {message: this.message})
+		await _put(`<%= api_url %>/communities/<%= params.community_id %>/leaderboards/${community_leaderboard.leaderboard_id}`, {message: this.message})
     }
 }}
 </script>
@@ -60,8 +62,8 @@ function createLeaderboardInviteModal() {return {
                         <label for="create-leaderboard-invite-leaderboard" class="form-label form-required" title="The leaderboard to send the invite for">Leaderboard</label>
                         <select class="form-select" id="create-leaderboard-invite-leaderboard" name="leaderboard" required x-model="leaderboardId">
                             <option selected hidden>Select a leaderboard</option>
-                            <template x-for="leaderboard in leaderboards">
-                                <option :value="leaderboard.id" x-text="leaderboard.name">
+                            <template x-for="community_leaderboard in community_leaderboards">
+                                <option :value="community_leaderboard.leaderboard_id" x-text="community_leaderboard.leaderboard.name">
                             </template>
                         </select>
                     </div>

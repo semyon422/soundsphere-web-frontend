@@ -47,8 +47,10 @@ function community() {return {
         if (!response.ok) return
 		this.user_methods = (await response.json()).__methods
     },
-    async addToCommunity(community_id) {
-		await _put(`<%= api_url %>/communities/${community_id}/leaderboards/${this.selected_leaderboard_id}`)
+    async addToCommunity(community_id, message) {
+		await _put(`<%= api_url %>/communities/${community_id}/leaderboards/${this.selected_leaderboard_id}`, {
+            message: message,
+        })
     },
     async kickSelectedUser() {
 		await _delete(`<%= api_url %>/communities/<%= params.community_id %>/users/${this.selected_user_id}`)
@@ -267,6 +269,7 @@ function dtInitCommunity(obj) {
                 d.leaderboard = true
                 d.leaderboard_inputmodes = true
                 d.leaderboard_top_user = true
+                d.methods = true
             }
         },
         columns: [
@@ -293,7 +296,7 @@ function dtInitCommunity(obj) {
                 className: 'table-icon-row',
                 render(data, type, row, meta) {
                     var out = ''
-                    if (row.community_id == row.leaderboard.owner_community_id) {
+                    if (Array.isArray(row.leaderboard.__methods) && row.leaderboard.__methods.includes("PATCH")) {
                         out = out + `
                             <a href="<%= url_for("leaderboard.edit", {leaderboard_id = "${row.id}"}) %>" class="table-icon table-icon-s orange orange-h" title="Edit leaderboard">
                                 <i class="fas fa-pen"></i>
@@ -322,6 +325,7 @@ function dtInitCommunity(obj) {
                 d.user_inputmodes = true
                 d.leaderboard_id = parseInt($("#members-leaderboard").val())
                 d.user_id = obj.user_id
+                d.methods = true
             }
         },
         initComplete(settings, json) {
@@ -371,13 +375,16 @@ function dtInitCommunity(obj) {
             }},
             {
                 render(data, type, row, meta) {
-                    return `
-                    <td class="table-icon-cell">
-                        <a href="#!" class="table-icon table-icon-l table-icon-hide red red-h" title="Kick member" data-bs-toggle="modal" data-bs-target="#kick-user-modal" @click="selected_user_id = ${row.user_id}">
-                            <i class="fas fa-times"></i>
-                        </a>
-                    </td>
-                    `
+                    if (Array.isArray(row.__methods) && row.__methods.includes("DELETE")) {
+                        return `
+                        <td class="table-icon-cell">
+                            <a href="#!" class="table-icon table-icon-l table-icon-hide red red-h" title="Kick member" data-bs-toggle="modal" data-bs-target="#kick-user-modal" @click="selected_user_id = ${row.user_id}">
+                                <i class="fas fa-times"></i>
+                            </a>
+                        </td>
+                        `
+                    }
+                    return ""
                 }
             },
         ]

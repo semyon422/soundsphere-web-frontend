@@ -9,8 +9,10 @@ function leaderboards() {return {
 		this.methods = (await response.json()).__methods
         dtInitLeaderboards()
     },
-    async addToCommunity(community_id) {
-		await _put(`<%= api_url %>/communities/${community_id}/leaderboards/${this.selected_leaderboard_id}`)
+    async addToCommunity(community_id, message) {
+		await _put(`<%= api_url %>/communities/${community_id}/leaderboards/${this.selected_leaderboard_id}`, {
+            message: message,
+        })
     },
     async createAtCommunity(community_id) {
         document.location.href = `/communities/${community_id}/leaderboards/create`

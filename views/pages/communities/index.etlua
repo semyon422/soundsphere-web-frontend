@@ -39,7 +39,10 @@ function communities() {return {
             <h1>Communities</h1>
 
 
-            <% render("views.components.modals.delete", {delete = "leave_community(selected_community_id)"}) %>
+            <% render("views.components.modals.delete", {
+                id = "leave-community-modal",
+                delete = "leave_community(selected_community_id)",
+            }) %>
             <% render("views.components.modals.create-user-request-2", {community_name = "selected_community_name"}) %>
             <section id="communities-section">
                 <div id="communities-insert-top" hidden>
@@ -96,6 +99,7 @@ function dtInitCommunities() {
             data(d) {
                 d.hide_joined = $("#communities-hide-joined-communities").is(':checked') ? true : false
                 d.community_inputmodes = true
+                d.methods = true
             }
         },
         initComplete(settings, json) {
@@ -124,11 +128,16 @@ function dtInitCommunities() {
                 className: 'table-icon-row',
                 render(data, type, row, meta) {
                     if (row.joined) {
-                        return `
-                            <a href="<%= url_for("community.edit", {community_id = "${row.id}"}) %>" class="table-icon table-icon-s orange orange-h" title="Edit community">
-                                <i class="fas fa-pen"></i>
-                            </a>
-                            <a href="#!" class="table-icon red red-h" title="Leave community" data-bs-toggle="modal" data-bs-target="#delete-modal" @click="selected_community_id = ${row.id}">
+                        var out = ""
+                        if (Array.isArray(row.__methods) && row.__methods.includes("PATCH")) {
+                            out += `
+                                <a href="<%= url_for("community.edit", {community_id = "${row.id}"}) %>" class="table-icon table-icon-s orange orange-h" title="Edit community">
+                                    <i class="fas fa-pen"></i>
+                                </a>
+                            `
+                        }
+                        return out + `
+                            <a href="#!" class="table-icon red red-h" title="Leave community" data-bs-toggle="modal" data-bs-target="#leave-community-modal" @click="selected_community_id = ${row.id}">
                                 <i class="fas fa-sign-out-alt"></i>
                             </a>
                         `

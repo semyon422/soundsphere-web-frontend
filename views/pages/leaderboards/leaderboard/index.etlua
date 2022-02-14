@@ -6,6 +6,7 @@ function leaderboard() {return {
     community_leaderboards_sum_rating: 1,
     community_colors: ["red", "teal", "blue"],
     user_id: null,
+    selected_community_id: 0,
     async get() {
 		let response = await _get('<%= api_url %>/leaderboards/<%= params.leaderboard_id %>', {
             methods: true,
@@ -33,8 +34,15 @@ function leaderboard() {return {
 
         dtInitLeaderboard(this)
     },
-    async addToCommunity(community_id) {
-		await _put(`<%= api_url %>/communities/${community_id}/leaderboards/<%= params.leaderboard_id %>`)
+    async addToCommunity(community_id, message) {
+		await _put(`<%= api_url %>/communities/${community_id}/leaderboards/<%= params.leaderboard_id %>`, {
+            message: message,
+        })
+        this.dtCommunities.ajax.reload()
+    },
+    async removeFromCommunity(community_id) {
+		await _delete(`<%= api_url %>/communities/${community_id}/leaderboards/<%= params.leaderboard_id %>`)
+        this.dtCommunities.ajax.reload()
     },
     yourRow() {
         if (this.user_id) {
@@ -176,7 +184,10 @@ function leaderboard() {return {
             </section>
 
 
-            <% render("views.components.modals.delete") %>
+            <% render("views.components.modals.delete", {
+                id = "leave-community-modal",
+                delete = "removeFromCommunity(selected_community_id)",
+            }) %>
             <section id="communities-difftables-section" class="section-grid">
                 <div class="row">
                     <div class="col-sm-6">
@@ -268,7 +279,7 @@ function leaderboard() {return {
 
 <script>
 function dtInitLeaderboard(obj) {
-    dtInit(document.querySelector("#leaderboard-communities-table"), {
+    obj.dtCommunities = dtInit(document.querySelector("#leaderboard-communities-table"), {
         ...dtColOptions,
         serverSide: true,
         ajax: {
@@ -276,6 +287,7 @@ function dtInitLeaderboard(obj) {
             type: "POST",
             data(d) {
                 d.community = true
+                d.methods = true
             }
         },
         columns: [
@@ -295,12 +307,15 @@ function dtInitLeaderboard(obj) {
             {render(d, t, row) {return row.is_public ? 'Yes' : 'No'}},
             {
                 className: 'table-icon-cell',
-                render() {
-                    return `
-                    <a href="#!" class="table-icon table-icon-hide red red-h" title="Leave community" data-bs-toggle="modal" data-bs-target="#delete-modal">
-                        <i class="fas fa-sign-out-alt"></i>
-                    </a>
-                    `
+                render(d, t, row) {
+                    if (Array.isArray(row.__methods) && row.__methods.includes("DELETE")) {
+                        return `
+                        <a href="#!" class="table-icon table-icon-hide red red-h" title="Leave community" data-bs-toggle="modal" data-bs-target="#leave-community-modal" @click="selected_community_id = ${row.community_id}">
+                            <i class="fas fa-sign-out-alt"></i>
+                        </a>
+                        `
+                    }
+                    return ""
                 }
             },
         ]
