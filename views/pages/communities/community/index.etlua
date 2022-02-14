@@ -6,6 +6,7 @@ function community() {return {
     user_methods: [],
     pending_count: 0,
     selected_leaderboard_id: 0,
+    selected_user_id: 0,
     user_id: null,
     async get() {
 		let response = await _get('<%= api_url %>/communities/<%= params.community_id %>', {
@@ -49,6 +50,10 @@ function community() {return {
     async addToCommunity(community_id) {
 		await _put(`<%= api_url %>/communities/${community_id}/leaderboards/${this.selected_leaderboard_id}`)
     },
+    async kickSelectedUser() {
+		await _delete(`<%= api_url %>/communities/<%= params.community_id %>/users/${this.selected_user_id}`)
+        this.dtUsersTable.ajax.reload()
+    },
     yourRow() {
         if (this.user_id) {
             this.user_id = null
@@ -83,7 +88,10 @@ function community() {return {
 
     <main class="container-lg">
         <div id="main-box">
-            <% render("views.components.modals.delete") %>
+            <% render("views.components.modals.delete", {
+                id = "kick-user-modal",
+                delete = "kickSelectedUser",
+            }) %>
             <% render("views.components.modals.add-leaderboard") %>
             <nav class="page-icons page-icons-right page-icons-always-collapsed">
                 <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#page-icons-right">
@@ -355,13 +363,17 @@ function dtInitCommunity(obj) {
             {render(d, t, row) {return userLink(row.user)}},
             {render(d, t, row) {return formatScore(row.total_rating || 0, 1, 2)}},
             {render(d, t, row) {return inputmodesToString(row.user.user_inputmodes)}},
-            {render(d, t, row) {return row.scores_count || 0}},
-            {render(d, t, row) {return formatDate(row.latest_score_submitted_at)}},
+            {render(d, t, row) {return row.scores_count || row.user.scores_count}},
+            {render(d, t, row) {
+                if (row.latest_score_submitted_at) return formatDate(row.latest_score_submitted_at)
+                if (row.user.latest_score_submitted_at) return formatDate(row.user.latest_score_submitted_at)
+                return ""
+            }},
             {
                 render(data, type, row, meta) {
                     return `
                     <td class="table-icon-cell">
-                        <a href="#!" class="table-icon table-icon-l table-icon-hide red red-h" title="Kick member" data-bs-toggle="modal" data-bs-target="#delete-modal">
+                        <a href="#!" class="table-icon table-icon-l table-icon-hide red red-h" title="Kick member" data-bs-toggle="modal" data-bs-target="#kick-user-modal" @click="selected_user_id = ${row.user_id}">
                             <i class="fas fa-times"></i>
                         </a>
                     </td>
