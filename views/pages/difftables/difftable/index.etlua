@@ -13,7 +13,7 @@ function difftable() {return {
 </script>
 
 
-<div id="difftable" x-data="difftable" x-init="get()">
+<div id="difftable" x-data="difftable" x-init="get" x-show="difftable.id" x-cloak>
     <% render("views.components.modals.properties") %>
 
 

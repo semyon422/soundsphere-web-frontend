@@ -40,7 +40,7 @@ function user_edit() {return {
 </script>
 
 
-<div id="user-edit" x-data="user_edit" x-init="get()">
+<div id="user-edit" x-data="user_edit" x-init="get" x-show="user.id" x-cloak>
     <main class="container-lg">
         <div id="main-box">
             <nav class="navbar-expand page-icons page-icons-left page-icons-never-collapsed">

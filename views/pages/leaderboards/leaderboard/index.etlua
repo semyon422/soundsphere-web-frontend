@@ -56,7 +56,7 @@ function leaderboard() {return {
 </script>
 
 
-<div id="leaderboard" x-data="leaderboard" x-init="get()">
+<div id="leaderboard" x-data="leaderboard" x-init="get" x-show="leaderboard.id" x-cloak>
     <% render("views.components.modals.properties") %>
 
 

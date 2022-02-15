@@ -23,7 +23,7 @@ function communities() {return {
 </script>
 
 
-<div id="communities" x-data="communities" x-init="get()" x-cloak>
+<div id="communities" x-data="communities" x-init="get" x-cloak>
     <main class="container-lg">
         <div id="main-box">
             <nav x-show="methods.includes('POST')" class="navbar-expand page-icons page-icons-right page-icons-never-collapsed">

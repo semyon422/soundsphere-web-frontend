@@ -21,7 +21,7 @@ function leaderboards() {return {
 </script>
 
 
-<div id="leaderboards" x-data="leaderboards" x-init="get()" x-cloak>
+<div id="leaderboards" x-data="leaderboards" x-init="get" x-cloak>
     <main class="container-lg">
         <div id="main-box">
             <% render("views.components.modals.create-leaderboard") %>

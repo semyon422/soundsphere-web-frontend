@@ -29,7 +29,7 @@ function notechart() {return {
 }}
 </script>
 
-<div id="notechart" x-data="notechart" x-init="get()">
+<div id="notechart" x-data="notechart" x-init="get" x-show="notechart.id" x-cloak>
     <% render("views.components.modals.properties") %>
 
 

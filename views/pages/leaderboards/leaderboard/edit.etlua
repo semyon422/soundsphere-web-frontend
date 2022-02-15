@@ -63,7 +63,7 @@ function leaderboard_edit() {return {
 </script>
 
 
-<div id="leaderboard-edit" x-data="leaderboard_edit" x-init="get()">
+<div id="leaderboard-edit" x-data="leaderboard_edit" x-init="get" x-show="leaderboard.id" x-cloak>
     <main class="container-lg">
         <div id="main-box">
             <nav class="navbar-expand page-icons page-icons-left page-icons-never-collapsed">

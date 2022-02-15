@@ -73,7 +73,7 @@ function user() {return {
 </script>
 
 
-<div id="user" x-data="user" x-init="get()">
+<div id="user" x-data="user" x-init="get" x-show="user.id" x-cloak>
     <% render("views.components.modals.properties") %>
 
 
