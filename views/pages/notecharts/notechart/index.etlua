@@ -208,7 +208,7 @@ function dtInitNotechart(obj) {
             {render(d, t, row) {return row.rank}},
             {render(d, t, row) {return userLink(row.user)}},
             {render(d, t, row) {return formatScore(row.rating, 1, 2)}},
-            {render(d, t, row) {return row.score}},
+            {render(d, t, row) {return formatScore(row.score, 1000, 2)}},
             {render(d, t, row) {return formatScore(row.accuracy, 1000, 2)}},
             {render(d, t, row) {return row.misses_count}},
             {render(d, t, row) {return row.inputmode}},
