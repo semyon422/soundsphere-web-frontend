@@ -447,11 +447,14 @@ function dtInitUser(obj) {
             {
                 className: 'table-icon-cell',
                 render(data, type, row, meta) {
-                    return `
-                    <span class="table-icon table-icon-s orange" title="The owner, an admin or a mod of the community that owns this leaderboard">
-                        <i class="fas fa-user-shield"></i>
-                    </span>
-                    `
+                    if (row.role == "creator" || row.role == "admin" || row.role == "moderator") {
+                        return `
+                            <span class="table-icon table-icon-s orange" title="The owner, an admin or a mod of the community that owns this leaderboard">
+                                <i class="fas fa-user-shield"></i>
+                            </span>
+                        `
+                    }
+                    return ""
                 }
             },
             {render(d, t, row) {return leaderboardLink(row.leaderboard)}},
