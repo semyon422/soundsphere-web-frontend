@@ -3,6 +3,7 @@ local config = require("lapis.config").get()
 
 local app = lapis.Application()
 app:enable("etlua")
+app.layout = require("views.layout")
 
 local api_url = "/api"
 local access_url = "/ac"

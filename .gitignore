@@ -1,5 +1,6 @@
 lapis/*
 temp/*
+tree/*
 !temp/.keep
 logs
 nginx.conf.compiled
