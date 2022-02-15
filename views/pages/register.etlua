@@ -5,6 +5,7 @@ function register() {return {
         email: '',
         password: '',
         recaptcha_token: '',
+        game_name: '',
     },
     async post() {
         if (!this.$refs.form.checkValidity()) return
@@ -12,8 +13,8 @@ function register() {return {
 		let response = await _post('<%= api_url %>/auth/register', this.user)
         if (!response.ok) return set_error_message(this.$refs.form_invalid_message, await response.json())
 		let response_json = await response.json()
-        if (!response_json.user) return console.log(response_json)
-        document.location.href = '/home'
+        if (!response_json.id) return console.log(response_json)
+        document.location.href = '/users/' + response_json.id
     },
 }}
 </script>
@@ -47,6 +48,11 @@ function register() {return {
                     <div class="form-item form-floating">
                         <input type="password" class="form-control" id="confirm-password" name="confirm-password" placeholder="x" required>
                         <label>Confirm password</label>
+                    </div>
+
+                    <div class="form-item form-floating">
+                        <input type="text" class="form-control" id="game-name" name="game-name" placeholder="x" required x-model="user.game_name">
+                        <label>Name of the game</label>
                     </div>
 
                     <div class="form-invalid-message" x-ref="form_invalid_message"></div>
