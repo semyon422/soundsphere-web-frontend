@@ -6,8 +6,10 @@ function user() {return {
     leaderboard_users: [],
     leaderboard_difftables: [],
     pending_count: 0,
-    selected_leaderboard_id: null,
-    selected_difftable_id: null,
+    selected_leaderboard_id: 0,
+    selected_difftable_id: 0,
+    selected_community_id: 0,
+    selected_score_id: 0,
     async get() {
 		let response = await _get('<%= api_url %>/users/<%= params.user_id %>', {
             methods: true,
@@ -58,6 +60,14 @@ function user() {return {
             this.dtBestScores.ajax.reload(null, false)
             this.dtAllScores.ajax.reload(null, false)
         })
+    },
+    async leaveSelectedCommunity() {
+		await _delete(`<%= api_url %>/communities/${this.selected_community_id}/users/<%= params.user_id %>`)
+        this.dtCommunities.ajax.reload()
+    },
+    async deleteSelectedScore() {
+		await _delete(`<%= api_url %>/scores/${this.selected_score_id}`)
+        this.reloadScoresDt()
     },
 }}
 </script>
@@ -158,7 +168,14 @@ function user() {return {
             </section>
 
 
-            <% render("views.components.modals.delete") %>
+            <% render("views.components.modals.delete", {
+                id = "leave-community-modal",
+                delete = "leaveSelectedCommunity",
+            }) %>
+            <% render("views.components.modals.delete", {
+                id = "delete-score-modal",
+                delete = "deleteSelectedScore",
+            }) %>
             <% render("views.components.modals.add-leaderboard") %>
             <% render("views.components.modals.create-leaderboard") %>
             <section id="communities-leaderboards-section" class="section-grid">
@@ -362,7 +379,7 @@ function user() {return {
 
 <script>
 function dtInitUser(obj) {
-    dtInit(document.querySelector("#user-communities-table"), {
+    obj.dtCommunities = dtInit(document.querySelector("#user-communities-table"), {
         ...dtColOptions,
         serverSide: true,
         ajax: {
@@ -371,17 +388,21 @@ function dtInitUser(obj) {
             data(d) {
                 d.community = true
                 d.community_inputmodes = true
+                d.methods = true
             }
         },
         columns: [
             {
                 className: 'table-icon-cell',
                 render(data, type, row, meta) {
-                    return `
-                    <span class="table-icon table-icon-s orange" title="The owner of the community">
-                        <i class="fas fa-crown"></i>
-                    </span>
-                    `
+                    if (row.role == "creator") {
+                        return `
+                        <span class="table-icon table-icon-s orange" title="The owner of the community">
+                            <i class="fas fa-crown"></i>
+                        </span>
+                        `
+                    }
+                    return ""
                 }
             },
             {render(d, t, row) {return communityLink(row.community)}},
@@ -390,14 +411,22 @@ function dtInitUser(obj) {
             {
                 className: 'table-icon-row',
                 render(data, type, row, meta) {
-                    return `
-                        <a href="<%= url_for("community.edit", {community_id = "${row.id}"}) %>" class="table-icon table-icon-s orange orange-h" title="Edit community">
-                            <i class="fas fa-pen"></i>
-                        </a>
-                        <a href="#!" class="table-icon red red-h" title="Leave community" data-bs-toggle="modal" data-bs-target="#delete-modal">
-                            <i class="fas fa-sign-out-alt"></i>
-                        </a>
-                    `
+                    var out = ""
+                    if (Array.isArray(row.community.__methods) && row.community.__methods.includes("PATCH")) {
+                        out += `
+                            <a href="<%= url_for("community.edit", {community_id = "${row.community_id}"}) %>" class="table-icon table-icon-s orange orange-h" title="Edit community">
+                                <i class="fas fa-pen"></i>
+                            </a>
+                        `
+                    }
+                    if (Array.isArray(row.__methods) && row.__methods.includes("DELETE")) {
+                        out += `
+                            <a href="#!" class="table-icon red red-h" title="Leave community" data-bs-toggle="modal" data-bs-target="#leave-community-modal" @click="selected_community_id = ${row.community_id}">
+                                <i class="fas fa-sign-out-alt"></i>
+                            </a>
+                        `
+                    }
+                    return out
                 }
             },
         ]
@@ -411,6 +440,7 @@ function dtInitUser(obj) {
             data(d) {
                 d.leaderboard = true
                 d.leaderboard_inputmodes = true
+                d.methods = true
             }
         },
         columns: [
@@ -430,10 +460,15 @@ function dtInitUser(obj) {
             {
                 className: 'table-icon-row',
                 render(data, type, row, meta) {
-                    return `
-                        <a href="<%= url_for("leaderboard.edit", {leaderboard_id = "${row.id}"}) %>" class="table-icon table-icon-s orange orange-h" title="Edit leaderboard">
-                            <i class="fas fa-pen"></i>
-                        </a>
+                    var out = ""
+                    if (Array.isArray(row.leaderboard.__methods) && row.leaderboard.__methods.includes("PATCH")) {
+                        out += `
+                            <a href="<%= url_for("leaderboard.edit", {leaderboard_id = "${row.id}"}) %>" class="table-icon table-icon-s orange orange-h" title="Edit leaderboard">
+                                <i class="fas fa-pen"></i>
+                            </a>
+                        `
+                    }
+                    return out + `
                         <a href="#!" class="table-icon teal teal-h" title="Add to community" data-bs-toggle="modal" data-bs-target="#add-leaderboard-modal">
                             <i class="fas fa-sign-in-alt"></i>
                         </a>
@@ -455,6 +490,7 @@ function dtInitUser(obj) {
                 d.modifierset = true
                 d.leaderboard_id = parseInt($("#best-scores-leaderboard").val())
                 d.difftable_id = parseInt($("#best-scores-difftable").val())
+                d.methods = true
             }
         },
         columns: [
@@ -469,17 +505,20 @@ function dtInitUser(obj) {
             {render(d, t, row) {return row.modifierset.displayed}},
             {render(d, t, row) {return formatDate(row.created_at)}},
             {
-                className: 'table-icon-th',
+                className: 'table-icon-cell',
                 render(data, type, row, meta) {
-                    return `
-                    <td class="table-icon-cell">
-                        <a href="#!" class="table-icon table-icon-l table-icon-hide red red-h" title="Delete score" data-bs-toggle="modal" data-bs-target="#delete-modal">
-                            <i class="fas fa-times"></i>
-                        </a>
+                    var out = ""
+                    if (Array.isArray(row.__methods) && row.__methods.includes("DELETE")) {
+                        out += `
+                            <a href="#!" class="table-icon table-icon-l table-icon-hide red red-h" title="Delete score" data-bs-toggle="modal" data-bs-target="#delete-score-modal" @click="selected_score_id = ${row.id}">
+                                <i class="fas fa-times"></i>
+                            </a>
+                        `
+                    }
+                    return out + `
                         <a href="#!" class="table-icon table-icon-hide blue blue-h" title="Download replay">
                             <i class="fas fa-download"></i>
                         </a>
-                    </td>
                     `
                 }
             },
@@ -497,6 +536,7 @@ function dtInitUser(obj) {
                 d.modifierset = true
                 d.leaderboard_id = parseInt($("#all-scores-leaderboard").val())
                 d.difftable_id = parseInt($("#all-scores-difftable").val())
+                d.methods = true
             }
         },
         columns: [
@@ -510,17 +550,20 @@ function dtInitUser(obj) {
             {render(d, t, row) {return row.modifierset.displayed}},
             {render(d, t, row) {return formatDate(row.created_at)}},
             {
-                className: 'table-icon-th',
+                className: 'table-icon-cell',
                 render(data, type, row, meta) {
-                    return `
-                    <td class="table-icon-cell">
-                        <a href="#!" class="table-icon table-icon-l table-icon-hide red red-h" title="Delete score" data-bs-toggle="modal" data-bs-target="#delete-modal">
-                            <i class="fas fa-times"></i>
-                        </a>
+                    var out = ""
+                    if (Array.isArray(row.__methods) && row.__methods.includes("DELETE")) {
+                        out += `
+                            <a href="#!" class="table-icon table-icon-l table-icon-hide red red-h" title="Delete score" data-bs-toggle="modal" data-bs-target="#delete-score-modal" @click="selected_score_id = ${row.id}">
+                                <i class="fas fa-times"></i>
+                            </a>
+                        `
+                    }
+                    return out + `
                         <a href="#!" class="table-icon table-icon-hide blue blue-h" title="Download replay">
                             <i class="fas fa-download"></i>
                         </a>
-                    </td>
                     `
                 }
             },
