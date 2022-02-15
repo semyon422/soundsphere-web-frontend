@@ -43,7 +43,9 @@ function community() {return {
         dtInitCommunity(this)
     },
     async getLeave() {
-		let response = await _get('<%= access_url %>/communities/<%= params.community_id %>/users/<%= session.user_id %>')
+        var user_id = <%= session.user_id or "null" %>
+        if (!user_id) return
+		let response = await _get(`<%= access_url %>/communities/<%= params.community_id %>/users/${user_id}`)
         if (!response.ok) return
 		this.user_methods = (await response.json()).__methods
     },
