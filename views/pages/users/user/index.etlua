@@ -146,7 +146,7 @@ function user() {return {
                         <td x-text="user.discord"></td>
                         <th title="A link to the player's Twitter">Twitter:</th>
                         <td>
-                            <a :href="'https://twitter.com/' + user.name" x-text="user.name"></a>
+                            <a :href="'https://twitter.com/' + user.twitter" x-text="user.twitter"></a>
                         </td>
                     </tr>
                     <tr>
