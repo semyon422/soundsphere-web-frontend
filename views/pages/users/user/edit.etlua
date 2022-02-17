@@ -63,9 +63,9 @@ function user_edit() {return {
                 <form class="crud-form">
                     <label for="username" id="username-preview" title="A preview that shows how your username will look" x-text="user.name"></label>
                     <div class="form-item input-group">
-                        <input :disabled="disabled.PATCH.color_left === true" type="color" class="form-control form-control-color" id="username-color-l" name="username-color-l" required value="#000000" title="The lefter color of your username" x-model="user.color_left">
-                        <input :disabled="disabled.PATCH.name === true" type="text" class="form-control" id="username" name="username" title="Your username" minlength="5" maxlength="30" required x-model="user.name">
-                        <input :disabled="disabled.PATCH.color_right === true" type="color" class="form-control form-control-color" id="username-color-r" name="username-color-r" required value="#000000" title="The righter color of your username" x-model="user.color_right">
+                        <input :disabled="disabled.PATCH.user.color_left === true" type="color" class="form-control form-control-color" id="username-color-l" name="username-color-l" required value="#000000" title="The lefter color of your username" x-model="user.color_left">
+                        <input :disabled="disabled.PATCH.user.name === true" type="text" class="form-control" id="username" name="username" title="Your username" minlength="5" maxlength="30" required x-model="user.name">
+                        <input :disabled="disabled.PATCH.user.color_right === true" type="color" class="form-control form-control-color" id="username-color-r" name="username-color-r" required value="#000000" title="The righter color of your username" x-model="user.color_right">
                         <div class="form-invalid-message"></div>
                     </div>
 
@@ -99,7 +99,7 @@ function user_edit() {return {
 
                     <div class="form-item">
                         <label for="banner" class="form-label" title="The uploaded image will be blurred and shown behind your profile page">Blurred banner image</label>
-                        <input :disabled="disabled.PATCH.banner === true" type="file" class="form-control input-image" id="banner" name="banner" accept=".png, .jpg, .jpeg" @change="updateBanner">
+                        <input :disabled="disabled.PATCH.user.banner === true" type="file" class="form-control input-image" id="banner" name="banner" accept=".png, .jpg, .jpeg" @change="updateBanner">
                     </div>
 
                     <div class="form-item">
