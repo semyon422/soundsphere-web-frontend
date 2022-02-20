@@ -94,15 +94,24 @@ function rolesToText(roles) {
 }
 
 var rolesMap = {
-	creator: '<span class="badge role-badge bg-teal" title="Creator">CRR</span>',
-	admin: '<span class="badge role-badge bg-teal" title="Admin">ADM</span>',
-	moderator: '<span class="badge role-badge bg-teal" title="Moderator">MOD</span>',
-	donator: '<span class="badge role-badge bg-teal" title="Donator">DNR</span>',
-	contributor: '<span class="badge role-badge bg-blue" title="Contributor">CTR</span>',
+	creator: ['badge role-badge bg-teal', 'Creator', 'CRR'],
+	admin: ['badge role-badge bg-teal', 'Admin', 'ADM'],
+	moderator: ['badge role-badge bg-teal', 'Moderator', 'MOD'],
+	donator: ['badge role-badge bg-teal', 'Donator', 'DNR'],
+	contributor: ['badge role-badge bg-blue', 'Contributor', 'CTR'],
 }
 
 function rolesToHtml(roles) {
-	return Array.isArray(roles) ? roles.filter((i) => !i.is_expired).map((i) => rolesMap[i.role]).join(', ') : ''
+	return Array.isArray(roles) ? roles.filter((i) => !i.is_expired).map(function(i) {
+		return `
+			<span
+				class="${rolesMap[i.role][0]}"
+				title="${rolesMap[i.role][1]} expires at ${formatDate(i.expires_at)}"
+			>
+				${rolesMap[i.role][2]}
+			</span>`
+	}
+	).join(', ') : ''
 }
 
 function userCommunitiesToHtml(user_communities) {
