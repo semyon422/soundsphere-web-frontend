@@ -4,12 +4,13 @@ function difftables_create() {return {
         name: '',
         link: '',
         description: '',
+        symbol: '',
+        owner_community_id: <%= params.community_id %>,
     },
 	async post() {
         if (!this.$refs.form.checkValidity()) return
 		let response = await _post('<%= api_url %>/difftables', {
             difftable: this.difftable,
-            community_id: <%= params.community_id %>,
         })
         if (!response.ok) return
 		document.location.href = `/difftables/${(await response.json()).id}`
