@@ -22,13 +22,15 @@ function user() {return {
 		this.methods = response_json.__methods
 		this.disabled = response_json.__disabled
 
-		response = await _get('<%= api_url %>/users/<%= params.user_id %>/communities', {
-            no_data: true,
-            invitations: true,
-            requests: true,
-        })
-        if (!response.ok) return
-		this.pending_count = (await response.json()).filtered
+        if (Array.isArray(this.methods) && this.methods.includes("PATCH")) {
+            response = await _get('<%= api_url %>/users/<%= params.user_id %>/communities', {
+                no_data: true,
+                invitations: true,
+                requests: true,
+            })
+            if (!response.ok) return
+            this.pending_count = (await response.json()).filtered
+        }
 
 		response = await _get('<%= api_url %>/users/<%= params.user_id %>/leaderboards', {
             leaderboard: true,
