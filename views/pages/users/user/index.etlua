@@ -28,8 +28,9 @@ function user() {return {
                 invitations: true,
                 requests: true,
             })
-            if (!response.ok) return
-            this.pending_count = (await response.json()).filtered
+            if (response.ok) {
+                this.pending_count = (await response.json()).filtered
+            }
         }
 
 		response = await _get('<%= api_url %>/users/<%= params.user_id %>/leaderboards', {
