@@ -142,6 +142,7 @@ function dtInitCommunities() {
                             </a>
                         `
                     }
+                    if (<%= session.user_id and "false" or "true" %>) return ""
                     if (row.is_public) {
                         return `
                             <a href="#!" class="table-icon teal teal-h" title="Join community" @click="join_community(${row.id})">

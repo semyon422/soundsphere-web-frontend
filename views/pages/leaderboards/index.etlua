@@ -125,6 +125,7 @@ function dtInitLeaderboards() {
             {
                 className: 'table-icon-row',
                 render(data, type, row, meta) {
+                    if (<%= session.user_id and "false" or "true" %>) return ""
                     return `
                     <a href="#" class="table-icon blue blue-h" data-bs-toggle="modal" data-bs-target="#add-leaderboard-modal" @click="selected_leaderboard_id=${row.id}">
                         <i class="fas fa-sign-in-alt" title="Add to community"></i>
