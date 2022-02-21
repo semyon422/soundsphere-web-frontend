@@ -102,7 +102,7 @@ function user() {return {
 
                 <div class="collapse navbar-collapse" id="page-icons-right">
                     <div class="navbar-nav">
-                        <a href="<%= url_for("user.inbox", params) %>" class="page-icon" title="Accept requests and send invites">
+                        <a x-show="methods.includes('PATCH')" href="<%= url_for("user.inbox", params) %>" class="page-icon" title="Accept requests and send invites">
                             <span class="page-icon-text">Inbox</span>
                             <div class="page-icon-box">
                                 <i class="fas fa-inbox"></i>
@@ -112,7 +112,7 @@ function user() {return {
                             </div>
                         </a>
 
-                        <a href="<%= url_for("user.edit", params) %>" class="page-icon" title="Your settings">
+                        <a x-show="methods.includes('PATCH')" href="<%= url_for("user.edit", params) %>" class="page-icon" title="Your settings">
                             <span class="page-icon-text">Settings</span>
                             <div class="page-icon-box">
                                 <i class="fas fa-cog"></i>
