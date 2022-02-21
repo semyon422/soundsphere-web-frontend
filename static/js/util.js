@@ -115,7 +115,7 @@ function rolesToHtml(roles) {
 }
 
 function userCommunitiesToHtml(user_communities) {
-	return Array.isArray(user_communities) ? user_communities.map((i) => communityAliasLink(i.community)).join(', ') : ''
+	return Array.isArray(user_communities) ? user_communities.filter((i) => i.accepted).map((i) => communityAliasLink(i.community)).join(', ') : ''
 }
 
 function toArray(a) {
