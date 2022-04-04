@@ -80,6 +80,7 @@ var inputmodesMap = {
 	"10key2scratch": "10K2S",
 	"14key2scratch": "14K2S",
 	"24key": "24K",
+	"26key": "26K",
 	"48key": "48K",
 	"88key": "88K",
 	"4bt2fx2laserleft2laserright": "SDVX",
