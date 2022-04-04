@@ -43,6 +43,7 @@ function addInputModeModal() {return {
                         <option value="10key2scratch">10K2S</option>
                         <option value="14key2scratch">14K2S</option>
                         <option value="24key">24K</option>
+                        <option value="26key">26K</option>
                         <option value="48key">48K</option>
                         <!-- midi -->
                         <option value="88key">88K</option>
