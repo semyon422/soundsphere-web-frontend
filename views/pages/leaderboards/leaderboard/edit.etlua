@@ -111,6 +111,7 @@ function leaderboard_edit() {return {
                     <div class="form-item">
                         <label for="score-pr-calc" class="form-label form-required" title="Decides how good a score is. The impressiveness changes how much performance rating a player gets.">Score PR calculator</label>
                         <select class="form-select" id="score-pr-calc" name="score-pr-calc" required x-model="leaderboard.rating_calculator">
+                            <option value="acc_inv" selected>soundsphere old (acc_inv)</option>
                             <option value="acc_inv_erf" selected>soundsphere (acc_inv_erf 32ms)</option>
                         </select>
                     </div>
