@@ -24,6 +24,7 @@ function addModifierModal() {return {
         "MinLnLength",
         "ToOsu",
         "Alternate2",
+        "LessChord",
     ],
     modifier: {
         name: "modifier",
