@@ -124,6 +124,11 @@ return {
 		name = "download",
 	},
 	{
+		path = "/donate",
+		view = "pages.donate",
+		name = "donate",
+	},
+	{
 		path = "/notfound",
 		view = "pages.404",
 		name = "notfound",

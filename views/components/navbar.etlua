@@ -25,7 +25,7 @@ function primary_navbar() {return {
                 <a class="nav-link" href="/difftables">Tables</a>
                 <a class="nav-link" href="/users">Players</a>
                 <a class="nav-link" href="/notecharts">Charts</a>
-                <a class="nav-link" href="/help">Help</a>
+                <a class="nav-link" href="/donate">Donate</a>
                 <a class="nav-link" href="https://dl.soundsphere.xyz/soundsphere.zip" target="_blank" rel="noopener">Download</a>
             </div>
 
