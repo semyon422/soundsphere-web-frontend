@@ -304,7 +304,7 @@ function dtInitLeaderboard(obj) {
             }},
             {render(d, t, row) {return communityLink(row.community)}},
             {render(d, t, row) {return formatScore(row.total_rating, 1, 2)}},
-            {render(d, t, row) {return row.is_public ? 'Yes' : 'No'}},
+            {render(d, t, row) {return row.community.is_public ? 'Yes' : 'No'}},
             {
                 className: 'table-icon-cell',
                 render(d, t, row) {
