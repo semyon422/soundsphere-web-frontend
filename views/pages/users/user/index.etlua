@@ -280,6 +280,7 @@ function user() {return {
                             <th title="Player accuracy">Acc</th>
                             <th title="Player miss count">Misses</th>
                             <th title="Input mode the score was set with">Mode</th>
+                            <th title="">Rate</th>
                             <th title="All modifiers the score was set with">Mods</th>
                             <th title="Score date and time">Date</th>
                             <th class="table-icon-th"></th>
@@ -296,6 +297,7 @@ function user() {return {
                             <th title="Player accuracy">Acc</th>
                             <th title="Player miss count">Misses</th>
                             <th title="Input mode the score was set with">Mode</th>
+                            <th title="">Rate</th>
                             <th title="All modifiers the score was set with">Mods</th>
                             <th title="Score date and time">Date</th>
                             <th class="table-icon-th"></th>
@@ -353,6 +355,7 @@ function user() {return {
                             <th title="Player accuracy">Acc</th>
                             <th title="Player miss count">Misses</th>
                             <th title="Input mode the score was set with">Mode</th>
+                            <th title="">Rate</th>
                             <th title="All modifiers the score was set with">Mods</th>
                             <th title="Score date and time">Date</th>
                             <th class="table-icon-th"></th>
@@ -368,6 +371,7 @@ function user() {return {
                             <th title="Player accuracy">Acc</th>
                             <th title="Player miss count">Misses</th>
                             <th title="Input mode the score was set with">Mode</th>
+                            <th title="">Rate</th>
                             <th title="All modifiers the score was set with">Mods</th>
                             <th title="Score date and time">Date</th>
                             <th class="table-icon-th"></th>
@@ -508,6 +512,7 @@ function dtInitUser(obj) {
             {render(d, t, row) {return formatScore(row.accuracy, 1000, 2)}},
             {render(d, t, row) {return row.misses_count}},
             {render(d, t, row) {return row.inputmode}},
+            {render(d, t, row) {return row.rate}},
             {render(d, t, row) {return row.modifierset.displayed}},
             {render(d, t, row) {return formatDate(row.created_at)}},
             {
@@ -553,6 +558,7 @@ function dtInitUser(obj) {
             {render(d, t, row) {return formatScore(row.accuracy, 1000, 2)}},
             {render(d, t, row) {return row.misses_count}},
             {render(d, t, row) {return row.inputmode}},
+            {render(d, t, row) {return row.rate}},
             {render(d, t, row) {return row.modifierset.displayed}},
             {render(d, t, row) {return formatDate(row.created_at)}},
             {
